@@ -1,0 +1,34 @@
+.select-geo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 150px;
+}
+
+.select-geo-text {
+    font-size: 18px;
+    color: black;
+}
+
+.select-geo-btn {
+  width: 150px;
+  cursor: pointer;
+  border: none;
+  border-radius: 200px;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 150%;
+  font-size: 18px;
+  background: #f4683f;
+  color: #fff;
+
+  :active {
+    box-shadow: 0px 2px 21px #f4683f;
+    border: 1px solid #f4683f;
+    background-color: #f4683f;
+    transition: all 0.2s;
+  }
+}

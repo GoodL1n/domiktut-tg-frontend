@@ -1,0 +1,9 @@
+<div class="container">
+    <app-header></app-header>
+    <div *ngIf="isGeoSelected">
+        <router-outlet />
+    </div>
+    <div *ngIf="!isGeoSelected">
+        <app-select-geo (isGeoSelected)="change($event)"></app-select-geo>
+    </div>
+</div>
