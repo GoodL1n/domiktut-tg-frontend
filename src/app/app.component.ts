@@ -8,7 +8,7 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, SearchContainerComponent, SelectGeoComponent, NgIf],
+  imports: [RouterOutlet, HeaderComponent, SelectGeoComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -38,7 +38,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (getCloudStorageItem.isAvailable()) {
       const geo = await getCloudStorageItem('geo');
-      console.log(geo);
+      console.log('geo', geo);
+      const geo2 = await getCloudStorageItem('geo2');
+      console.log('geo2', geo2);
       this.isGeoSelected = geo.length > 0;
     }
   }
