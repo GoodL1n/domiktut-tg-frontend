@@ -16,8 +16,20 @@
 
         <form class="form" *ngIf="isFilterBlock" [formGroup]="formFilters">
             <div class="form-date">
-                <input type="datetime-local" formControlName="dateOfArrival" placeholder="Дата заезда">
-                <input type="datetime-local" formControlName="dateOfDeparture" placeholder="Дата выезда">
+                <div class="date">
+                    <span>Дата и время заезда</span>
+                    <div class="form-date">
+                        <input type="date" formControlName="dateOfArrival">
+                        <input type="time" formControlName="dateOfArrival">
+                    </div>
+                </div>
+                <div class="date">
+                    <span>Дата и время отъезда</span>
+                    <div class="form-date">
+                        <input type="date" formControlName="dateOfArrival">
+                        <input type="time" formControlName="dateOfArrival">
+                    </div>
+                </div>
             </div>
             <div>
                 <input type="number" formControlName="quanitityOfPeople" placeholder="Кол-во человек">
