@@ -1,3 +1,9 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .search-input {
   width: 100%;
   position: relative;
@@ -43,20 +49,20 @@
   }
 
   &-date {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   &-price {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   &-btns {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
