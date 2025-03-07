@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+body, span, h4{
+    border: 0;
+    padding: 0;
+    margin: 0;  
+}
+
+body{
+    height: 100vh;
+}
+
+button{
+    min-width: 100px;
+    max-width: 100%;
+    cursor: pointer;
+    border: none;
+    border-radius: 200px;
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 150%;
+    font-size: 18px;
+    background: #f4683f;
+    color: #fff;
+}

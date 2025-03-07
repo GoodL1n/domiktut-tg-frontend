@@ -1,6 +1,7 @@
 img {
-  width: 300px;
-  height: 240px;
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
 }
 
 .card {
@@ -20,12 +21,25 @@ img {
   &-title {
     display: flex;
     flex-direction: column;
+
+    h4 {
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 150%;
+    }
+
+    span{
+      font-size: 16px;
+    }
   }
 
   &-price {
+    font-weight: 800;
+    font-size: 22px;
   }
 
   &-imgs {
     display: flex;
+    gap: 10px;
   }
 }

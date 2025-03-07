@@ -5,10 +5,11 @@ import { HeaderComponent } from "./components/header/header.component";
 import { SearchContainerComponent } from "./components/search-container/search-container.component";
 import { SelectGeoComponent } from "./components/select-geo/select-geo.component";
 import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, SelectGeoComponent, NgIf],
+  imports: [RouterOutlet, HeaderComponent, SelectGeoComponent, NgIf, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
