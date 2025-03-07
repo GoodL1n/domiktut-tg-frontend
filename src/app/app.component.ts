@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isGeoSelected = false;
 
-  change(event: boolean){
+  change(event: boolean) {
     this.isGeoSelected = event;
   }
   async ngOnInit() {
@@ -38,10 +38,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (getCloudStorageItem.isAvailable()) {
       const geo = await getCloudStorageItem('geo');
-      console.log('geo', geo);
-      const geo2 = await getCloudStorageItem('geo2');
-      console.log('geo2', geo2);
-      this.isGeoSelected = (typeof geo === 'object') ? Object.keys(geo).length > 0 : false;
+      console.log('geo');
+      this.isGeoSelected =
+        ((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] && (geo['geo'] as string).length > 0);
     }
   }
 
