@@ -19,10 +19,10 @@ export class CardComponent implements OnInit, OnDestroy {
       hasShineEffect: true,
       isEnabled: true,
       isVisible: true,
-      backgroundColor: '#f4683f',
-      textColor: '#fff'
-    })
-    onMainButtonClick(() => this.router.navigate(['form-request']))
+      // backgroundColor: '#f4683f',
+      // textColor: '#fff'
+    });
+    onMainButtonClick(() => this.router.navigate(['form-request']));
 
     mountBackButton.ifAvailable();
     showBackButton();

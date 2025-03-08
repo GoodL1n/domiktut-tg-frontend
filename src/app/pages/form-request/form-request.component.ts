@@ -18,8 +18,8 @@ export class FormRequestComponent implements OnInit, OnDestroy {
       dateOfArrival: '',
       dateOfDeparture: '',
       quanitityOfPeople: '',
-      minPrice: '',
-      maxPrice: ''
+      name: '',
+      phone: ''
     })
   }
 
