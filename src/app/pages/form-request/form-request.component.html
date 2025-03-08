@@ -1,0 +1,30 @@
+<div class="form-request">
+    <div style="width: 90%;">
+        <form class="form" [formGroup]="formFilters">
+            <div class="form-date">
+                <div class="date">
+                    <span>Дата и время заезда</span>
+                    <div class="form-date">
+                        <!-- <input type="date" formControlName="dateOfArrival">
+                        <input type="time" formControlName="dateOfArrival"> -->
+                    </div>
+                </div>
+                <div class="date">
+                    <span>Дата и время отъезда</span>
+                    <div class="form-date">
+                        <!-- <input type="date" formControlName="dateOfArrival">
+                        <input type="time" formControlName="dateOfArrival"> -->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <input type="number" formControlName="quanitityOfPeople" placeholder="Кол-во человек">
+            </div>
+            <input type="text" formControlName="name" placeholder="Имя">
+            <input type="tel" formControlName="phone" placeholder="Введите ваш телефон">
+            <div class="form-btns">
+                <button (click)="sumbitForm()">Забронировать</button>
+            </div>
+        </form>
+    </div>
+</div>

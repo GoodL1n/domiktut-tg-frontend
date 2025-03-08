@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { hideBackButton, mountBackButton, onBackButtonClick, showBackButton, unmountBackButton } from '@telegram-apps/sdk';
+import { hideBackButton, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 
 @Component({
   selector: 'app-card',
@@ -10,18 +10,35 @@ import { hideBackButton, mountBackButton, onBackButtonClick, showBackButton, unm
 })
 export class CardComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router){}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+    mountMainButton.ifAvailable();
+    setMainButtonParams({
+      text: 'Оставить заявку',
+      hasShineEffect: true,
+      isEnabled: true,
+      isVisible: true,
+      backgroundColor: '#f4683f',
+      textColor: '#fff'
+    })
+    onMainButtonClick(() => this.router.navigate(['form-request']))
+
     mountBackButton.ifAvailable();
     showBackButton();
     onBackButtonClick(() => this.router.navigate(['']));
   }
 
   ngOnDestroy(): void {
-      hideBackButton();
+    setMainButtonParams({
+      isEnabled: false,
+      isVisible: false,
+    });
+    unmountMainButton();
 
-      unmountBackButton();
+    hideBackButton();
+
+    unmountBackButton();
   }
 
 }
