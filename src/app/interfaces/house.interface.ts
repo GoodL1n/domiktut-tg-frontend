@@ -1,0 +1,32 @@
+export interface House {
+	house_name?: string;
+	adress?: string;
+	location?: string;
+	city?: string;
+	type_of_house?: string;
+	floors?: string;
+	area?: string;
+	land_area?: string;
+	number_of_people?: string;
+	number_of_people_description?: string;
+	number_of_beds?: string;
+	number_of_bedrooms?: string;
+	description?: string;
+	weekday_price?: string;
+	friday_price?: string;
+	saturday_price?: string;
+	sunday_price?: string;
+	weekend_price?: string;
+	new_year_price?: string;
+	deposit?: string;
+	check_in_time?: string;
+	check_out_time?: string;
+	additional_fees?: string;
+	important_information?: string;
+	waterpool_type?: string;
+	conditions?: string;
+	selections?: string;
+	sauna_catalog?: string;
+	waterpool_catalog?: string;
+	entertainment_catalog?: string;
+}

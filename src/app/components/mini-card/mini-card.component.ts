@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { House } from '../../interfaces/house.interface';
 
 @Component({
   selector: 'app-mini-card',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './mini-card.component.scss'
 })
 export class MiniCardComponent {
-  @Input() object: any;
+  @Input() house!: House;
 
   constructor(private router: Router){}
 

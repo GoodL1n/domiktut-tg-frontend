@@ -1,3 +1,3 @@
-<div class="catalog" *ngFor="let object of objects">
-    <app-mini-card [object]="object"></app-mini-card>
+<div class="catalog" *ngFor="let house of houses | async">
+    <app-mini-card [house]="house"></app-mini-card>
 </div>
