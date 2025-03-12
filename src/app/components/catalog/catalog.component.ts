@@ -129,7 +129,9 @@ const testData = [
 
 @Component({
   selector: 'app-catalog',
-  imports: [MiniCardComponent, NgFor, AsyncPipe],
+  imports: [MiniCardComponent, NgFor, 
+    // AsyncPipe
+  ],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss',
   providers: [WordpressIntegrationService]
