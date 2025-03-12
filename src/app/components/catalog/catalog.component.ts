@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MiniCardComponent } from "../mini-card/mini-card.component";
 import { AsyncPipe, NgFor } from '@angular/common';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
@@ -13,12 +13,12 @@ import { House } from '../../interfaces/house.interface';
   providers: [WordpressIntegrationService]
 })
 export class CatalogComponent implements OnInit {
-  houses: Observable<House[]> = new Observable();
+  houses$!: Observable<House[]>;
 
   constructor(private wordpressIntegrationService: WordpressIntegrationService) { }
 
   ngOnInit() {
-    this.houses = this.wordpressIntegrationService.get3Posts();
+    this.houses$ = this.wordpressIntegrationService.get3Posts();
   }
 
   // objects = [
