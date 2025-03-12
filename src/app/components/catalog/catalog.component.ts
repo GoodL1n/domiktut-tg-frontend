@@ -9,7 +9,8 @@ import { House } from '../../interfaces/house.interface';
   selector: 'app-catalog',
   imports: [MiniCardComponent, NgFor, AsyncPipe],
   templateUrl: './catalog.component.html',
-  styleUrl: './catalog.component.scss'
+  styleUrl: './catalog.component.scss',
+  providers: [WordpressIntegrationService]
 })
 export class CatalogComponent implements OnInit {
   houses: Observable<House[]> = new Observable();
