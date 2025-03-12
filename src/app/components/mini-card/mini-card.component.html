@@ -1,16 +1,12 @@
-<div class = "card" (click)="route()">
-    <div class = "card-header">
-        <div class = "card-title">
-            <h4>{{house.house_name}}</h4>
-            <span>{{house.adress}}</span>
+<div class="card" (click)="route()">
+    <img src="https://domiktut.ru/wp-content/uploads/2022/04/PXL_20230508_1033457382-scaled-480x320.jpg" alt="">
+    <div class="card-body body">
+        <div class="body-text">
+            <span class="body-title">{{house.house_name}}</span>
+            <span class="body-address">{{house.adress}}</span>
         </div>
-        <div class = "card-price">
-            {{house.weekday_price}}
+        <div class="body-price">
+            от {{house.weekday_price}} ₽
         </div>
-    </div>
-    <div class = "card-imgs">
-        <img src="https://domiktut.ru/wp-content/uploads/2022/04/PXL_20230508_1033457382-scaled-480x320.jpg" alt="">
-        <img src="https://domiktut.ru/wp-content/uploads/2022/04/PXL_20230508_1033457382-scaled-480x320.jpg" alt="">
-        <img src="https://domiktut.ru/wp-content/uploads/2022/04/PXL_20230508_1033457382-scaled-480x320.jpg" alt="">
     </div>
 </div>
