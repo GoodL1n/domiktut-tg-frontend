@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { hideBackButton, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
+import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 
 @Component({
   selector: 'app-card',
@@ -22,6 +22,7 @@ export class CardComponent implements OnInit, OnDestroy {
       backgroundColor: '#F4683F',
       textColor: '#FFFFFF'
     });
+    mainButtonBackgroundColor();
     onMainButtonClick(() => this.router.navigate(['form-request']));
 
     mountBackButton.ifAvailable();

@@ -25,7 +25,6 @@ export class MiniCardComponent implements OnInit {
     [parseInt(this.house.friday_price || '0'), parseInt(this.house.sunday_price || '0'),
     parseInt(this.house.weekday_price || '0'), parseInt(this.house.weekend_price || '0'), parseInt(this.house.saturday_price || '0')]
       .map(element => {
-        console.log(element);
         (element && element > 0) ? priceArray.push(element) : null;
       });
 
