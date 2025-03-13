@@ -11,35 +11,34 @@
     border-radius: 20px 20px 0 0;
   }
 
-  .body {
+  &__container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px;
     align-items: center;
+  }
+  &__text {
+    display: flex;
+    flex-direction: column;
+  }
 
-    &-text {
-      display: flex;
-      flex-direction: column;
-    }
+  &__title {
+    font-family: Raleway;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 150%;
+  }
 
-    &-title {
-      font-family: Raleway;
-      font-weight: 800;
-      font-size: 20px;
-      line-height: 150%;
-    }
+  &__address {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 150%;
+  }
 
-    &-address {
-      font-family: Montserrat;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 150%;
-    }
-
-    &-price {
-      font-weight: 800;
-      font-size: 22px;
-    }
+  &__price {
+    font-weight: 800;
+    font-size: 22px;
   }
 }

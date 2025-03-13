@@ -1,7 +1,7 @@
 <div class="search-container">
-    <div style="width: 90%;">
-        <div class="search-input">
-            <div class="search-input-icon">
+    <div class="search-container__body">
+        <div class="search-container__search search">
+            <div class="search__icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     class="tabler-icon tabler-icon-search">
@@ -10,35 +10,63 @@
                 </svg>
             </div>
 
-            <input [style.border-radius]="isFilterBlock ? '20px 20px 0 0' : '20px'" type="text" placeholder="Поиск"
-                (click)="filterBlockOpen()">
+            <input class="search__input" [style.border-radius]="isFilterBlock ? '20px 20px 0 0' : '20px'" type="text"
+                placeholder="Поиск" (click)="filterBlockOpen()">
         </div>
 
-        <form class="form" *ngIf="isFilterBlock" [formGroup]="formFilters">
-            <div class="form-date">
+        <form class="search-container__filters filters" *ngIf="isFilterBlock" [formGroup]="formFilters">
+            <div class="filters__row row">
+                <span class="row__title">Даты заезда и выезда</span>
+                <div class="row__body_two-element">
+                    <input type="number" formControlName="dateOfArrival" placeholder="Дата заезда">
+                    <input type="number" formControlName="dateOfDeparture" placeholder="Дата отъезда">
+                </div>
+            </div>
+
+            <!-- <div class="form-date">
                 <div class="date">
                     <span>Дата и время заезда</span>
                     <div class="form-date">
-                        <!-- <input type="date" formControlName="dateOfArrival">
-                        <input type="time" formControlName="dateOfArrival"> -->
+                        <input type="number" formControlName="dateOfArrival" placeholder="Дата и время заезда">
+                        <input type="date" formControlName="dateOfArrival">
+                        <input type="time" formControlName="dateOfArrival">
                     </div>
                 </div>
                 <div class="date">
                     <span>Дата и время отъезда</span>
                     <div class="form-date">
-                        <!-- <input type="date" formControlName="dateOfArrival">
-                        <input type="time" formControlName="dateOfArrival"> -->
+                        <input type="number" formControlName="dateOfDeparture" placeholder="Дата и время отъезда">
+                        <input type="date" formControlName="dateOfArrival">
+                        <input type="time" formControlName="dateOfArrival">
+                    </div>
+                </div>
+            </div> -->
+            <div class="filters__row row">
+                <input type="number" formControlName="numberOfPeople" placeholder="Кол-во человек">
+            </div>
+            <div class="filters__row row">
+                <span class="row__title">Спальни и спальные места</span>
+                <div class="row__body_two-element">
+                    <input type="number" formControlName="numberOfBeds" placeholder="Кол-во спальных мест">
+                    <input type="number" formControlName="numberOfBedrooms" placeholder="Кол-во спален">
+                </div>
+            </div>
+            <div class="filters__row row type-house">
+                <span class="row__title">Тип жилья</span>
+                <div class="type-house__container">
+                    <div class="type-house__block" formArrayName="typeHouses" *ngFor="let house of type_houses; let i = index">
+                        <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)"> {{house.title}}
                     </div>
                 </div>
             </div>
-            <div>
-                <input type="number" formControlName="quanitityOfPeople" placeholder="Кол-во человек">
+            <div class="filters__row row">
+                <span class="row__title">Цена</span>
+                <div class="row__body_two-element">
+                    <input type="number" formControlName="minPrice" placeholder="Цена от">
+                    <input type="number" formControlName="maxPrice" placeholder="Цена до">
+                </div>
             </div>
-            <div class="form-price">
-                <input type="number" formControlName="minPrice" placeholder="Цена от">
-                <input type="number" formControlName="maxPrice" placeholder="Цена до">
-            </div>
-            <div class="form-btns">
+            <div class="filters__btns">
                 <button (click)="clearForm()">Очистить все</button>
                 <button (click)="sumbitForm()">Поиск</button>
             </div>

@@ -19,8 +19,8 @@ export class CardComponent implements OnInit, OnDestroy {
       hasShineEffect: true,
       isEnabled: true,
       isVisible: true,
-      // backgroundColor: '#f4683f',
-      // textColor: '#fff'
+      backgroundColor: '#F4683F',
+      textColor: '#FFFFFF'
     });
     onMainButtonClick(() => this.router.navigate(['form-request']));
 
