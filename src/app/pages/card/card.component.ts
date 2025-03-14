@@ -25,21 +25,21 @@ export class CardComponent implements OnInit, OnDestroy {
     console.log(this.house)
     this.minPrice = this.commonService.calcMinPrice(this.house);
 
-    mountMainButton.ifAvailable();
-    setMainButtonParams({
-      text: 'Оставить заявку',
-      hasShineEffect: true,
-      isEnabled: true,
-      isVisible: true,
-      backgroundColor: '#F4683F',
-      textColor: '#FFFFFF'
-    });
-    mainButtonBackgroundColor();
-    onMainButtonClick(() => this.router.navigate(['form-request']));
+    // mountMainButton.ifAvailable();
+    // setMainButtonParams({
+    //   text: 'Оставить заявку',
+    //   hasShineEffect: true,
+    //   isEnabled: true,
+    //   isVisible: true,
+    //   backgroundColor: '#F4683F',
+    //   textColor: '#FFFFFF'
+    // });
+    // mainButtonBackgroundColor();
+    // onMainButtonClick(() => this.router.navigate(['form-request']));
 
-    mountBackButton.ifAvailable();
-    showBackButton();
-    onBackButtonClick(() => this.router.navigate(['']));
+    // mountBackButton.ifAvailable();
+    // showBackButton();
+    // onBackButtonClick(() => this.router.navigate(['']));
   }
 
   ngOnDestroy(): void {
