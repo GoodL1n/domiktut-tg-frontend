@@ -26,22 +26,4 @@ export class CatalogComponent implements OnInit {
     console.log(this.houses);
     // this.houses$ = this.wordpressIntegrationService.get3Posts();
   }
-
-  // objects = [
-  //   {
-  //     name: 'Нагорный ВИП',
-  //     geo: 'Советский район',
-  //     price: 'от 45 000 р'
-  //   },
-  //   {
-  //     name: 'Нагорный Рыцарский',
-  //     geo: 'Советский район',
-  //     price: 'от 17 000 р'
-  //   },
-  //   {
-  //     name: 'Нагорный ВИП',
-  //     geo: 'Советский район',
-  //     price: 'от 14 000 р'
-  //   }
-  // ]
 }
