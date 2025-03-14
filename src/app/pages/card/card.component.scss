@@ -9,12 +9,13 @@ img {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  margin: 10px;
+  margin: 15px;
 }
 
 .header {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 
   &__text {
     display: flex;
@@ -39,5 +40,44 @@ img {
     font-weight: 800;
     font-size: 22px;
     white-space: nowrap;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-family: Raleway;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  &__block-price {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+
+  &__title {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 150%;
+    color: #727488;
+  }
+
+  &__value {
+    font-family: Raleway;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 150%;
   }
 }
