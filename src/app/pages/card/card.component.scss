@@ -1,7 +1,42 @@
-.main-container{
+img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+
+  &__text {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    // height: 100vh;
-    gap: 10px;
+  }
+
+  &__title {
+    font-family: Raleway;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 150%;
+  }
+
+  &__address {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 150%;
+  }
+
+  &__price {
+    font-weight: 800;
+    font-size: 22px;
+  }
 }
