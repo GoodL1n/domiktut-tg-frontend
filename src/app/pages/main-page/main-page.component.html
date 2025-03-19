@@ -14,7 +14,7 @@
         </div>
         <app-search-container *ngIf="isFilterBlock" (closeSearchContainer)="changeStatusFilterBlock()"></app-search-container>
         <div class="header__btns">
-            <button>Заявка на подбор</button>
+            <button (click)="routerToRequest()">Заявка на подбор</button>
             <button>Заявка на сотрудничество</button>
         </div>
     </div>

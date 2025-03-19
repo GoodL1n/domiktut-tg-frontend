@@ -24,13 +24,10 @@ label {
 .search-container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   width: 100%;
-
-  &__body {
-    width: 90%;
-    border: 1px solid #eeeeee;
-    border-radius: 20px;
-  }
+  border: 1px solid #eeeeee;
+  border-radius: 20px;
 
   &__close {
     padding: 10px 10px 0 0;
@@ -110,10 +107,9 @@ label {
   &__container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 10px;
     flex-direction: row;
-    width: 60%;
   }
 
   &__row {
