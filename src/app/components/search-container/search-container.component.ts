@@ -1,5 +1,5 @@
 import { NgIf, NgStyle, NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule } from '@angular/forms';
 
 const type_houses = [
@@ -37,12 +37,12 @@ const type_houses = [
 
 @Component({
   selector: 'app-search-container',
-  imports: [NgIf, NgFor, ReactiveFormsModule],
+  imports: [NgFor, ReactiveFormsModule],
   templateUrl: './search-container.component.html',
   styleUrl: './search-container.component.scss'
 })
 export class SearchContainerComponent {
-  isFilterBlock = false;
+  @Output() closeSearchContainer = new EventEmitter<void>;
 
   formFilters: FormGroup;
 
@@ -72,7 +72,7 @@ export class SearchContainerComponent {
     /* unselected */
     else {
       // find the unselected element
-      let i  = 0;
+      let i = 0;
 
       formArray.controls.forEach((ctrl) => {
         if (ctrl.value == event.target.value) {
@@ -86,17 +86,15 @@ export class SearchContainerComponent {
     }
   }
 
-  filterBlockOpen() {
-    this.isFilterBlock = !this.isFilterBlock;
-  }
-
   sumbitForm() {
     console.log(this.formFilters)
   }
 
   clearForm() {
-    this.formFilters.reset(
+    this.formFilters.reset();
+  }
 
-    );
+  close(){
+    this.closeSearchContainer.emit();
   }
 }

@@ -1,5 +1,8 @@
 <div class="search-container">
     <div class="search-container__body">
+        <div class = "search-container__close" (click)="close()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M17.414 16L24 9.414L22.586 8L16 14.586L9.414 8L8 9.414L14.586 16L8 22.586L9.414 24L16 17.414L22.586 24L24 22.586z"/></svg>
+        </div>
         <div class="search-container__search search">
             <div class="search__icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -10,11 +13,9 @@
                 </svg>
             </div>
 
-            <input class="search__input" [style.border-radius]="isFilterBlock ? '20px 20px 0 0' : '20px'" type="text"
-                placeholder="Поиск" (click)="filterBlockOpen()">
+            <input class="search__input" type="text" placeholder="Поиск">
         </div>
-
-        <form class="search-container__filters filters" *ngIf="isFilterBlock" [formGroup]="formFilters">
+        <form class="filters" [formGroup]="formFilters">
             <div class="filters__row row">
                 <span class="row__title">Даты заезда и выезда</span>
                 <div class="row__body_two-element">
@@ -54,8 +55,10 @@
             <div class="filters__row row type-house">
                 <span class="row__title">Тип жилья</span>
                 <div class="type-house__container">
-                    <div class="type-house__block" formArrayName="typeHouses" *ngFor="let house of type_houses; let i = index">
-                        <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)"> {{house.title}}
+                    <div class="type-house__block" formArrayName="typeHouses"
+                        *ngFor="let house of type_houses; let i = index">
+                        <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)">
+                        {{house.title}}
                     </div>
                 </div>
             </div>
@@ -66,10 +69,10 @@
                     <input type="number" formControlName="maxPrice" placeholder="Цена до">
                 </div>
             </div>
-            <div class="filters__btns">
-                <button (click)="clearForm()">Очистить все</button>
-                <button (click)="sumbitForm()">Поиск</button>
-            </div>
         </form>
+        <div class="filters__btns btns">
+            <div class="btns__clear" (click)="clearForm()">Очистить все</div>
+            <button class="btns__submit" (click)="sumbitForm()">Поиск</button>
+        </div>
     </div>
 </div>

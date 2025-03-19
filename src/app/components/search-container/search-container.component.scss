@@ -28,13 +28,22 @@ label {
 
   &__body {
     width: 90%;
+    border: 1px solid #eeeeee;
+    border-radius: 20px;
+  }
+
+  &__close {
+    padding: 10px 10px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
   }
 }
 
 .search {
-  width: 100%;
   position: relative;
   display: flex;
+  padding: 10px;
 
   &__icon {
     position: absolute;
@@ -59,8 +68,7 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #eeeeee;
-  border-radius: 0 0 20px 20px;
+  border-bottom: 1px solid #eeeeee;
   padding: 10px;
   gap: 15px;
 
@@ -70,9 +78,10 @@ label {
   }
 
   &__btns {
-    display: grid;
-    gap: 5px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
   }
 }
 
@@ -100,7 +109,11 @@ label {
 .type-house {
   &__container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    flex-direction: row;
+    width: 60%;
   }
 
   &__row {
@@ -108,10 +121,24 @@ label {
     flex-direction: row;
   }
 
-  &__block{
-    width: 100%;
+  &__block {
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+}
+
+.btns {
+  &__clear {
+    display: flex;
+    font-size: 18px;
+    color: #f4683f;
+    text-decoration: underline;
+    text-decoration-color: black;
+    cursor: pointer;
+  }
+
+  &__submit {
+    width: 40%;
   }
 }
