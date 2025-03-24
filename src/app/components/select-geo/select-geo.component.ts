@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { setCloudStorageItem } from '@telegram-apps/sdk';
+import { DataStoreService } from '../../services/data-store.service';
 
 @Component({
   selector: 'app-select-geo',
@@ -10,8 +11,11 @@ import { setCloudStorageItem } from '@telegram-apps/sdk';
 export class SelectGeoComponent {
   @Output() isGeoSelected = new EventEmitter<boolean>();
 
-  async setGeo(geo: string){
+  constructor(private dataStoreService: DataStoreService) { }
+
+  async setGeo(cityId: string) {
     this.isGeoSelected.emit(true);
-    setCloudStorageItem.ifAvailable('geo', geo);
+    this.dataStoreService.setCityId(cityId);
+    setCloudStorageItem.ifAvailable('geo', cityId);
   }
 }

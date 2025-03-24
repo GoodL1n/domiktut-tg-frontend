@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { House } from '../../interfaces/house.interface';
 import { CommonService } from '../../services/common.service';
+import { DataStoreService } from '../../services/data-store.service';
 
 @Component({
   selector: 'app-mini-card',
@@ -16,7 +17,8 @@ export class MiniCardComponent implements OnInit {
   minPrice: string = '';
 
   constructor(private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private dataStoreService: DataStoreService
   ) { }
 
   ngOnInit() {
@@ -24,6 +26,7 @@ export class MiniCardComponent implements OnInit {
   }
 
   route() {
+    if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
     this.router.navigate(['card']);
   }
 }

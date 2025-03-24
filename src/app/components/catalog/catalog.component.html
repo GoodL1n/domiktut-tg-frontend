@@ -1,3 +1,5 @@
-<div class="catalog">
-    <app-mini-card *ngFor="let house of houses" [house]="house"></app-mini-card>
-</div>
+<cdk-virtual-scroll-viewport [itemSize]="size">
+    <div class="catalog">
+        <app-mini-card *cdkVirtualFor="let house of houses$" [house]="house"></app-mini-card>
+    </div>
+</cdk-virtual-scroll-viewport>

@@ -1,4 +1,5 @@
 export interface House {
+	post_id?:number;
 	house_name?: string;
 	adress?: string;
 	location?: string;

@@ -15,10 +15,12 @@ input[type="checkbox"] {
 }
 
 label {
+  text-align: center;
   font-family: Montserrat;
   font-weight: 600;
   font-size: 14px;
   line-height: 150%;
+  color: #727488;
 }
 
 .search-container {
@@ -95,11 +97,23 @@ label {
   }
 
   &__body {
-    &_two-element {
-      display: grid;
-      gap: 5px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  &__input {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__error {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    color: red;
+    text-align: center;
   }
 }
 

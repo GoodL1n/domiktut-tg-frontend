@@ -15,60 +15,83 @@
             </svg>
         </div>
 
-        <input class="search__input" type="text" placeholder="Поиск">
+        <input class="search__input" type="text" placeholder="Поиск" disabled>
     </div>
     <form class="filters" [formGroup]="formFilters">
         <div class="filters__row row">
             <span class="row__title">Даты заезда и выезда</span>
-            <div class="row__body_two-element">
-                <input type="number" formControlName="dateOfArrival" placeholder="Дата заезда">
-                <input type="number" formControlName="dateOfDeparture" placeholder="Дата отъезда">
+            <div class="row__body">
+                <div class="row__input">
+                    <label for="dateOfArrival">Дата заезда</label>
+                    <input type="tel" id="dateOfArrival" formControlName="dateOfArrival" placeholder="01.03">
+                    <div *ngIf="formFiltersConrols['dateOfArrival'].touched && formFiltersConrols['dateOfArrival'].errors?.['pattern']"
+                        class="row__error">
+                        Допустимый формат 'дд.мм'</div>
+                </div>
+                <div class="row__input">
+                    <label for="dateOfDeparture">Дата выезда</label>
+                    <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture" placeholder="02.03">
+                    <div *ngIf="formFiltersConrols['dateOfDeparture'].touched && formFiltersConrols['dateOfDeparture'].errors?.['pattern']"
+                        class="row__error">
+                        Допустимый формат 'дд.мм'</div>
+                </div>
             </div>
         </div>
-
-        <!-- <div class="form-date">
-                <div class="date">
-                    <span>Дата и время заезда</span>
-                    <div class="form-date">
-                        <input type="number" formControlName="dateOfArrival" placeholder="Дата и время заезда">
-                        <input type="date" formControlName="dateOfArrival">
-                        <input type="time" formControlName="dateOfArrival">
-                    </div>
+        <div class="filters__row row">
+            <div class="row__input">
+                <label for="number_of_people">Кол-во человек</label>
+                <input type="tel" id="number_of_people" formControlName="number_of_people" placeholder="0">
+                <div *ngIf="formFiltersConrols['number_of_people'].touched && (formFiltersConrols['number_of_people'].errors?.['min'] || formFiltersConrols['number_of_people'].errors?.['max'])"
+                    class="row__error">
+                    Недопустимое значение</div>
+            </div>
+        </div>
+        <div class="filters__row row">
+            <span class="row__title">Спальни и спальные места</span>
+            <div class="row__body">
+                <div class="row__input">
+                    <label for="number_of_beds">Кол-во спальных мест</label>
+                    <input type="tel" id="number_of_beds" formControlName="number_of_beds" placeholder="0">
+                    <div *ngIf="formFiltersConrols['number_of_beds'].touched && (formFiltersConrols['number_of_beds'].errors?.['min'] || formFiltersConrols['number_of_beds'].errors?.['max'])"
+                        class="row__error">
+                        Недопустимое значение</div>
                 </div>
-                <div class="date">
-                    <span>Дата и время отъезда</span>
-                    <div class="form-date">
-                        <input type="number" formControlName="dateOfDeparture" placeholder="Дата и время отъезда">
-                        <input type="date" formControlName="dateOfArrival">
-                        <input type="time" formControlName="dateOfArrival">
+                <div class="row__input">
+                    <label for="number_of_bedrooms">Кол-во спален</label>
+                    <input type="tel" id="number_of_bedrooms" formControlName="number_of_bedrooms" placeholder="0">
+                    <div *ngIf="formFiltersConrols['number_of_bedrooms'].touched && (formFiltersConrols['number_of_bedrooms'].errors?.['min'] || formFiltersConrols['number_of_bedrooms'].errors?.['max'])"
+                        class="row__error">
+                        Недопустимое значение</div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="filters__row row type-house">
+                <span class="row__title">Тип жилья</span>
+                <div class="type-house__container">
+                    <div class="type-house__block" formArrayName="typeHouses"
+                        *ngFor="let house of type_houses; let i = index">
+                        <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)">
+                        {{house.title}}
                     </div>
                 </div>
             </div> -->
         <div class="filters__row row">
-            <input type="number" formControlName="numberOfPeople" placeholder="Кол-во человек">
-        </div>
-        <div class="filters__row row">
-            <span class="row__title">Спальни и спальные места</span>
-            <div class="row__body_two-element">
-                <input type="number" formControlName="numberOfBeds" placeholder="Кол-во спальных мест">
-                <input type="number" formControlName="numberOfBedrooms" placeholder="Кол-во спален">
-            </div>
-        </div>
-        <div class="filters__row row type-house">
-            <span class="row__title">Тип жилья</span>
-            <div class="type-house__container">
-                <div class="type-house__block" formArrayName="typeHouses"
-                    *ngFor="let house of type_houses; let i = index">
-                    <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)">
-                    {{house.title}}
-                </div>
-            </div>
-        </div>
-        <div class="filters__row row">
             <span class="row__title">Цена</span>
-            <div class="row__body_two-element">
-                <input type="number" formControlName="minPrice" placeholder="Цена от">
-                <input type="number" formControlName="maxPrice" placeholder="Цена до">
+            <div class="row__body">
+                <div class="row__input">
+                    <label for="minPrice">мин. цена</label>
+                    <input type="number" id="minPrice" formControlName="minPrice" placeholder="0">
+                    <div *ngIf="formFiltersConrols['minPrice'].touched && (formFiltersConrols['minPrice'].errors?.['min'] || formFiltersConrols['minPrice'].errors?.['max'])"
+                        class="row__error">
+                        Недопустимое значение</div>
+                </div>
+                <div class="row__input">
+                    <label for="maxPrice">макс. цена</label>
+                    <input type="number" id="maxPrice" formControlName="maxPrice" placeholder="10000">
+                    <div *ngIf="formFiltersConrols['minPrice'].touched && (formFiltersConrols['maxPrice'].errors?.['min'] || formFiltersConrols['maxPrice'].errors?.['max'])"
+                        class="row__error">
+                        Недопустимое значение</div>
+                </div>
             </div>
         </div>
     </form>

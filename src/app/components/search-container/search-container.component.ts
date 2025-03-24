@@ -1,6 +1,8 @@
-import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
+import { DataStoreService } from '../../services/data-store.service';
 
 const type_houses = [
   {
@@ -37,7 +39,7 @@ const type_houses = [
 
 @Component({
   selector: 'app-search-container',
-  imports: [NgFor, ReactiveFormsModule],
+  imports: [NgIf, ReactiveFormsModule],
   templateUrl: './search-container.component.html',
   styleUrl: './search-container.component.scss'
 })
@@ -48,17 +50,24 @@ export class SearchContainerComponent {
 
   type_houses = type_houses;
 
-  constructor(private builder: FormBuilder) {
+  constructor(private builder: FormBuilder,
+    private wordpressIntegrationService: WordpressIntegrationService,
+    private dataStoreService: DataStoreService
+  ) {
     this.formFilters = this.builder.group({
-      dateOfArrival: '',
-      dateOfDeparture: '',
-      numberOfPeople: '',
-      numberOfBedrooms: '',
-      numberOfBeds: '',
-      minPrice: '',
-      maxPrice: '',
-      typeHouses: new FormArray([])
+      dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      dateOfDeparture: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      number_of_people: [null, [Validators.min(0), Validators.max(1000)]],
+      number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
+      number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
+      minPrice: [{ value: null, disabled: true }, [Validators.min(0), Validators.max(1000000)]],
+      maxPrice: [{ value: null, disabled: true }, [Validators.min(0), Validators.max(1000000)]],
+      // type_of_house: new FormArray([])
     });
+  }
+
+  get formFiltersConrols() {
+    return this.formFilters.controls;
   }
 
   onCheckChange(event: any) {
@@ -87,14 +96,18 @@ export class SearchContainerComponent {
   }
 
   sumbitForm() {
-    console.log(this.formFilters)
+    console.log('formFilters', this.formFilters.value)
+    this.wordpressIntegrationService.getHousesByFilter(this.formFilters.value).subscribe(data => {
+      this.dataStoreService.setHouses(data);
+    });
   }
 
   clearForm() {
+    this.dataStoreService.updatedMainStore();
     this.formFilters.reset();
   }
 
-  close(){
+  close() {
     this.closeSearchContainer.emit();
   }
 }

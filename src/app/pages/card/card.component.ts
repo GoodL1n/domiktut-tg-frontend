@@ -4,26 +4,43 @@ import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainBu
 import { House } from '../../interfaces/house.interface';
 import { testData } from '../../test-data';
 import { CommonService } from '../../services/common.service';
+import { LoaderService } from '../../services/loader.service';
+import { AsyncPipe } from '@angular/common';
+import { LoaderComponent } from '../../components/loader/loader.component';
+import { DataStoreService } from '../../services/data-store.service';
+import { map, switchMap } from 'rxjs';
+import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 
 @Component({
   selector: 'app-card',
-  imports: [],
+  imports: [LoaderComponent, AsyncPipe],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   providers: [CommonService]
 })
 export class CardComponent implements OnInit, OnDestroy {
 
-  house: House = testData[0];
+  house!: House;
   minPrice: string = '';
 
   constructor(private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private dataStoreService: DataStoreService,
+    private wordpressIntegrationService: WordpressIntegrationService,
+    public loaderService: LoaderService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.house)
-    this.minPrice = this.commonService.calcMinPrice(this.house);
+    this.dataStoreService.currentHouseId$.pipe(
+      switchMap((id) => this.wordpressIntegrationService.getHouseById(id))
+    ).subscribe(data => {
+      if (data && data.length > 0) {
+        this.house = data[0];
+        this.dataStoreService.setCurrentHouse(data[0]);
+        this.minPrice = this.commonService.calcMinPrice(this.house);
+      }
+    });
+
 
     mountMainButton.ifAvailable();
     setMainButtonParams({

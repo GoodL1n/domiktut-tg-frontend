@@ -1,4 +1,7 @@
-<div class="main-container">
+@if (this.loaderService.isLoading$ | async) {
+    <app-loader></app-loader>
+}
+<div class="main-container" cdkVirtualScrollingElement>
     <div class="main-container__header header">
         <div class="header__search search" (click)="changeStatusFilterBlock()" *ngIf="!isFilterBlock">
             <div class="search__icon">
@@ -12,7 +15,8 @@
 
             <span class="search__text">Начать поиск</span>
         </div>
-        <app-search-container *ngIf="isFilterBlock" (closeSearchContainer)="changeStatusFilterBlock()"></app-search-container>
+        <app-search-container *ngIf="isFilterBlock"
+            (closeSearchContainer)="changeStatusFilterBlock()"></app-search-container>
         <div class="header__btns">
             <button (click)="routerToRequest()">Заявка на подбор</button>
             <button>Заявка на сотрудничество</button>
@@ -21,5 +25,8 @@
     <!-- <div class="main-container__collection">
         Тут будет подборка когда-нибудь
     </div> -->
-    <app-catalog></app-catalog>
+    <app-catalog style="width: 100%; height:100%"></app-catalog>
+    <!-- <cdk-virtual-scroll-viewport [itemSize]="size" class="catalog">
+        <app-mini-card *cdkVirtualFor="let house of houses" [house]="house"></app-mini-card>
+    </cdk-virtual-scroll-viewport> -->
 </div>
