@@ -37,9 +37,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy');
+    console.log('start destroy catalog', this.destroySubscription);
     this.destroySubscription.next(true);
     this.destroySubscription.complete();
+    console.log('destroy catalog', this.destroySubscription);
   }
 
 }

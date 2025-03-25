@@ -13,6 +13,7 @@ import { DataStoreService } from '../../services/data-store.service';
 })
 export class MiniCardComponent implements OnInit {
   @Input() house!: House;
+  @Input() isOpenInFormRequest: boolean = false;
 
   minPrice: string = '';
 

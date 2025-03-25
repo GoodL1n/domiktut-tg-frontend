@@ -1,11 +1,57 @@
-.form-request {
+span {
+  text-align: center;
+}
+
+button {
+  font-size: 16px;
+}
+
+input {
+  border: 1px solid #eeeeee;
+  border-radius: 20px;
+  padding: 10px 10px 10px 35px;
+  font-size: 17px;
+  outline: none;
+}
+
+label {
+  text-align: center;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  color: #727488;
+}
+
+.page-request {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 15px;
+
+  &__title {
+    font-family: Raleway;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 130%;
+    letter-spacing: 0%;
+  }
+
+  &__selected-house {
+    display: flex;
+    flex-direction: column;
+    &-title {
+      font-family: Raleway;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 150%;
+    }
+  }
 }
 
 .form {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   border: 1px solid #eeeeee;
@@ -14,34 +60,41 @@
   gap: 15px;
 
   input {
-    border: 1px solid #eeeeee;
-    border-radius: 20px;
     padding: 10px;
     font-size: 14px;
-    outline: none;
   }
-
-  &-date {
-    display: grid;
-    gap: 5px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  &-price {
-    display: grid;
-    gap: 5px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  // &-btns {
-  //   display: grid;
-  //   gap: 5px;
-  //   grid-template-columns: repeat(2, minmax(0, 1fr));
-  // }
 }
 
-.date {
+.row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    font-family: Raleway;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  &__input {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__error {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    color: red;
+    text-align: center;
+  }
 }
