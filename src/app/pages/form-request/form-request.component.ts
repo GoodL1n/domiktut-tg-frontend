@@ -3,20 +3,20 @@ import { Router } from '@angular/router';
 import { hideBackButton, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton } from '@telegram-apps/sdk';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
-import { BehaviorSubject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { House } from '../../interfaces/house.interface';
 import { MiniCardComponent } from "../../components/mini-card/mini-card.component";
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-form-request',
-  imports: [ReactiveFormsModule, MiniCardComponent, NgIf],
+  imports: [ReactiveFormsModule, MiniCardComponent, NgIf, AsyncPipe],
   templateUrl: './form-request.component.html',
   styleUrl: './form-request.component.scss'
 })
 export class FormRequestComponent implements OnInit, OnDestroy {
 
-  house: House | undefined = undefined;
+  house!: Observable<House>;
   formRequest: FormGroup;
 
   destroySubscription = new BehaviorSubject(true);
@@ -24,11 +24,7 @@ export class FormRequestComponent implements OnInit, OnDestroy {
   constructor(private builder: FormBuilder,
     private router: Router,
     private dataStoreService: DataStoreService) {
-    this.dataStoreService.currentHouse$.pipe(takeUntil(this.destroySubscription)).subscribe(data => {
-      if (data && Object.keys(data).length > 0) {
-        this.house = data;
-      }
-    });
+    this.house = this.dataStoreService.currentHouse$;
 
     this.formRequest = this.builder.group({
       dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
