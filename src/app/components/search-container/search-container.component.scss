@@ -36,6 +36,12 @@ label {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+
+    svg {
+      border-radius: 200px;
+      background: #f4683f;
+      color: #fff;
+    }
   }
 }
 

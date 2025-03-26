@@ -7,11 +7,12 @@ import { WordpressIntegrationService } from './services/wordpress-integration.se
 import { DataStoreService } from './services/data-store.service';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './services/interceptors/loader.interceptor';
+import { TelegramService } from './services/telegram.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([LoaderInterceptor])),
-    WordpressIntegrationService, DataStoreService, LoaderService]
+    WordpressIntegrationService, DataStoreService, LoaderService, TelegramService]
 };

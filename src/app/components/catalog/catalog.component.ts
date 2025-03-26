@@ -1,13 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit } from '@angular/core';
 import { MiniCardComponent } from "../mini-card/mini-card.component";
-import { AsyncPipe, NgFor } from '@angular/common';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { House } from '../../interfaces/house.interface';
-import { testData } from '../../test-data';
-import { BehaviorSubject, fromEvent, map, Observable, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { map, Observable, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DataStoreService } from '../../services/data-store.service';
-import { H } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-catalog',

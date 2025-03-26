@@ -40,7 +40,7 @@
         <div class="filters__row row">
             <div class="row__input">
                 <label for="number_of_people">Кол-во человек</label>
-                <input type="tel" id="number_of_people" formControlName="number_of_people" placeholder="0">
+                <input type="number" id="number_of_people" formControlName="number_of_people" placeholder="0">
                 <div *ngIf="formFiltersConrols['number_of_people'].touched && (formFiltersConrols['number_of_people'].errors?.['min'] || formFiltersConrols['number_of_people'].errors?.['max'])"
                     class="row__error">
                     Недопустимое значение</div>
@@ -51,14 +51,14 @@
             <div class="row__body">
                 <div class="row__input">
                     <label for="number_of_beds">Кол-во спальных мест</label>
-                    <input type="tel" id="number_of_beds" formControlName="number_of_beds" placeholder="0">
+                    <input type="number" id="number_of_beds" formControlName="number_of_beds" placeholder="0">
                     <div *ngIf="formFiltersConrols['number_of_beds'].touched && (formFiltersConrols['number_of_beds'].errors?.['min'] || formFiltersConrols['number_of_beds'].errors?.['max'])"
                         class="row__error">
                         Недопустимое значение</div>
                 </div>
                 <div class="row__input">
                     <label for="number_of_bedrooms">Кол-во спален</label>
-                    <input type="tel" id="number_of_bedrooms" formControlName="number_of_bedrooms" placeholder="0">
+                    <input type="number" id="number_of_bedrooms" formControlName="number_of_bedrooms" placeholder="0">
                     <div *ngIf="formFiltersConrols['number_of_bedrooms'].touched && (formFiltersConrols['number_of_bedrooms'].errors?.['min'] || formFiltersConrols['number_of_bedrooms'].errors?.['max'])"
                         class="row__error">
                         Недопустимое значение</div>

@@ -27,7 +27,9 @@ export class MiniCardComponent implements OnInit {
   }
 
   route() {
-    if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
-    this.router.navigate(['card']);
+    if (!this.isOpenInFormRequest) {
+      if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
+      this.router.navigate(['card']);
+    }
   }
 }

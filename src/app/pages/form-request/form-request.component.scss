@@ -28,6 +28,7 @@ label {
   flex-direction: column;
   justify-content: center;
   margin: 15px;
+  gap: 15px;
 
   &__title {
     font-family: Raleway;
@@ -58,6 +59,7 @@ label {
   border-radius: 20px;
   padding: 10px;
   gap: 15px;
+  margin-bottom: 15px;
 
   input {
     padding: 10px;

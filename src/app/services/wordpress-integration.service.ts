@@ -3,11 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { House } from '../interfaces/house.interface';
 import { environment } from '../../environments/environment';
-import { getCloudStorageItem } from '@telegram-apps/sdk';
 import { Filter } from '../interfaces/filter.interface';
-import { textChangeRangeIsUnchanged } from 'typescript';
 import { DataStoreService } from './data-store.service';
-import { C } from '@angular/cdk/keycodes';
 
 const WORDPRESS_INTEGRATION_API = `${environment?.apiUrl}/wordpress-integration/`;
 

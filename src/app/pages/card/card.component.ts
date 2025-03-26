@@ -2,13 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 import { House } from '../../interfaces/house.interface';
-import { testData } from '../../test-data';
 import { CommonService } from '../../services/common.service';
 import { LoaderService } from '../../services/loader.service';
 import { AsyncPipe } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { DataStoreService } from '../../services/data-store.service';
-import { map, switchMap } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 
 @Component({
@@ -32,6 +31,7 @@ export class CardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataStoreService.currentHouseId$.pipe(
+      filter((id) => !!id),
       switchMap((id) => this.wordpressIntegrationService.getHouseById(id))
     ).subscribe(data => {
       if (data && data.length > 0) {
