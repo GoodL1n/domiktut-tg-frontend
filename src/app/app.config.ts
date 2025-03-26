@@ -8,11 +8,12 @@ import { DataStoreService } from './services/data-store.service';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './services/interceptors/loader.interceptor';
 import { TelegramService } from './services/telegram.service';
+import { ErrorInterceptor } from './services/interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([LoaderInterceptor])),
+    provideHttpClient(withInterceptors([LoaderInterceptor, ErrorInterceptor])),
     WordpressIntegrationService, DataStoreService, LoaderService, TelegramService]
 };
