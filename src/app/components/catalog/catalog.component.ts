@@ -1,20 +1,21 @@
-import {Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MiniCardComponent } from "../mini-card/mini-card.component";
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { House } from '../../interfaces/house.interface';
-import { map, Observable, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DataStoreService } from '../../services/data-store.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-catalog',
-  imports: [MiniCardComponent, ScrollingModule],
+  imports: [MiniCardComponent, ScrollingModule, AsyncPipe],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss',
 })
 export class CatalogComponent implements OnInit, OnDestroy {
   houses$!: Observable<House[]>;
-  size: number = 0;
+  size$ = new BehaviorSubject<number>(0);
 
   destroySubscription: ReplaySubject<boolean> = new ReplaySubject(1);
 
@@ -24,13 +25,19 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     this.houses$ = this.dataStoreService.houses$;
 
-    this.dataStoreService.houses$.pipe(map(houses => this.size = houses.length), takeUntil(this.destroySubscription));
+    this.dataStoreService.houses$.pipe(map(houses => this.size$.next(houses.length)), takeUntil(this.destroySubscription));
 
     this.wordpressIntegrationService.getHouses().pipe(takeUntil(this.destroySubscription)).subscribe(data => {
-      console.log('request')
+      console.log('request catalog')
       this.dataStoreService.setHouses(data);
       this.dataStoreService.setAllHouseshouses(data);
     })
+
+    // this.wordpressIntegrationService.getHouseById(806).pipe(takeUntil(this.destroySubscription)).subscribe(data => {
+    //   console.log('request catalog')
+    //   this.dataStoreService.setHouses(data);
+    //   this.dataStoreService.setAllHouseshouses(data);
+    // })
   }
 
   ngOnDestroy(): void {

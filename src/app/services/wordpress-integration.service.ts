@@ -29,24 +29,34 @@ export class WordpressIntegrationService {
     return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
   }
 
-  getHousesByFilter(filterData: Filter): Observable<House[]> {
-    console.log('filterData', filterData)
+  getHousesByFilter(filterData: Partial<Filter>): Observable<House[]> {
     let httpParams = new HttpParams()
       .set('cityId', this.cityId);
 
-    if (filterData.dateOfArrival && filterData.dateOfDeparture) {
-      httpParams = httpParams.set('dateOfArrival', filterData.dateOfArrival);
-      httpParams = httpParams.set('dateOfDeparture', filterData.dateOfDeparture);
+    if (filterData.date_of_arrival && filterData.date_of_departure) {
+      httpParams = httpParams.set('date_of_arrival', filterData.date_of_arrival);
+      httpParams = httpParams.set('date_of_departure', filterData.date_of_departure);
     }
     if (filterData.number_of_bedrooms) httpParams = httpParams.set('number_of_bedrooms', filterData.number_of_bedrooms);
     if (filterData.number_of_beds) httpParams = httpParams.set('number_of_beds', filterData.number_of_beds);
     if (filterData.number_of_people) httpParams = httpParams.set('number_of_people', filterData.number_of_people);
     if (filterData.type_of_house) httpParams = httpParams.set('type_of_house', filterData.type_of_house);
+    if (filterData.min_price) httpParams = httpParams.set('min_price', filterData.min_price);
+    if (filterData.max_price) httpParams = httpParams.set('max_price', filterData.max_price);
 
     return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API + 'filters', { params: httpParams });
   }
 
   getHouseById(id: number) {
     return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API + `house/${id}`);
+  }
+
+  getImagesUrl(postsId: string, limit?: number) {
+    let httpParams = new HttpParams()
+      .set('postsId', postsId);
+
+    if (limit) httpParams = httpParams.set('limit', limit);
+
+    return this.httpClient.get(WORDPRESS_INTEGRATION_API + 'imgs', { params: httpParams })
   }
 }

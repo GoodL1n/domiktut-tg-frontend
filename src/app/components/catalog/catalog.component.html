@@ -1,5 +1,7 @@
-<cdk-virtual-scroll-viewport [itemSize]="size">
-    <div class="catalog">
-        <app-mini-card *cdkVirtualFor="let house of houses$" [house]="house"></app-mini-card>
-    </div>
-</cdk-virtual-scroll-viewport>
+@if (houses$ | async) {
+    <cdk-virtual-scroll-viewport appendOnly [itemSize]="150" scrollWindow >
+        <div class="catalog">
+            <app-mini-card *cdkVirtualFor="let house of houses$" [house]="house"></app-mini-card>
+        </div>
+    </cdk-virtual-scroll-viewport>
+}

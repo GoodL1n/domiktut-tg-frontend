@@ -28,7 +28,7 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     private tgSerice: TelegramService) {
 
     this.house = this.dataStoreService.currentHouse$.pipe(
-      filter(house => Object.keys(house).length > 0)
+      filter(house => (house && Object.keys(house).length > 0))
     );
 
     this.formRequest = this.builder.group({

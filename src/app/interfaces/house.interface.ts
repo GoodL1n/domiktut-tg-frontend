@@ -30,4 +30,5 @@ export interface House {
 	sauna_catalog?: string;
 	waterpool_catalog?: string;
 	entertainment_catalog?: string;
+	house_photo?: string;
 }

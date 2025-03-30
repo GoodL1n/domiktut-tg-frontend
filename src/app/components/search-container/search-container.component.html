@@ -15,7 +15,13 @@
             </svg>
         </div>
 
-        <input class="search__input" type="text" placeholder="Поиск" disabled>
+        <input class="search__input" type="text" placeholder="Поиск" [formControl]="searchInputControl"
+            [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            @for (house of filteredHouses$ | async; track house) {
+                <mat-option [value]="house.house_name">{{house.house_name}}</mat-option>
+            }
+        </mat-autocomplete>
     </div>
     <form class="filters" [formGroup]="formFilters">
         <div class="filters__row row">
@@ -23,15 +29,15 @@
             <div class="row__body">
                 <div class="row__input">
                     <label for="dateOfArrival">Дата заезда</label>
-                    <input type="tel" id="dateOfArrival" formControlName="dateOfArrival" placeholder="01.03">
-                    <div *ngIf="formFiltersConrols['dateOfArrival'].touched && formFiltersConrols['dateOfArrival'].errors?.['pattern']"
+                    <input type="tel" id="dateOfArrival" formControlName="date_of_arrival" placeholder="01.03">
+                    <div *ngIf="formFiltersConrols['date_of_arrival'].touched && formFiltersConrols['date_of_arrival'].errors?.['pattern']"
                         class="row__error">
                         Допустимый формат 'дд.мм'</div>
                 </div>
                 <div class="row__input">
                     <label for="dateOfDeparture">Дата выезда</label>
-                    <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture" placeholder="02.03">
-                    <div *ngIf="formFiltersConrols['dateOfDeparture'].touched && formFiltersConrols['dateOfDeparture'].errors?.['pattern']"
+                    <input type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="02.03">
+                    <div *ngIf="formFiltersConrols['date_of_departure'].touched && formFiltersConrols['date_of_departure'].errors?.['pattern']"
                         class="row__error">
                         Допустимый формат 'дд.мм'</div>
                 </div>
@@ -80,15 +86,15 @@
             <div class="row__body">
                 <div class="row__input">
                     <label for="minPrice">мин. цена</label>
-                    <input type="number" id="minPrice" formControlName="minPrice" placeholder="0">
-                    <div *ngIf="formFiltersConrols['minPrice'].touched && (formFiltersConrols['minPrice'].errors?.['min'] || formFiltersConrols['minPrice'].errors?.['max'])"
+                    <input type="number" id="minPrice" formControlName="min_price" placeholder="0">
+                    <div *ngIf="formFiltersConrols['min_price'].touched && (formFiltersConrols['min_price'].errors?.['min'] || formFiltersConrols['min_price'].errors?.['max'])"
                         class="row__error">
                         Недопустимое значение</div>
                 </div>
                 <div class="row__input">
                     <label for="maxPrice">макс. цена</label>
-                    <input type="number" id="maxPrice" formControlName="maxPrice" placeholder="10000">
-                    <div *ngIf="formFiltersConrols['minPrice'].touched && (formFiltersConrols['maxPrice'].errors?.['min'] || formFiltersConrols['maxPrice'].errors?.['max'])"
+                    <input type="number" id="maxPrice" formControlName="max_price" placeholder="100000">
+                    <div *ngIf="formFiltersConrols['max_price'].touched && (formFiltersConrols['max_price'].errors?.['min'] || formFiltersConrols['max_price'].errors?.['max'])"
                         class="row__error">
                         Недопустимое значение</div>
                 </div>

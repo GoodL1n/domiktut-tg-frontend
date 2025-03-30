@@ -1,8 +1,11 @@
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { DataStoreService } from '../../services/data-store.service';
+import { debounceTime, distinctUntilChanged, filter, fromEvent, map, Observable, startWith, switchMap } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { House } from '../../interfaces/house.interface';
 
 const type_houses = [
   {
@@ -39,35 +42,60 @@ const type_houses = [
 
 @Component({
   selector: 'app-search-container',
-  imports: [NgIf, ReactiveFormsModule],
+  imports: [NgIf, ReactiveFormsModule, MatAutocompleteModule, AsyncPipe],
   templateUrl: './search-container.component.html',
   styleUrl: './search-container.component.scss'
 })
-export class SearchContainerComponent {
+export class SearchContainerComponent implements OnInit {
   @Output() closeSearchContainer = new EventEmitter<void>;
+
+  type_houses = type_houses;
 
   formFilters: FormGroup;
 
-  type_houses = type_houses;
+  searchInputControl = new FormControl('');
+
+  houses$!: Observable<House[]>;
+  filteredHouses$!: Observable<House[]>;
+
+  get formFiltersConrols() {
+    return this.formFilters.controls;
+  }
 
   constructor(private builder: FormBuilder,
     private wordpressIntegrationService: WordpressIntegrationService,
     private dataStoreService: DataStoreService
   ) {
     this.formFilters = this.builder.group({
-      dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
-      dateOfDeparture: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      date_of_arrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      date_of_departure: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
       number_of_people: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
-      minPrice: [{ value: null, disabled: true }, [Validators.min(0), Validators.max(1000000)]],
-      maxPrice: [{ value: null, disabled: true }, [Validators.min(0), Validators.max(1000000)]],
+      min_price: [0, [Validators.min(0), Validators.max(1000000)]],
+      max_price: [null, [Validators.min(0), Validators.max(1000000)]],
       // type_of_house: new FormArray([])
     });
   }
 
-  get formFiltersConrols() {
-    return this.formFilters.controls;
+  ngOnInit() {
+    this.houses$ = this.dataStoreService.houses$;
+
+    this.filteredHouses$ = this.searchInputControl.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      startWith(''),
+      switchMap((value) => {
+        const filterValue = this._normalizeValue(value || '');
+        return this.houses$.pipe(
+          map(val => val.filter(v => this._normalizeValue(v.house_name || '').includes(filterValue)))
+        )
+      })
+    );
+  }
+
+  private _normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
   }
 
   onCheckChange(event: any) {

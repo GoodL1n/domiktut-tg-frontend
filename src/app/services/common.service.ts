@@ -18,6 +18,6 @@ export class CommonService {
       });
 
     const calc = Math.min(...priceArray);
-    return calc && calc > 0 ? String(calc) + ' 000' : '0';
+    return (calc && calc > 0) ? (String(calc) + ' 000') : '0';
   }
 }
