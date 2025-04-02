@@ -1,26 +1,36 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 import { House } from '../../interfaces/house.interface';
 import { CommonService } from '../../services/common.service';
 import { LoaderService } from '../../services/loader.service';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { DataStoreService } from '../../services/data-store.service';
-import { filter, map, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
+import { EmblaCarouselDirective, EmblaCarouselType, EmblaEventType } from 'embla-carousel-angular';
+import { H } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-card',
-  imports: [LoaderComponent, AsyncPipe],
+  imports: [LoaderComponent, AsyncPipe, EmblaCarouselDirective, NgFor],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   providers: [CommonService]
 })
 export class CardComponent implements OnInit, OnDestroy {
 
+  @ViewChild(EmblaCarouselDirective) emblaRef: EmblaCarouselDirective | undefined;
+  private emblaApi?: EmblaCarouselType;
+  options = {
+    loop: true
+  }
+
   house!: House;
   minPrice: string = '';
+
+  imgs$ = new BehaviorSubject<string[]>([]);
 
   constructor(private router: Router,
     private commonService: CommonService,
@@ -28,6 +38,30 @@ export class CardComponent implements OnInit, OnDestroy {
     private wordpressIntegrationService: WordpressIntegrationService,
     public loaderService: LoaderService
   ) { }
+
+  track(index: number, item: string) {
+    return item;
+  }
+
+  onEmblaChanged(event: EmblaEventType): void {
+    this.emblaApi = this.emblaRef?.emblaApi;
+
+    if (!this.emblaApi) {
+      return;
+    }
+
+    if (event === 'init' || event === 'reInit') {
+
+    }
+
+    if (event === 'scroll') {
+      // this.currendDot = this.emblaApi.selectedScrollSnap();
+    }
+  }
+
+  handleScrollTo(index: number) {
+    this.emblaApi?.scrollTo(index);
+  }
 
   ngOnInit(): void {
     this.dataStoreService.currentHouseId$.pipe(
@@ -40,6 +74,18 @@ export class CardComponent implements OnInit, OnDestroy {
         this.minPrice = this.commonService.calcMinPrice(this.house);
       }
     });
+
+    this.dataStoreService.currentHouse$.pipe(
+      filter((house) => (Object.keys(house).length > 0 && !!house.house_photo)),
+      switchMap((house) => this.wordpressIntegrationService.getImagesUrl(house.house_photo!, 4)))
+      .subscribe(data => {
+        console.log('current house imgs', this.house.post_id)
+        console.log(data)
+        const array = (data as Array<any>).map(element => {
+          return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
+        })
+        this.imgs$.next(array);
+      });
 
     mountMainButton.ifAvailable();
     setMainButtonParams({
@@ -55,7 +101,11 @@ export class CardComponent implements OnInit, OnDestroy {
 
     mountBackButton.ifAvailable();
     showBackButton();
-    onBackButtonClick(() => this.router.navigate(['']));
+    onBackButtonClick(() => {
+      this.dataStoreService.setCurrentHouse({});
+      this.dataStoreService.setCurrentHouseId(0);
+      this.router.navigate(['']);
+    });
   }
 
   routeNext() {

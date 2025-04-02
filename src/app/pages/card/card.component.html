@@ -1,5 +1,5 @@
 @if (this.loaderService.isLoading$ | async) {
-    <app-loader></app-loader>
+<app-loader></app-loader>
 }
 <div class="card">
     <div class="card__header header">
@@ -12,7 +12,25 @@
         </div>
     </div>
     <div class="card__image">
-        <img src="https://domiktut.ru/wp-content/uploads/2022/04/PXL_20230508_1033457382-scaled-480x320.jpg" alt="">
+        <div class="embla" emblaCarousel [options]="options" [subscribeToEvents]="['init', 'reInit', 'scroll']"
+            (emblaChange)="onEmblaChanged($event)">
+            <div class="embla__viewport">
+                <div class="embla__container">
+                    <div class="embla__slide" *ngFor="let img of imgs$ | async; trackBy: track">
+                        <img [src]="img" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="embla-thumbs">
+                <div class="embla-thumbs__viewport">
+                    <div class="embla-thumbs__container">
+                        <div class="embla-thumbs__slide" *ngFor="let img of imgs$ | async; let i = index">
+                            <img [src]="img" alt="" (click)="handleScrollTo(i)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="card__body">
         <div class="body__container container">

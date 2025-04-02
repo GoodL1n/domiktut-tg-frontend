@@ -49,7 +49,6 @@ export class MiniCardComponent implements OnInit {
     return item;
   }
 
-
   generateDots() {
     const lengthDots = this.emblaApi?.scrollSnapList().length;
     const dots = Array(lengthDots).fill(0);
