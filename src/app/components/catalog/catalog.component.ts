@@ -15,7 +15,6 @@ import { AsyncPipe } from '@angular/common';
 })
 export class CatalogComponent implements OnInit, OnDestroy {
   houses$!: Observable<House[]>;
-  size$ = new BehaviorSubject<number>(0);
 
   destroySubscription: ReplaySubject<boolean> = new ReplaySubject(1);
 
@@ -25,11 +24,9 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     this.houses$ = this.dataStoreService.houses$;
 
-    this.dataStoreService.houses$.pipe(map(houses => this.size$.next(houses.length)), takeUntil(this.destroySubscription));
-
     this.wordpressIntegrationService.getHouses().pipe(takeUntil(this.destroySubscription)).subscribe(data => {
       this.dataStoreService.setHouses(data);
-      this.dataStoreService.setAllHouseshouses(data);
+      this.dataStoreService.setAllHouses(data);
     })
 
     // this.wordpressIntegrationService.getHouseById(806).pipe(takeUntil(this.destroySubscription)).subscribe(data => {

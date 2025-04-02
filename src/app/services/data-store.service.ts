@@ -29,7 +29,7 @@ export class DataStoreService {
     this._houses.next(houses);
   }
 
-  setAllHouseshouses(houses: House[]) {
+  setAllHouses(houses: House[]) {
     this._allHouses.next(houses);
   }
 
