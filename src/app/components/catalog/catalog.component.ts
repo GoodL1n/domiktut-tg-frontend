@@ -28,7 +28,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.dataStoreService.houses$.pipe(map(houses => this.size$.next(houses.length)), takeUntil(this.destroySubscription));
 
     this.wordpressIntegrationService.getHouses().pipe(takeUntil(this.destroySubscription)).subscribe(data => {
-      console.log('request catalog')
       this.dataStoreService.setHouses(data);
       this.dataStoreService.setAllHouseshouses(data);
     })
@@ -41,10 +40,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('start destroy catalog', this.destroySubscription);
     this.destroySubscription.next(true);
     this.destroySubscription.complete();
-    console.log('destroy catalog', this.destroySubscription);
   }
 
 }

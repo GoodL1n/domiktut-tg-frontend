@@ -1,3 +1,4 @@
 export const environment = {
-    apiUrl: 'http://localhost:3000'
+    production: true,
+    apiUrl: 'https://goodl1n-domiktut-tg-backend-ac49.twc1.net'
 };
