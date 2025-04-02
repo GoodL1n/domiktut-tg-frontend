@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class FormRequestComponent implements OnInit, OnDestroy {
 
-  house$!: BehaviorSubject<House>;
+  house$ = new BehaviorSubject<House | undefined>(undefined);
   house: House | undefined;
   formRequest: FormGroup;
 
@@ -27,12 +27,6 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     private router: Router,
     private dataStoreService: DataStoreService,
     private tgSerice: TelegramService) {
-
-    this.dataStoreService.currentHouse$.pipe(
-      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription)).subscribe(data => {
-        this.house = data;
-        this.house$.next(data);
-      });
 
     this.formRequest = this.builder.group({
       dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
@@ -52,6 +46,12 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     mountBackButton.ifAvailable();
     showBackButton();
     onBackButtonClick(() => this.router.navigate(['card']));
+
+    this.dataStoreService.currentHouse$.pipe(
+      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription)).subscribe(data => {
+        this.house = data;
+        this.house$.next(data);
+      });
   }
 
   sumbitForm() {
