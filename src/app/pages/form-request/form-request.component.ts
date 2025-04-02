@@ -11,13 +11,13 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-request',
-  imports: [ReactiveFormsModule, MiniCardComponent, NgIf],
+  imports: [ReactiveFormsModule, MiniCardComponent, NgIf, AsyncPipe],
   templateUrl: './form-request.component.html',
   styleUrl: './form-request.component.scss'
 })
 export class FormRequestComponent implements OnInit, OnDestroy {
 
-  // house$!: Observable<House>;
+  house$!: Observable<House>;
   house: House | undefined;
   formRequest: FormGroup;
 
@@ -28,10 +28,8 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     private dataStoreService: DataStoreService,
     private tgSerice: TelegramService) {
 
-    this.dataStoreService.currentHouse$.pipe(
-      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription)).subscribe(house => {
-        this.house = house;
-      })
+    this.house$ = this.dataStoreService.currentHouse$.pipe(
+      filter(house => (house && Object.keys(house).length > 0)));
 
     this.formRequest = this.builder.group({
       dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
@@ -55,10 +53,11 @@ export class FormRequestComponent implements OnInit, OnDestroy {
 
   sumbitForm() {
     let form = this.formRequest.value;
-    if(this.house) {
-      form.house_name = this.house.house_name;
-      form.adress = this.house.adress;
-    }
+
+    this.house$.pipe(takeUntil(this.destroySubscription)).subscribe(house => {
+      form.house_name = house.house_name;
+      form.adress = house.adress;
+    })
 
     const data = JSON.stringify(form);
 
