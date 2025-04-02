@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { hideBackButton, mountBackButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton } from '@telegram-apps/sdk';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
-import { BehaviorSubject, filter, Observable } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, takeUntil, tap } from 'rxjs';
 import { House } from '../../interfaces/house.interface';
 import { MiniCardComponent } from "../../components/mini-card/mini-card.component";
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-request',
-  imports: [ReactiveFormsModule, MiniCardComponent, NgIf, AsyncPipe],
+  imports: [ReactiveFormsModule, MiniCardComponent, NgIf],
   templateUrl: './form-request.component.html',
   styleUrl: './form-request.component.scss'
 })
 export class FormRequestComponent implements OnInit, OnDestroy {
 
-  house!: Observable<House>;
+  // house$!: Observable<House>;
+  house: House | undefined;
   formRequest: FormGroup;
 
   destroySubscription = new BehaviorSubject(true);
@@ -27,9 +28,10 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     private dataStoreService: DataStoreService,
     private tgSerice: TelegramService) {
 
-    this.house = this.dataStoreService.currentHouse$.pipe(
-      filter(house => (house && Object.keys(house).length > 0))
-    );
+    this.dataStoreService.currentHouse$.pipe(
+      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription)).subscribe(house => {
+        this.house = house;
+      })
 
     this.formRequest = this.builder.group({
       dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
@@ -52,7 +54,13 @@ export class FormRequestComponent implements OnInit, OnDestroy {
   }
 
   sumbitForm() {
-    const data = JSON.stringify(this.formRequest.value);
+    let form = this.formRequest.value;
+    if(this.house) {
+      form.house_name = this.house.house_name;
+      form.adress = this.house.adress;
+    }
+
+    const data = JSON.stringify(form);
 
     this.dataStoreService.setCurrentHouse({});
     this.dataStoreService.setCurrentHouseId(0);

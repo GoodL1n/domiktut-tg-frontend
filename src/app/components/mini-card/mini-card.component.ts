@@ -19,7 +19,7 @@ import { AsyncPipe, NgClass, NgFor } from '@angular/common';
   templateUrl: './mini-card.component.html',
   styleUrl: './mini-card.component.scss',
   providers: [CommonService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCardComponent implements OnInit {
   @Input() house!: House;
