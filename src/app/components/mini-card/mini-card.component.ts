@@ -15,11 +15,11 @@ import { AsyncPipe, NgClass, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-mini-card',
-  imports: [EmblaCarouselDirective, NgFor, AsyncPipe],
+  imports: [EmblaCarouselDirective, NgFor, AsyncPipe ],
   templateUrl: './mini-card.component.html',
   styleUrl: './mini-card.component.scss',
   providers: [CommonService],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCardComponent implements OnInit {
   @Input() house!: House;
@@ -44,6 +44,11 @@ export class MiniCardComponent implements OnInit {
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService,
   ) { }
+
+  track(index: number, item: string) {
+    return item;
+  }
+
 
   generateDots() {
     const lengthDots = this.emblaApi?.scrollSnapList().length;
@@ -74,6 +79,8 @@ export class MiniCardComponent implements OnInit {
   ngOnInit() {
     if (this.house.house_photo) {
       this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 3).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
+        console.log('current house imgs', this.house.post_id)
+        console.log(data)
         const array = (data as Array<any>).map(element => {
           return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
         })

@@ -41,7 +41,6 @@ export class CardComponent implements OnInit, OnDestroy {
       }
     });
 
-
     mountMainButton.ifAvailable();
     setMainButtonParams({
       text: 'Оставить заявку',
@@ -57,6 +56,14 @@ export class CardComponent implements OnInit, OnDestroy {
     mountBackButton.ifAvailable();
     showBackButton();
     onBackButtonClick(() => this.router.navigate(['']));
+  }
+
+  routeNext() {
+    this.router.navigate(['../form-request']);
+  }
+
+  routeBack() {
+    this.router.navigate(['']);
   }
 
   ngOnDestroy(): void {

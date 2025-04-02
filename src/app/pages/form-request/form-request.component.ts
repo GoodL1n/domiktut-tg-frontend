@@ -11,14 +11,13 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-request',
-  imports: [ReactiveFormsModule, MiniCardComponent, NgIf, AsyncPipe],
+  imports: [ReactiveFormsModule, MiniCardComponent, NgIf],
   templateUrl: './form-request.component.html',
   styleUrl: './form-request.component.scss'
 })
 export class FormRequestComponent implements OnInit, OnDestroy {
 
   house$!: Observable<House>;
-
   house!: House;
 
   formRequest: FormGroup;
@@ -47,14 +46,19 @@ export class FormRequestComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     mountBackButton.ifAvailable();
     showBackButton();
-    onBackButtonClick(() => this.router.navigate(['card']));
+    onBackButtonClick(() => {
+      if (this.house) {
+        this.router.navigate(['card']);
+      } else {
+        this.router.navigate(['']);
+      }
+    }
+    );
 
-    this.house$ = this.dataStoreService.currentHouse$.pipe(
-      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription));
-
-    this.house$.pipe(takeUntil(this.destroySubscription)).subscribe(data => {
-      this.house = data;
-    })
+    this.dataStoreService.currentHouse$.pipe(
+      filter(house => (house && Object.keys(house).length > 0)), take(1)).subscribe(data => {
+        this.house = data;
+      })
   }
 
   sumbitForm() {

@@ -1,10 +1,8 @@
 <div class="page-request">
     <span class="page-request__title">Оставьте заявку</span>
-    <div class="page-request__selected-house" *ngIf="house$ | async as house">
-        @if (house) {
+    <div class="page-request__selected-house" *ngIf="house">
         <span class="page-request__selected-house-title">Выбранный дом</span>
         <app-mini-card [house]="house" [isOpenInFormRequest]="true"></app-mini-card>
-        }
     </div>
     <form class="page-request__form form" [formGroup]="formRequest">
         <div class="form__row row">
