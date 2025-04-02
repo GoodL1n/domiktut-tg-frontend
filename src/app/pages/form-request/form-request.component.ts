@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { hideBackButton, mountBackButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton } from '@telegram-apps/sdk';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
-import { BehaviorSubject, filter, map, Observable, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, take, takeUntil, tap } from 'rxjs';
 import { House } from '../../interfaces/house.interface';
 import { MiniCardComponent } from "../../components/mini-card/mini-card.component";
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -17,8 +17,10 @@ import { Router } from '@angular/router';
 })
 export class FormRequestComponent implements OnInit, OnDestroy {
 
-  house$ = new BehaviorSubject<House | undefined>(undefined);
-  house: House | undefined;
+  house$!: Observable<House>;
+
+  house!: House;
+
   formRequest: FormGroup;
 
   destroySubscription = new BehaviorSubject(true);
@@ -47,11 +49,12 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     showBackButton();
     onBackButtonClick(() => this.router.navigate(['card']));
 
-    this.dataStoreService.currentHouse$.pipe(
-      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription)).subscribe(data => {
-        this.house = data;
-        this.house$.next(data);
-      });
+    this.house$ = this.dataStoreService.currentHouse$.pipe(
+      filter(house => (house && Object.keys(house).length > 0)), takeUntil(this.destroySubscription));
+
+    this.house$.pipe(takeUntil(this.destroySubscription)).subscribe(data => {
+      this.house = data;
+    })
   }
 
   sumbitForm() {
@@ -69,7 +72,6 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     this.dataStoreService.setCurrentHouseId(0);
 
     this.tgSerice.sendMessage(data).subscribe((data) => {
-      console.log(data)
       this.router.navigate(['../request-success']);
     })
   }
