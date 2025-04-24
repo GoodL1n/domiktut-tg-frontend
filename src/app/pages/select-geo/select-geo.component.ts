@@ -19,5 +19,6 @@ export class SelectGeoComponent {
     this.dataStoreService.setCityId(cityId);
     setCloudStorageItem.ifAvailable('geo', cityId);
     this.router.navigate(['']);
+    
   }
 }
