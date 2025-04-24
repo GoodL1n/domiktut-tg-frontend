@@ -1,29 +1,42 @@
 import { Component } from '@angular/core';
-import { SearchContainerComponent } from "../../components/search-container/search-container.component";
-import { CatalogComponent } from "../../components/catalog/catalog.component";
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Router } from '@angular/router';
+import { AsyncPipe, NgIf, NgStyle } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { LoaderService } from '../../services/loader.service';
-import { AsyncAction } from 'rxjs/internal/scheduler/AsyncAction';
+import { getCloudStorageItem } from '@telegram-apps/sdk';
+import { DataStoreService } from '../../services/data-store.service';
+import { HeaderComponent } from '../../components/header/header.component';
+import { FormRequestComponent } from '../../components/form-request/form-request.component';
 
 @Component({
   selector: 'app-main-page',
-  imports: [NgIf, SearchContainerComponent, CatalogComponent, ScrollingModule, LoaderComponent, AsyncPipe],
+  imports: [ScrollingModule, HeaderComponent, LoaderComponent, FormRequestComponent, AsyncPipe, RouterLink, NgIf],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'
 })
 export class MainPageComponent {
-  isFilterBlock = false;
 
-  constructor(private router: Router, public loaderService: LoaderService) { }
+  isGeoSelected = false;
+  isFormRequest = false;
 
-  changeStatusFilterBlock() {
-    this.isFilterBlock = !this.isFilterBlock;
+  constructor(
+    private router: Router,
+    public loaderService: LoaderService,
+    private dataStoreService: DataStoreService
+  ) {
+    this.loaderService.setIsLoading(true);
   }
 
-  routerToRequest() {
-    this.router.navigate(['form-request']);
+  async ngOnInit() {
+    if (getCloudStorageItem.isAvailable()) {
+      const geo = await getCloudStorageItem('geo');
+      console.log('geo', geo);
+      this.isGeoSelected =
+        ((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] && (geo['geo'] as string).length > 0);
+      ((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] && (geo['geo'] as string).length > 0) ? this.dataStoreService.setCityId(geo['geo']) : null;
+      this.router.navigate(['select-geo']);
+    }
+    this.loaderService.setIsLoading(false);
   }
 }

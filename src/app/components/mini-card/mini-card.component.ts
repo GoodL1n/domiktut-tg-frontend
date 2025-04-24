@@ -11,11 +11,11 @@ import {
   EmblaCarouselType,
   EmblaEventType
 } from 'embla-carousel-angular'
-import { AsyncPipe, NgClass, NgFor } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-mini-card',
-  imports: [EmblaCarouselDirective, NgFor, AsyncPipe ],
+  imports: [EmblaCarouselDirective, NgFor, AsyncPipe, NgIf],
   templateUrl: './mini-card.component.html',
   styleUrl: './mini-card.component.scss',
   providers: [CommonService],
@@ -30,6 +30,8 @@ export class MiniCardComponent implements OnInit {
   options = {
     loop: true
   }
+
+  isFav = false;
 
   public acountDotSignal = signal<number[]>([]);
   currendDot = 0;

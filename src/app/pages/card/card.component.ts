@@ -4,17 +4,19 @@ import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainBu
 import { House } from '../../interfaces/house.interface';
 import { CommonService } from '../../services/common.service';
 import { LoaderService } from '../../services/loader.service';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { DataStoreService } from '../../services/data-store.service';
 import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { EmblaCarouselDirective, EmblaCarouselType, EmblaEventType } from 'embla-carousel-angular';
-import { H } from '@angular/cdk/keycodes';
+import { HeaderComponent } from '../../components/header/header.component';
+import { FormatTextToNumberPipe } from '../../pipes/format-text-to-number.pipe';
+import { FormRequestComponent } from '../../components/form-request/form-request.component';
 
 @Component({
   selector: 'app-card',
-  imports: [LoaderComponent, AsyncPipe, EmblaCarouselDirective, NgFor],
+  imports: [LoaderComponent, HeaderComponent, FormRequestComponent, AsyncPipe, FormatTextToNumberPipe, EmblaCarouselDirective, NgFor, NgIf],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   providers: [CommonService]
@@ -27,12 +29,16 @@ export class CardComponent implements OnInit, OnDestroy {
     loop: true
   }
 
+  isFav = false;
+
+  isFormRequest = false;
+
   house!: House;
-  minPrice: string = '';
 
   imgs$ = new BehaviorSubject<string[]>([]);
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private commonService: CommonService,
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService,
@@ -71,7 +77,6 @@ export class CardComponent implements OnInit, OnDestroy {
       if (data && data.length > 0) {
         this.house = data[0];
         this.dataStoreService.setCurrentHouse(data[0]);
-        this.minPrice = this.commonService.calcMinPrice(this.house);
       }
     });
 
@@ -97,23 +102,23 @@ export class CardComponent implements OnInit, OnDestroy {
       textColor: '#FFFFFF'
     });
     mainButtonBackgroundColor();
-    onMainButtonClick(() => this.router.navigate(['form-request']));
+    onMainButtonClick(() => this.isFormRequest = true);
 
     mountBackButton.ifAvailable();
     showBackButton();
     onBackButtonClick(() => {
       this.dataStoreService.setCurrentHouse({});
       this.dataStoreService.setCurrentHouseId(0);
-      this.router.navigate(['']);
+      this.router.navigate(['../catalog']);
     });
   }
 
   routeNext() {
-    this.router.navigate(['../form-request']);
+    this.isFormRequest = true;
   }
 
   routeBack() {
-    this.router.navigate(['']);
+    this.router.navigate(['../catalog']);
   }
 
   ngOnDestroy(): void {

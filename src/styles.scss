@@ -1,44 +1,51 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
 }
 
-body, span, h4{
-    border: 0;
-    padding: 0;
-    margin: 0;  
+body,
+span,
+h4 {
+  border: 0;
+  margin: 0;
 }
 
-body{
-    height: 100vh;
+// button {
+//   min-width: 0%;
+//   max-width: 100%;
+//   cursor: pointer;
+//   border: none;
+//   border-radius: 200px;
+//   padding: 10px;
+//   text-align: center;
+//   font-weight: 600;
+//   font-size: 18px;
+//   line-height: 150%;
+//   font-size: 18px;
+//   background: #f4683f;
+//   color: #fff;
+// }
+
+html,
+body {
+  height: 100%;
 }
 
-button{
-    min-width: 0%;
-    max-width: 100%;
-    cursor: pointer;
-    border: none;
-    border-radius: 200px;
-    padding: 10px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 150%;
-    font-size: 18px;
-    background: #f4683f;
-    color: #fff;
+body {
+  background-image: url('assets/background-photo.png');
+  background-repeat: round;
+  font-family: Montserrat;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

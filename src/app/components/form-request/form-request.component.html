@@ -1,0 +1,98 @@
+<div class="page-request">
+    <button class="page-request__close" (click)="close()">
+        <svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M4.11719 1.02832C4.26745 0.918439 4.47253 0.936578 4.60449 1.08301L4.64941 1.14258C4.74065 1.28979 4.73767 1.48596 4.6416 1.62988L4.63965 1.63281L4.60645 1.6748L4.60449 1.67773L1.88379 4.69531L4.60449 7.71289L4.64941 7.77344C4.74052 7.92071 4.73778 8.11689 4.6416 8.26074L4.63965 8.2627L4.60645 8.30566L4.60449 8.30859L4.60352 8.30762C4.46679 8.45916 4.25149 8.47439 4.09961 8.34961L4.09668 8.34766L4.12695 8.31641L4.09668 8.34668L4.05859 8.31055L4.05664 8.30859L4.08789 8.2793L4.05664 8.30762L1.06836 4.99316C0.933183 4.84317 0.921286 4.60984 1.03125 4.44531L1.0332 4.44336L1.06641 4.40039L1.06836 4.39746L4.05664 1.08301L4.11719 1.02832Z"
+                fill="white" stroke="white" stroke-width="0.0854865" />
+        </svg>
+    </button>
+    <span class="page-request__title">Оставьте заявку на подбор и сократите свое время на поиск</span>
+    <div class="page-request__selected-house" *ngIf="house">
+        <span class="page-request__selected-house-title">Выбранный дом</span>
+        <app-mini-card [house]="house" [isOpenInFormRequest]="true"></app-mini-card>
+    </div>
+    <form class="page-request__form form" [formGroup]="formRequest">
+        <div class="form__block block">
+            <span class="block__title">Информация</span>
+            <div class="block__body">
+                <div class="block__row">
+                    <div class="block__input">
+                        <input type="tel" id="dateOfArrival" formControlName="dateOfArrival" placeholder="01.03">
+                        <label for="dateOfArrival">Дата заезда</label>
+                    </div>
+                    <div *ngIf="formRequestControl['dateOfArrival'].touched && formRequestControl['dateOfArrival'].errors?.['pattern']"
+                        class="block__error">
+                        Допустимый формат 'дд.мм'</div>
+                </div>
+                <div class="block__row">
+                    <div class="block__input">
+                        <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture" placeholder="02.03">
+                        <label for="dateOfDeparture">Дата выезда</label>
+                    </div>
+                    <div *ngIf="formRequestControl['dateOfDeparture'].touched && formRequestControl['dateOfDeparture'].errors?.['pattern']"
+                        class="block__error">
+                        Допустимый формат 'дд.мм'</div>
+                </div>
+                <div class="block__row">
+                    <div class="block__input">
+                        <input type="tel" id="quanitityOfPeople" formControlName="quanitityOfPeople" placeholder="0">
+                        <label for="quanitityOfPeople">Кол-во человек</label>
+                    </div>
+                    <div *ngIf="formRequestControl['quanitityOfPeople'].touched && (formRequestControl['quanitityOfPeople'].errors?.['min'] || formRequestControl['quanitityOfPeople'].errors?.['max'])"
+                        class="block__error">
+                        Недопустимое значение</div>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <span class="block__title">Ваши данные</span>
+            <div class="block__body">
+                <div class="block__row">
+                    <div class="block__input">
+                        <input type="text" id="name" formControlName="name" placeholder="Имя" required>
+                        <label for="name">Ваше имя</label>
+                    </div>
+                    <div *ngIf="formRequestControl['name'].touched && formRequestControl['name'].errors?.['pattern']"
+                        class="block__error">
+                        Недопустимое значение</div>
+                    <div *ngIf="formRequestControl['name'].touched && formRequestControl['name'].errors?.['required']"
+                        class="block__error">
+                        Обязательное поле</div>
+                </div>
+                <div class="block__row">
+                    <div class="block__input">
+                        <input type="tel" id="phone" formControlName="phone" placeholder="71234567890"
+                            pattern="[0-9]{1}[0-9]{3}[0-9]{3}[0-9]{4}">
+                        <label for="phone">Телефон</label>
+                    </div>
+                    <div *ngIf="formRequestControl['phone'].touched && formRequestControl['phone'].errors?.['pattern']"
+                        class="block__error">
+                        Недопустимый формат, пример: 71234567890</div>
+                </div>
+                <div class="block__row">
+                    <div class="block__input">
+                        <input type="tel" id="telegram" formControlName="telegram" placeholder="@username">
+                        <label for="telegram">Телеграм</label>
+                    </div>
+                    <div *ngIf="formRequestControl['telegram'].touched && formRequestControl['telegram'].errors?.['pattern']"
+                        class="block__error">
+                        Недопустимый формат</div>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="block__body">
+                <div class="block__header">
+                    <span class="block__title-medium">Ваши критерии к дому</span>
+                    <span class="block__title-mini">чем конкретнее, тем лучше</span>
+                </div>
+                <textarea rows="6" type="text" id="name"
+                    placeholder="С басссеином,
+                    гамаком"></textarea>
+            </div>
+        </div>
+        <div class="form-btns">
+            <button class="page-request__request-btn" type="button" (click)="sumbitForm()">Оставить заявку</button>
+        </div>
+    </form>
+</div>

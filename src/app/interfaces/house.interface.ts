@@ -1,5 +1,5 @@
 export interface House {
-	post_id?:number;
+	post_id?: number;
 	house_name?: string;
 	adress?: string;
 	location?: string;
@@ -31,4 +31,6 @@ export interface House {
 	waterpool_catalog?: string;
 	entertainment_catalog?: string;
 	house_photo?: string;
+	video?: string;
+	rating?: string;
 }

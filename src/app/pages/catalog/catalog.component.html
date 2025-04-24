@@ -1,0 +1,15 @@
+<div class="catalog">
+    <app-header></app-header>
+    <!-- <app-search-container *ngIf="!isCollection"></app-search-container> -->
+    <span class = "catalog__title" *ngIf="isCollection">
+        Подборка домов с бассейном
+    </span>
+    @if (houses$ | async) {
+    <cdk-virtual-scroll-viewport appendOnly [itemSize]="150" scrollWindow>
+        <div class="catalog__list">
+            <app-mini-card *cdkVirtualFor="let house of houses$ | async; trackBy: track"
+                [house]="house"></app-mini-card>
+        </div>
+    </cdk-virtual-scroll-viewport>
+    }
+</div>

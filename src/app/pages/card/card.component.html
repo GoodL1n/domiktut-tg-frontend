@@ -2,15 +2,7 @@
 <app-loader></app-loader>
 }
 <div class="card">
-    <div class="card__header header">
-        <div class="header__text">
-            <span class="header__title">{{house.house_name}}</span>
-            <span class="header__address">{{house.adress}}</span>
-        </div>
-        <div class="header__price">
-            от {{minPrice}} ₽
-        </div>
-    </div>
+    <app-header></app-header>
     <div class="card__image">
         <div class="embla" emblaCarousel [options]="options" [subscribeToEvents]="['init', 'reInit', 'scroll']"
             (emblaChange)="onEmblaChanged($event)">
@@ -33,9 +25,71 @@
         </div>
     </div>
     <div class="card__body">
-        <div class="body__container container">
+        <div class="container header">
+            <div class="header__info">
+                <span class="header__title">{{house.house_name}}</span>
+            </div>
+            <div class="header__actions">
+                <button class="header__favourite" [style.background]="isFav ? '#F6F6F6' : '#FE680A'"
+                    (click)="isFav = !isFav; $event.stopPropagation()">
+
+                    <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        *ngIf="!isFav">
+                        <mask id="path-1-inside-1_89_551" fill="white">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M2.51658 12.003L13.176 22.6624L13.1761 22.6623L13.1761 22.6624L23.8355 12.003C26.5115 9.32704 26.5115 4.98851 23.8355 2.31259C21.1596 -0.363339 16.8211 -0.363339 14.1451 2.31259L13.1761 3.28168L12.207 2.31258C9.53103 -0.363341 5.1925 -0.363339 2.51658 2.31259C-0.159347 4.98851 -0.159346 9.32704 2.51658 12.003Z" />
+                        </mask>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M2.51658 12.003L13.176 22.6624L13.1761 22.6623L13.1761 22.6624L23.8355 12.003C26.5115 9.32704 26.5115 4.98851 23.8355 2.31259C21.1596 -0.363339 16.8211 -0.363339 14.1451 2.31259L13.1761 3.28168L12.207 2.31258C9.53103 -0.363341 5.1925 -0.363339 2.51658 2.31259C-0.159347 4.98851 -0.159346 9.32704 2.51658 12.003Z"
+                            fill="white" />
+                        <path
+                            d="M13.176 22.6624L12.0132 23.8252L13.176 24.9881L14.3388 23.8252L13.176 22.6624ZM2.51658 12.003L1.35373 13.1658L2.51658 12.003ZM13.1761 22.6623L14.3389 21.4995L13.1761 20.3366L12.0132 21.4995L13.1761 22.6623ZM13.1761 22.6624L12.0133 23.8252L13.1761 24.9881L14.339 23.8252L13.1761 22.6624ZM23.8355 12.003L24.9984 13.1658L23.8355 12.003ZM13.1761 3.28168L12.0132 4.44452L13.1761 5.60737L14.3389 4.44452L13.1761 3.28168ZM12.207 2.31258L13.3698 1.14974L13.3698 1.14974L12.207 2.31258ZM2.51658 2.31259L3.67942 3.47543L2.51658 2.31259ZM14.3388 21.4995L3.67942 10.8401L1.35373 13.1658L12.0132 23.8252L14.3388 21.4995ZM12.0132 21.4995L12.0132 21.4995L14.3388 23.8252L14.3389 23.8252L12.0132 21.4995ZM14.339 21.4995L14.3389 21.4995L12.0132 23.8252L12.0133 23.8252L14.339 21.4995ZM22.6727 10.8401L12.0133 21.4995L14.339 23.8252L24.9984 13.1658L22.6727 10.8401ZM22.6727 3.47543C24.7064 5.50913 24.7064 8.80642 22.6727 10.8401L24.9984 13.1658C28.3165 9.84766 28.3165 4.46789 24.9984 1.14974L22.6727 3.47543ZM15.308 3.47543C17.3417 1.44173 20.639 1.44173 22.6727 3.47543L24.9984 1.14974C21.6802 -2.16841 16.3004 -2.16841 12.9823 1.14974L15.308 3.47543ZM14.3389 4.44452L15.308 3.47543L12.9823 1.14974L12.0132 2.11883L14.3389 4.44452ZM11.0441 3.47543L12.0132 4.44452L14.3389 2.11883L13.3698 1.14974L11.0441 3.47543ZM3.67942 3.47543C5.71313 1.44173 9.01041 1.44173 11.0441 3.47543L13.3698 1.14974C10.0517 -2.16841 4.67188 -2.16841 1.35373 1.14974L3.67942 3.47543ZM3.67942 10.8401C1.64572 8.80642 1.64572 5.50913 3.67942 3.47543L1.35373 1.14974C-1.96441 4.46789 -1.96441 9.84767 1.35373 13.1658L3.67942 10.8401Z"
+                            fill="#282727" mask="url(#path-1-inside-1_89_551)" />
+                    </svg>
+
+                    <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        *ngIf="isFav">
+                        <mask id="path-1-inside-1_89_433" fill="white">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M2.51658 11.907L13.176 22.5664L13.1761 22.5664L13.1761 22.5664L23.8355 11.907C26.5115 9.23106 26.5115 4.89253 23.8355 2.21661C21.1596 -0.459317 16.8211 -0.459317 14.1451 2.21661L13.1761 3.1857L12.207 2.2166C9.53103 -0.459319 5.1925 -0.459317 2.51658 2.21661C-0.159347 4.89253 -0.159346 9.23107 2.51658 11.907Z" />
+                        </mask>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M2.51658 11.907L13.176 22.5664L13.1761 22.5664L13.1761 22.5664L23.8355 11.907C26.5115 9.23106 26.5115 4.89253 23.8355 2.21661C21.1596 -0.459317 16.8211 -0.459317 14.1451 2.21661L13.1761 3.1857L12.207 2.2166C9.53103 -0.459319 5.1925 -0.459317 2.51658 2.21661C-0.159347 4.89253 -0.159346 9.23107 2.51658 11.907Z"
+                            fill="#FE680A" />
+                        <path
+                            d="M13.176 22.5664L12.0132 23.7293L13.176 24.8921L14.3388 23.7293L13.176 22.5664ZM2.51658 11.907L1.35373 13.0698L2.51658 11.907ZM13.1761 22.5664L14.3389 21.4035L13.1761 20.2407L12.0132 21.4035L13.1761 22.5664ZM13.1761 22.5664L12.0133 23.7293L13.1761 24.8921L14.339 23.7293L13.1761 22.5664ZM23.8355 11.907L24.9984 13.0698L23.8355 11.907ZM14.1451 2.21661L12.9823 1.05376L14.1451 2.21661ZM13.1761 3.1857L12.0132 4.34855L13.1761 5.51139L14.3389 4.34855L13.1761 3.1857ZM12.207 2.2166L13.3698 1.05376L13.3698 1.05376L12.207 2.2166ZM2.51658 2.21661L3.67942 3.37945L2.51658 2.21661ZM14.3388 21.4036L3.67942 10.7441L1.35373 13.0698L12.0132 23.7293L14.3388 21.4036ZM12.0132 21.4035L12.0132 21.4036L14.3388 23.7293L14.3389 23.7292L12.0132 21.4035ZM14.339 21.4036L14.3389 21.4035L12.0132 23.7292L12.0133 23.7293L14.339 21.4036ZM22.6727 10.7441L12.0133 21.4036L14.339 23.7293L24.9984 13.0698L22.6727 10.7441ZM22.6727 3.37945C24.7064 5.41316 24.7064 8.71044 22.6727 10.7441L24.9984 13.0698C28.3165 9.75169 28.3165 4.37191 24.9984 1.05376L22.6727 3.37945ZM15.308 3.37945C17.3417 1.34575 20.639 1.34575 22.6727 3.37945L24.9984 1.05376C21.6802 -2.26438 16.3004 -2.26439 12.9823 1.05376L15.308 3.37945ZM14.3389 4.34855L15.308 3.37945L12.9823 1.05376L12.0132 2.02285L14.3389 4.34855ZM11.0441 3.37945L12.0132 4.34855L14.3389 2.02286L13.3698 1.05376L11.0441 3.37945ZM3.67942 3.37945C5.71313 1.34575 9.01041 1.34575 11.0441 3.37945L13.3698 1.05376C10.0517 -2.26439 4.67188 -2.26438 1.35373 1.05376L3.67942 3.37945ZM3.67942 10.7441C1.64572 8.71044 1.64572 5.41316 3.67942 3.37945L1.35373 1.05376C-1.96441 4.37191 -1.96441 9.75169 1.35373 13.0698L3.67942 10.7441Z"
+                            fill="#282727" mask="url(#path-1-inside-1_89_433)" />
+                    </svg>
+
+                </button>
+            </div>
+        </div>
+        <div class="container" style="flex-direction: row; gap: 10px;">
+            <div class="bedroom-info">
+                <div class = "bedroom-info__bedrooms">
+                    <span class="bedroom-info__title">кол-во комнат</span>
+                    <span class="bedroom-info__value">{{house.number_of_bedrooms | formatTextToNumber}}</span>
+                </div>
+                <div class = "bedroom-info__bedrooms">
+                    <span class="bedroom-info__value">{{house.number_of_beds  | formatTextToNumber}}</span>
+                    <span class="bedroom-info__title" style="text-align: right;">Кол-во спальных мест</span>
+                </div>
+            </div>
+            <div class="house-area">
+                <span class = "house-area__title">площадь</span>
+                <div class = "house-area__row">
+                    <span class="house-area__title2">дом</span>
+                    <span class="house-area__value">{{house.area}}</span>
+                </div>
+                <div class = "house-area__row">
+                    <span class="house-area__title2">участок</span>
+                    <span class="house-area__value">{{house.land_area}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
             <span class="container__title">Стоимость</span>
-            <div class="container__price">
+            <div class = "price-list">
                 <div class="price">
                     <span class="price__title">Будни</span>
                     <span class="price__value">{{house.weekday_price}} ₽</span>
@@ -52,81 +106,24 @@
                     <span class="price__title">Воскресенье</span>
                     <span class="price__value">{{house.sunday_price}} ₽</span>
                 </div>
-                <div class="price">
-                    <span class="price__title">Новый год</span>
-                    <span class="price__value">{{house.new_year_price}} ₽</span>
-                </div>
-                <div class="price">
-                    <span class="price__title">Залог</span>
-                    <span class="price__value">{{house.deposit}} ₽</span>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <span class="container__title">Информация о доме</span>
-            <div class="container__info">
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="M16.612 2.214a1.01 1.01 0 0 0-1.242 0L1 13.419l1.243 1.572L4 13.621V26a2.004 2.004 0 0 0 2 2h20a2.004 2.004 0 0 0 2-2V13.63L29.757 15L31 13.428ZM18 26h-4v-8h4Zm2 0v-8a2.002 2.002 0 0 0-2-2h-4a2.002 2.002 0 0 0-2 2v8H6V12.062l10-7.79l10 7.8V26Z" />
-                    </svg>
-                    <span class="info__value">{{house.type_of_house}}</span>
-                </div>
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="M28 2H4c-1.1 0-2 .9-2 2v24c0 1.1.9 2 2 2h15v-2c0-2.8 2.2-5 5-5v-2c-3.9 0-7 3.1-7 7h-3v-4h-2v4H4V4h8v14h2v-5h4v-2h-4V4h14v7h-4v2h4v15h-4v2h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2" />
-                    </svg>
-                    <span class="info__value">{{house.floors}}</span>
-                </div>
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="m31 29.586l-4.688-4.688a8.028 8.028 0 1 0-1.415 1.414L29.586 31zM20 26a6 6 0 1 1 6-6a6.007 6.007 0 0 1-6 6M8 26H4a2.002 2.002 0 0 1-2-2v-4h2v4h4zM2 12h2v4H2zm24-4h-2V4h-4V2h4a2.002 2.002 0 0 1 2 2zM12 2h4v2h-4zM4 8H2V4a2.002 2.002 0 0 1 2-2h4v2H4z" />
-                    </svg>
-                    <span class="info__value">{{house.area}}</span>
-                </div>
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="M27 22.142V9.858A3.992 3.992 0 1 0 22.142 5H9.858A3.992 3.992 0 1 0 5 9.858v12.284A3.992 3.992 0 1 0 9.858 27h12.284A3.992 3.992 0 1 0 27 22.142M26 4a2 2 0 1 1-2 2a2.002 2.002 0 0 1 2-2M4 6a2 2 0 1 1 2 2a2.002 2.002 0 0 1-2-2m2 22a2 2 0 1 1 2-2a2.002 2.002 0 0 1-2 2m16.142-3H9.858A3.994 3.994 0 0 0 7 22.142V9.858A3.995 3.995 0 0 0 9.858 7h12.284A3.994 3.994 0 0 0 25 9.858v12.284A3.993 3.993 0 0 0 22.142 25M26 28a2 2 0 1 1 2-2a2.003 2.003 0 0 1-2 2" />
-                    </svg>
-                    <span class="info__value">{{house.land_area}}</span>
-                </div>
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="M9.5 15A1.5 1.5 0 1 1 8 16.5A1.5 1.5 0 0 1 9.5 15m0-2a3.5 3.5 0 1 0 3.5 3.5A3.5 3.5 0 0 0 9.5 13" />
-                        <path fill="#f4683f"
-                            d="M25 14h-8a2 2 0 0 0-2 2v6H4V10.6l12-6.46l12.53 6.74l.94-1.76l-13-7a1 1 0 0 0-.94 0l-13 7A1 1 0 0 0 2 10v20h2v-6h24v6h2V19a5 5 0 0 0-5-5m-8 8v-6h8a3 3 0 0 1 3 3v3Z" />
-                    </svg>
-                    <span class="info__value">{{house.number_of_beds}}</span>
-                </div>
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="M9.5 15A1.5 1.5 0 1 1 8 16.5A1.5 1.5 0 0 1 9.5 15m0-2a3.5 3.5 0 1 0 3.5 3.5A3.5 3.5 0 0 0 9.5 13" />
-                        <path fill="#f4683f"
-                            d="M25 14h-8a2 2 0 0 0-2 2v6H4V10.6l12-6.46l12.53 6.74l.94-1.76l-13-7a1 1 0 0 0-.94 0l-13 7A1 1 0 0 0 2 10v20h2v-6h24v6h2V19a5 5 0 0 0-5-5m-8 8v-6h8a3 3 0 0 1 3 3v3Z" />
-                    </svg>
-                    <span class="info__value">{{house.number_of_bedrooms}}</span>
-                </div>
-                <div class="info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <path fill="#f4683f"
-                            d="M26 14h-2v2h2a3.003 3.003 0 0 1 3 3v4h2v-4a5.006 5.006 0 0 0-5-5M24 4a3 3 0 1 1-3 3a3 3 0 0 1 3-3m0-2a5 5 0 1 0 5 5a5 5 0 0 0-5-5m-1 28h-2v-2a3.003 3.003 0 0 0-3-3h-4a3.003 3.003 0 0 0-3 3v2H9v-2a5.006 5.006 0 0 1 5-5h4a5.006 5.006 0 0 1 5 5zm-7-17a3 3 0 1 1-3 3a3 3 0 0 1 3-3m0-2a5 5 0 1 0 5 5a5 5 0 0 0-5-5m-8 3H6a5.006 5.006 0 0 0-5 5v4h2v-4a3.003 3.003 0 0 1 3-3h2zM8 4a3 3 0 1 1-3 3a3 3 0 0 1 3-3m0-2a5 5 0 1 0 5 5a5 5 0 0 0-5-5" />
-                    </svg>
-                    <span class="info__value">до {{house.number_of_people}} человек</span>
-                </div>
             </div>
         </div>
         <div class="container">
             <span class="container__title">Описание</span>
-            <div class="container__value">
-                {{house.description}}
-            </div>
+            <p>{{house.description}}</p>
+        </div>
+        <div class="container">
+            <span class="container__title">Дополнительные платы</span>
+            <p>{{house.additional_fees}}</p>
+        </div>
+        <div class="container">
+            <span class="container__title">Важная информация</span>
+            <p>{{house.important_information}}</p>
         </div>
     </div>
-    <!-- <button (click)="routeBack()">back</button>
-    <button (click)="routeNext()">next</button> -->
+    <button (click)="routeBack()">back</button>
+    <button (click)="routeNext()">next</button>
+</div>
+<div class="form-request" *ngIf="isFormRequest">
+    <app-form-request (closeForm)="isFormRequest = false"></app-form-request>
 </div>

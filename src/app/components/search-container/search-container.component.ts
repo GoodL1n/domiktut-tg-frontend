@@ -3,9 +3,10 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { DataStoreService } from '../../services/data-store.service';
-import { debounceTime, distinctUntilChanged, filter, fromEvent, map, Observable, startWith, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, fromEvent, map, Observable, startWith, switchMap, take } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { House } from '../../interfaces/house.interface';
+import { Router } from '@angular/router';
 
 const type_houses = [
   {
@@ -47,7 +48,9 @@ const type_houses = [
   styleUrl: './search-container.component.scss'
 })
 export class SearchContainerComponent implements OnInit {
-  @Output() closeSearchContainer = new EventEmitter<void>;
+  
+  isFilters: boolean = false;
+  isSearchInput: boolean = false;
 
   type_houses = type_houses;
 
@@ -64,16 +67,18 @@ export class SearchContainerComponent implements OnInit {
 
   constructor(private builder: FormBuilder,
     private wordpressIntegrationService: WordpressIntegrationService,
-    private dataStoreService: DataStoreService
+    private dataStoreService: DataStoreService,
+    private router: Router
   ) {
     this.formFilters = this.builder.group({
-      date_of_arrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
-      date_of_departure: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      // date_of_arrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      // date_of_departure: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
       number_of_people: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
-      min_price: [0, [Validators.min(0), Validators.max(1000000)]],
-      max_price: [null, [Validators.min(0), Validators.max(1000000)]],
+      // min_price: [0, [Validators.min(0), Validators.max(1000000)]],
+      // max_price: [null, [Validators.min(0), Validators.max(1000000)]],
+      pool: null
       // type_of_house: new FormArray([])
     });
   }
@@ -86,6 +91,7 @@ export class SearchContainerComponent implements OnInit {
       distinctUntilChanged(),
       startWith(''),
       switchMap((value) => {
+        console.log('222')
         const filterValue = this._normalizeValue(value || '');
         return this.houses$.pipe(
           map(val => val.filter(v => this._normalizeValue(v.house_name || '').includes(filterValue)))
@@ -94,48 +100,28 @@ export class SearchContainerComponent implements OnInit {
     );
   }
 
+  applySearchInput() {
+    console.log(123)
+    // this.filteredHouses$.pipe(take(1)).subscribe(data => { console.log(data); this.dataStoreService.setHouses(data) });
+  }
+
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
-  onCheckChange(event: any) {
-    const formArray: FormArray = this.formFilters.get('typeHouses') as FormArray;
-
-    /* Selected */
-    if (event.target.checked) {
-      // Add a new control in the arrayForm
-      formArray.push(new FormControl(event.target.value));
-    }
-    /* unselected */
-    else {
-      // find the unselected element
-      let i = 0;
-
-      formArray.controls.forEach((ctrl) => {
-        if (ctrl.value == event.target.value) {
-          // Remove the unselected element from the arrayForm
-          formArray.removeAt(i);
-          return;
-        }
-
-        i++;
-      });
-    }
+  routerToRequest() {
+    this.router.navigate(['form-request']);
   }
 
   sumbitForm() {
     console.log('formFilters', this.formFilters.value)
-    this.wordpressIntegrationService.getHousesByFilter(this.formFilters.value).subscribe(data => {
-      this.dataStoreService.setHouses(data);
-    });
+    // this.wordpressIntegrationService.getHousesByFilter(this.formFilters.value).subscribe(data => {
+    //   this.dataStoreService.setHouses(data);
+    // });
   }
 
   clearForm() {
     this.dataStoreService.updatedMainStore();
     this.formFilters.reset();
-  }
-
-  close() {
-    this.closeSearchContainer.emit();
   }
 }

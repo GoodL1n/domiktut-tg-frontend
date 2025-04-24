@@ -1,8 +1,8 @@
-::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible{
+::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
   background: white !important;
 }
 
-::ng-deep .mat-mdc-autocomplete-panel{
+::ng-deep .mat-mdc-autocomplete-panel {
   border: 1px solid #eeeeee !important;
   border-radius: 20px !important;
 }
@@ -21,6 +21,8 @@ input {
 
 input[type="checkbox"] {
   accent-color: #f4683f;
+  height: 18px;
+  width: 18px;
 }
 
 label {
@@ -34,30 +36,48 @@ label {
 
 .search-container {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  width: 100%;
-  border: 1px solid #eeeeee;
-  border-radius: 20px;
+  // padding: 10px;
 
-  &__close {
-    padding: 10px 10px 0 0;
+  &__unfilter {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  &__request-btn {
+    width: 100%;
+  }
+
+  &__search-button {
+    display: flex;
     cursor: pointer;
+    border: 1px solid #eeeeee;
+    border-radius: 20px;
+    padding: 5px;
+    background: #f4683f;
 
     svg {
-      border-radius: 200px;
-      background: #f4683f;
       color: #fff;
     }
+  }
+
+  &__open-filter {
+    display: flex;
+    cursor: pointer;
+    border: 1px solid #eeeeee;
+    border-radius: 20px;
+    padding: 5px;
   }
 }
 
 .search {
   position: relative;
   display: flex;
-  padding: 10px;
+  width: 100%;
 
   &__icon {
     position: absolute;
@@ -76,15 +96,65 @@ label {
     padding: 10px 10px 10px 35px;
     font-size: 17px;
   }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      border-radius: 20px;
+      background: #f4683f;
+      color: #fff;
+    }
+  }
 }
 
 .filters {
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid #eeeeee;
-  padding: 10px;
-  gap: 15px;
+  width: 100%;
+  border: 1px solid #eeeeee;
+  border-radius: 20px;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+  }
+
+  &__title {
+    width: 100%;
+    text-align: center;
+  }
+
+  &__close {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+
+    svg {
+      border-radius: 20px;
+      background: #f4683f;
+      color: #fff;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px;
+    gap: 15px;
+  }
 
   input {
     padding: 10px;

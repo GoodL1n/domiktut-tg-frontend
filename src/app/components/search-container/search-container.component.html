@@ -1,60 +1,85 @@
 <div class="search-container">
-    <div class="search-container__close" (click)="close()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-            <path fill="currentColor"
-                d="M17.414 16L24 9.414L22.586 8L16 14.586L9.414 8L8 9.414L14.586 16L8 22.586L9.414 24L16 17.414L22.586 24L24 22.586z" />
-        </svg>
-    </div>
-    <div class="search-container__search search">
-        <div class="search__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                class="tabler-icon tabler-icon-search">
-                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                <path d="M21 21l-6 -6"></path>
+    <div class="search-container__unfilter">
+        <button class="search-container__request-btn" *ngIf="!isSearchInput" (click)="routerToRequest()">Заявка на
+            подбор дома</button>
+        <div class="search-container__search search" *ngIf="isSearchInput">
+            <div class="search__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    class="tabler-icon tabler-icon-search">
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                    <path d="M21 21l-6 -6"></path>
+                </svg>
+            </div>
+
+            <input class="search__input" type="text" placeholder="Поиск" [formControl]="searchInputControl"
+                [matAutocomplete]="auto" (keyup.enter)="applySearchInput()">
+            <mat-autocomplete #auto="matAutocomplete">
+                @for (house of filteredHouses$ | async; track house) {
+                <mat-option [value]="house.house_name">{{house.house_name}}</mat-option>
+                }
+            </mat-autocomplete>
+
+            <div class="search__close" (click)="isSearchInput = !isSearchInput">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <path fill="currentColor"
+                        d="M17.414 16L24 9.414L22.586 8L16 14.586L9.414 8L8 9.414L14.586 16L8 22.586L9.414 24L16 17.414L22.586 24L24 22.586z" />
+                </svg>
+            </div>
+        </div>
+        <div class="search-container__search-button" *ngIf="!isSearchInput" (click)="isSearchInput = !isSearchInput">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <path fill="currentColor"
+                    d="m29 27.586l-7.552-7.552a11.018 11.018 0 1 0-1.414 1.414L27.586 29ZM4 13a9 9 0 1 1 9 9a9.01 9.01 0 0 1-9-9" />
             </svg>
         </div>
-
-        <input class="search__input" type="text" placeholder="Поиск" [formControl]="searchInputControl"
-            [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-            @for (house of filteredHouses$ | async; track house) {
-                <mat-option [value]="house.house_name">{{house.house_name}}</mat-option>
-            }
-        </mat-autocomplete>
+        <div class="search-container__open-filter" (click)="isFilters = !isFilters">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <path fill="currentColor"
+                    d="M28 14.005h-1v-12h-2v12h-1a2.002 2.002 0 0 0-2 2v2a2.002 2.002 0 0 0 2 2h1v10h2v-10h1a2.003 2.003 0 0 0 2-2v-2a2.002 2.002 0 0 0-2-2m0 4h-4v-2h4zm-10-12h-1v-4h-2v4h-1a2.002 2.002 0 0 0-2 2v2a2.002 2.002 0 0 0 2 2h1v18h2v-18h1a2.002 2.002 0 0 0 2-2v-2a2.002 2.002 0 0 0-2-2m0 4h-4v-2h4zm-10 10H7v-18H5v18H4a2.002 2.002 0 0 0-2 2v2a2.002 2.002 0 0 0 2 2h1v4h2v-4h1a2.002 2.002 0 0 0 2-2v-2a2.002 2.002 0 0 0-2-2m0 4H4v-2h4z" />
+            </svg>
+        </div>
     </div>
-    <form class="filters" [formGroup]="formFilters">
-        <div class="filters__row row">
-            <span class="row__title">Даты заезда и выезда</span>
-            <div class="row__body">
-                <div class="row__input">
-                    <label for="dateOfArrival">Дата заезда</label>
-                    <input type="tel" id="dateOfArrival" formControlName="date_of_arrival" placeholder="01.03">
-                    <div *ngIf="formFiltersConrols['date_of_arrival'].touched && formFiltersConrols['date_of_arrival'].errors?.['pattern']"
-                        class="row__error">
-                        Допустимый формат 'дд.мм'</div>
+    <div class="search-container__filters filters" *ngIf="isFilters">
+        <!-- <div class="filters__header">
+            <div class="filters__title">Фильтры</div>
+            <div class="filters__close" (click)="isFilters = !isFilters">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <path fill="currentColor"
+                        d="M17.414 16L24 9.414L22.586 8L16 14.586L9.414 8L8 9.414L14.586 16L8 22.586L9.414 24L16 17.414L22.586 24L24 22.586z" />
+                </svg>
+            </div>
+        </div> -->
+        <form class="filters__form" [formGroup]="formFilters">
+            <!-- <div class="filters__row row">
+                <span class="row__title">Даты заезда и выезда</span>
+                <div class="row__body">
+                    <div class="row__input">
+                        <label for="dateOfArrival">Дата заезда</label>
+                        <input type="tel" id="dateOfArrival" formControlName="date_of_arrival" placeholder="01.03">
+                        <div *ngIf="formFiltersConrols['date_of_arrival'].touched && formFiltersConrols['date_of_arrival'].errors?.['pattern']"
+                            class="row__error">
+                            Допустимый формат 'дд.мм'</div>
+                    </div>
+                    <div class="row__input">
+                        <label for="dateOfDeparture">Дата выезда</label>
+                        <input type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="02.03">
+                        <div *ngIf="formFiltersConrols['date_of_departure'].touched && formFiltersConrols['date_of_departure'].errors?.['pattern']"
+                            class="row__error">
+                            Допустимый формат 'дд.мм'</div>
+                    </div>
                 </div>
+            </div> -->
+            <div class="filters__row row">
                 <div class="row__input">
-                    <label for="dateOfDeparture">Дата выезда</label>
-                    <input type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="02.03">
-                    <div *ngIf="formFiltersConrols['date_of_departure'].touched && formFiltersConrols['date_of_departure'].errors?.['pattern']"
+                    <label for="number_of_people">Кол-во человек</label>
+                    <input type="number" id="number_of_people" formControlName="number_of_people" placeholder="0">
+                    <div *ngIf="formFiltersConrols['number_of_people'].touched && (formFiltersConrols['number_of_people'].errors?.['min'] || formFiltersConrols['number_of_people'].errors?.['max'])"
                         class="row__error">
-                        Допустимый формат 'дд.мм'</div>
+                        Недопустимое значение</div>
                 </div>
             </div>
-        </div>
-        <div class="filters__row row">
-            <div class="row__input">
-                <label for="number_of_people">Кол-во человек</label>
-                <input type="number" id="number_of_people" formControlName="number_of_people" placeholder="0">
-                <div *ngIf="formFiltersConrols['number_of_people'].touched && (formFiltersConrols['number_of_people'].errors?.['min'] || formFiltersConrols['number_of_people'].errors?.['max'])"
-                    class="row__error">
-                    Недопустимое значение</div>
-            </div>
-        </div>
-        <div class="filters__row row">
-            <span class="row__title">Спальни и спальные места</span>
-            <div class="row__body">
+            <div class="filters__row row">
                 <div class="row__input">
                     <label for="number_of_beds">Кол-во спальных мест</label>
                     <input type="number" id="number_of_beds" formControlName="number_of_beds" placeholder="0">
@@ -62,6 +87,8 @@
                         class="row__error">
                         Недопустимое значение</div>
                 </div>
+            </div>
+            <div class="filters__row row">
                 <div class="row__input">
                     <label for="number_of_bedrooms">Кол-во спален</label>
                     <input type="number" id="number_of_bedrooms" formControlName="number_of_bedrooms" placeholder="0">
@@ -70,39 +97,45 @@
                         Недопустимое значение</div>
                 </div>
             </div>
-        </div>
-        <!-- <div class="filters__row row type-house">
-                <span class="row__title">Тип жилья</span>
-                <div class="type-house__container">
-                    <div class="type-house__block" formArrayName="typeHouses"
-                        *ngFor="let house of type_houses; let i = index">
-                        <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)">
-                        {{house.title}}
+            <div class="filters__row row">
+                <div class="row__input" style="flex-direction: row; gap: 5px; align-items: center;">
+                    <input type="checkbox" id="pool" formControlName="pool">
+                    <label for="pool">Бассейн</label>
+                </div>
+            </div>
+            <!-- <div class="filters__row row type-house">
+                    <span class="row__title">Тип жилья</span>
+                    <div class="type-house__container">
+                        <div class="type-house__block" formArrayName="typeHouses"
+                            *ngFor="let house of type_houses; let i = index">
+                            <input type="checkbox" [value]="house.isChecked" (change)="onCheckChange($event)">
+                            {{house.title}}
+                        </div>
+                    </div>
+                </div> -->
+            <!-- <div class="filters__row row">
+                <span class="row__title">Цена</span>
+                <div class="row__body">
+                    <div class="row__input">
+                        <label for="minPrice">мин. цена</label>
+                        <input type="number" id="minPrice" formControlName="min_price" placeholder="0">
+                        <div *ngIf="formFiltersConrols['min_price'].touched && (formFiltersConrols['min_price'].errors?.['min'] || formFiltersConrols['min_price'].errors?.['max'])"
+                            class="row__error">
+                            Недопустимое значение</div>
+                    </div>
+                    <div class="row__input">
+                        <label for="maxPrice">макс. цена</label>
+                        <input type="number" id="maxPrice" formControlName="max_price" placeholder="100000">
+                        <div *ngIf="formFiltersConrols['max_price'].touched && (formFiltersConrols['max_price'].errors?.['min'] || formFiltersConrols['max_price'].errors?.['max'])"
+                            class="row__error">
+                            Недопустимое значение</div>
                     </div>
                 </div>
             </div> -->
-        <div class="filters__row row">
-            <span class="row__title">Цена</span>
-            <div class="row__body">
-                <div class="row__input">
-                    <label for="minPrice">мин. цена</label>
-                    <input type="number" id="minPrice" formControlName="min_price" placeholder="0">
-                    <div *ngIf="formFiltersConrols['min_price'].touched && (formFiltersConrols['min_price'].errors?.['min'] || formFiltersConrols['min_price'].errors?.['max'])"
-                        class="row__error">
-                        Недопустимое значение</div>
-                </div>
-                <div class="row__input">
-                    <label for="maxPrice">макс. цена</label>
-                    <input type="number" id="maxPrice" formControlName="max_price" placeholder="100000">
-                    <div *ngIf="formFiltersConrols['max_price'].touched && (formFiltersConrols['max_price'].errors?.['min'] || formFiltersConrols['max_price'].errors?.['max'])"
-                        class="row__error">
-                        Недопустимое значение</div>
-                </div>
-            </div>
+        </form>
+        <div class="filters__btns btns">
+            <div class="btns__clear" (click)="clearForm()">Очистить все</div>
+            <button class="btns__submit" (click)="sumbitForm()">Применить</button>
         </div>
-    </form>
-    <div class="filters__btns btns">
-        <div class="btns__clear" (click)="clearForm()">Очистить все</div>
-        <button class="btns__submit" (click)="sumbitForm()">Поиск</button>
     </div>
 </div>
