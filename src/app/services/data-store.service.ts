@@ -20,7 +20,7 @@ export class DataStoreService {
   private _currentHouse = new BehaviorSubject<House>({});
   currentHouse$ = this._currentHouse.asObservable();
 
-  private _cityId = new BehaviorSubject<string>('5');
+  private _cityId = new BehaviorSubject<string>('');
   cityId$ = this._cityId.asObservable();
 
   constructor() { }

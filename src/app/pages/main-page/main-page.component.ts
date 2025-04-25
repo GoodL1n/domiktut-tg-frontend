@@ -38,5 +38,6 @@ export class MainPageComponent {
       }
       this.router.navigate(['select-geo']);
     }
+    this.loaderService.setIsLoading(false);
   }
 }

@@ -1,8 +1,12 @@
+@if (this.loaderService.isLoading$ | async) {
+<app-loader></app-loader>
+}
+
 <div class="catalog">
     <app-header></app-header>
     <!-- <app-search-container *ngIf="!isCollection"></app-search-container> -->
-    <span class = "catalog__title" *ngIf="isCollection">
-        Подборка домов с бассейном
+    <span class="catalog__title" *ngIf="isCollection">
+        Подборка
     </span>
     @if (houses$ | async) {
     <cdk-virtual-scroll-viewport appendOnly [itemSize]="150" scrollWindow>

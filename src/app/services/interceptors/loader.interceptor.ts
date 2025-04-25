@@ -1,6 +1,6 @@
 import { HttpRequest, HttpHandlerFn, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from "@angular/core";
-import { finalize } from "rxjs";
+import { delay, finalize } from "rxjs";
 import { LoaderService } from "../loader.service";
 
 export const LoaderInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {

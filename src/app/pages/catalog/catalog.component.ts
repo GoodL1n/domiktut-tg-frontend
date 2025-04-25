@@ -11,10 +11,12 @@ import { SearchContainerComponent } from "../../components/search-container/sear
 import { mountBackButton, showBackButton, onBackButtonClick, hideBackButton, unmountBackButton } from '@telegram-apps/sdk';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
+import { LoaderService } from '../../services/loader.service';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-catalog',
-  imports: [MiniCardComponent, ScrollingModule, AsyncPipe, HeaderComponent, NgIf],
+  imports: [MiniCardComponent, LoaderComponent, ScrollingModule, AsyncPipe, HeaderComponent, NgIf],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss',
   // changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +30,7 @@ export class CatalogComponent implements OnInit {
   _destroy: DestroyRef = inject(DestroyRef);
 
   constructor(
+    public loaderService: LoaderService,
     private wordpressIntegrationService: WordpressIntegrationService,
     private dataStoreService: DataStoreService,
     private router: Router,

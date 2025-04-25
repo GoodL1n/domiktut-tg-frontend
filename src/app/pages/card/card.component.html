@@ -1,6 +1,7 @@
 @if (this.loaderService.isLoading$ | async) {
 <app-loader></app-loader>
 }
+
 <div class="card">
     <app-header></app-header>
     <div class="card__image">
@@ -121,8 +122,8 @@
             <p>{{house.important_information}}</p>
         </div>
     </div>
-    <button (click)="routeBack()">back</button>
-    <button (click)="routeNext()">next</button>
+    <!-- <button (click)="routeBack()">back</button>
+    <button (click)="routeNext()">next</button> -->
 </div>
 <div class="form-request" *ngIf="isFormRequest">
     <app-form-request (closeForm)="isFormRequest = false"></app-form-request>

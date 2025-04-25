@@ -32,8 +32,8 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     private tgSerice: TelegramService) {
 
     this.formRequest = this.builder.group({
-      dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
-      dateOfDeparture: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      dateOfArrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}\.{1}[0-9]{4}$')]],
+      dateOfDeparture: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}\.{1}[0-9]{4}$')]],
       quanitityOfPeople: [null, [Validators.min(0), Validators.max(1000)]],
       name: [null, [Validators.required, Validators.pattern('[А-Яа-я]+')]],
       phone: [7, [Validators.pattern('[0-9]{1}[0-9]{3}[0-9]{3}[0-9]{4}')]],
@@ -46,17 +46,6 @@ export class FormRequestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    mountBackButton.ifAvailable();
-    showBackButton();
-    onBackButtonClick(() => {
-      if (this.house) {
-        this.router.navigate(['card']);
-      } else {
-        this.router.navigate(['']);
-      }
-    }
-    );
-
     this.dataStoreService.currentHouse$.pipe(
       filter(house => (house && Object.keys(house).length > 0)), take(1)).subscribe(data => {
         this.house = data;
@@ -78,7 +67,7 @@ export class FormRequestComponent implements OnInit, OnDestroy {
     this.dataStoreService.setCurrentHouseId(0);
 
     this.tgSerice.sendMessage(data).subscribe((data) => {
-      this.router.navigate(['../request-success']);
+      this.router.navigate(['/request-success']);
     })
   }
 
@@ -89,13 +78,9 @@ export class FormRequestComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroySubscription.next(true);
     this.destroySubscription.complete();
-
-    hideBackButton();
-
-    unmountBackButton();
   }
 
-  close(){
+  close() {
     this.closeForm.emit();
   }
 }
