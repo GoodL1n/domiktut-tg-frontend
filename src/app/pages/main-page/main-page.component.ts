@@ -32,11 +32,11 @@ export class MainPageComponent {
     if (getCloudStorageItem.isAvailable()) {
       const geo = await getCloudStorageItem('geo');
       console.log('geo', geo);
-      this.isGeoSelected =
-        ((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] && (geo['geo'] as string).length > 0);
-      ((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] && (geo['geo'] as string).length > 0) ? this.dataStoreService.setCityId(geo['geo']) : null;
+      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
+        this.loaderService.setIsLoading(false);
+        return;
+      }
       this.router.navigate(['select-geo']);
     }
-    this.loaderService.setIsLoading(false);
   }
 }
