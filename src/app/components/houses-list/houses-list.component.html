@@ -1,0 +1,5 @@
+<cdk-virtual-scroll-viewport appendOnly [itemSize]="150" scrollWindow>
+    <div class="houses-list">
+        <app-mini-card *cdkVirtualFor="let house of houses$ | async; trackBy: track" [house]="house"></app-mini-card>
+    </div>
+</cdk-virtual-scroll-viewport>

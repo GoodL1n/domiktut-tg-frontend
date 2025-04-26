@@ -1,0 +1,14 @@
+<div class="collection">
+    <app-header></app-header>
+    <div class="collection__header">
+        <div class="collection__img" [ngClass]="{'card1': collectionType === 'family',
+        'card2': collectionType === 'pool', 'card3': collectionType === 'company'
+    }"></div>
+        <span class="collection__title">
+            Подборка домов: {{titleCollection}}
+        </span>
+    </div>
+    @if (houses$ | async) {
+    <app-houses-list [houses$]="houses$"></app-houses-list>
+    }
+</div>

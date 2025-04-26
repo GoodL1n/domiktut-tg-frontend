@@ -1,0 +1,68 @@
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HousesListComponent } from '../../components/houses-list/houses-list.component';
+import { Observable } from 'rxjs';
+import { House } from '../../interfaces/house.interface';
+import { HeaderComponent } from "../../components/header/header.component";
+import { mountBackButton, showBackButton, onBackButtonClick, unmountBackButton, hideBackButton } from '@telegram-apps/sdk';
+
+@Component({
+  selector: 'app-collection',
+  imports: [NgClass, HousesListComponent, HeaderComponent, AsyncPipe],
+  templateUrl: './collection.component.html',
+  styleUrl: './collection.component.scss'
+})
+export class CollectionComponent {
+  houses$!: Observable<House[]>;
+
+  collectionType = '';
+  titleCollection = '';
+
+  _destroy: DestroyRef = inject(DestroyRef);
+
+  constructor(private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.activatedRoute.queryParams
+      .pipe(
+        takeUntilDestroyed(this._destroy)
+      )
+      .subscribe(params => {
+        this.collectionType = params['collectionType'];
+        this.titleCollection = this.setCollectionName(params['collectionType']);
+      })
+
+    mountBackButton.ifAvailable();
+    showBackButton();
+    onBackButtonClick(() => {
+      this.router.navigate(['']);
+    });
+  }
+
+  setCollectionName(collectionType: string) {
+    let collectionName = '';
+    switch (collectionType) {
+      case 'family':
+        collectionName = 'семейные и уютные';
+        break;
+      case 'pool':
+        collectionName = 'дома с бассейном';
+        break;
+      case 'company':
+        collectionName = 'для большой компании';
+        break;
+    }
+    return collectionName;
+  }
+
+  ngOnDestroy(): void {
+    hideBackButton();
+
+    unmountBackButton();
+  }
+
+}

@@ -6,6 +6,8 @@ import { RequestSuccessComponent } from './pages/request-success/request-success
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { SelectGeoComponent } from './pages/select-geo/select-geo.component';
+import { FavouritesComponent } from './pages/favourites/favourites.component';
+import { CollectionComponent } from './pages/collection/collection.component';
 
 export const routes: Routes = [
     {
@@ -19,6 +21,14 @@ export const routes: Routes = [
     {
         path: 'catalog',
         component: CatalogComponent
+    },
+    {
+        path: 'favourites',
+        component: FavouritesComponent
+    },
+    {
+        path: 'collection',
+        component: CollectionComponent
     },
     {
         path: 'card',
