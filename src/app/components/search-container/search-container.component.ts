@@ -6,53 +6,21 @@ import { DataStoreService } from '../../services/data-store.service';
 import { debounceTime, distinctUntilChanged, filter, fromEvent, map, Observable, startWith, switchMap, take } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { House } from '../../interfaces/house.interface';
-import { Router } from '@angular/router';
-
-const type_houses = [
-  {
-    'id': 1,
-    'title': 'Уникальное жилье',
-    'isChecked': false
-  },
-  {
-    'id': 2,
-    'title': 'Деревянный/Шале',
-    'isChecked': false
-  },
-  {
-    'id': 3,
-    'title': 'Вилла',
-    'isChecked': false
-  },
-  {
-    'id': 4,
-    'title': 'Таунхаус',
-    'isChecked': false
-  },
-  {
-    'id': 5,
-    'title': 'Лофт',
-    'isChecked': false
-  },
-  {
-    'id': 6,
-    'title': 'Коттедж',
-    'isChecked': false
-  },
-]
+import { Router, RouterLink } from '@angular/router';
+import { HeaderComponent } from "../header/header.component";
+import { SearchStartComponent } from "../search-start/search-start.component";
 
 @Component({
   selector: 'app-search-container',
-  imports: [NgIf, ReactiveFormsModule, MatAutocompleteModule, AsyncPipe],
+  imports: [NgIf, ReactiveFormsModule, RouterLink, MatAutocompleteModule, AsyncPipe, HeaderComponent, SearchStartComponent],
   templateUrl: './search-container.component.html',
   styleUrl: './search-container.component.scss'
 })
 export class SearchContainerComponent implements OnInit {
+  @Output() closeSearchContainer = new EventEmitter<void>;
   
   isFilters: boolean = false;
   isSearchInput: boolean = false;
-
-  type_houses = type_houses;
 
   formFilters: FormGroup;
 
@@ -71,15 +39,9 @@ export class SearchContainerComponent implements OnInit {
     private router: Router
   ) {
     this.formFilters = this.builder.group({
-      // date_of_arrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
-      // date_of_departure: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      date_of_arrival: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
+      date_of_departure: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}$')]],
       number_of_people: [null, [Validators.min(0), Validators.max(1000)]],
-      number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
-      number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
-      // min_price: [0, [Validators.min(0), Validators.max(1000000)]],
-      // max_price: [null, [Validators.min(0), Validators.max(1000000)]],
-      pool: null
-      // type_of_house: new FormArray([])
     });
   }
 
@@ -92,25 +54,22 @@ export class SearchContainerComponent implements OnInit {
       startWith(''),
       switchMap((value) => {
         console.log('222')
-        const filterValue = this._normalizeValue(value || '');
+        const filterValue = this.normalizeValue(value || '');
         return this.houses$.pipe(
-          map(val => val.filter(v => this._normalizeValue(v.house_name || '').includes(filterValue)))
+          map(val => val.filter(v => this.normalizeValue(v.house_name || '').includes(filterValue)))
         )
       })
     );
   }
 
-  applySearchInput() {
-    console.log(123)
-    // this.filteredHouses$.pipe(take(1)).subscribe(data => { console.log(data); this.dataStoreService.setHouses(data) });
-  }
-
-  private _normalizeValue(value: string): string {
+  
+  normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
-  routerToRequest() {
-    this.router.navigate(['form-request']);
+  applySearchInput() {
+    console.log(123)
+    // this.filteredHouses$.pipe(take(1)).subscribe(data => { console.log(data); this.dataStoreService.setHouses(data) });
   }
 
   sumbitForm() {
@@ -121,7 +80,11 @@ export class SearchContainerComponent implements OnInit {
   }
 
   clearForm() {
-    this.dataStoreService.updatedMainStore();
+    // this.dataStoreService.updatedMainStore();
     this.formFilters.reset();
+  }
+
+  closeContainer(){
+    this.closeSearchContainer.emit();
   }
 }

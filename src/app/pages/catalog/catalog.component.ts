@@ -12,15 +12,20 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { LoaderService } from '../../services/loader.service';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { HousesListComponent } from "../../components/houses-list/houses-list.component";
+import { SearchStartComponent } from "../../components/search-start/search-start.component";
+import { FilterContrainerComponent } from "../../components/filter-contrainer/filter-contrainer.component";
 
 @Component({
   selector: 'app-catalog',
-  imports: [LoaderComponent, SearchContainerComponent, AsyncPipe, HeaderComponent, HousesListComponent],
+  imports: [LoaderComponent, SearchContainerComponent, AsyncPipe, HeaderComponent, HousesListComponent, SearchStartComponent, NgIf, FilterContrainerComponent],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss',
 })
 export class CatalogComponent implements OnInit {
   houses$!: Observable<House[]>;
+
+  isSearchContainer = false;
+  isFilterContainer = false;
 
   _destroy: DestroyRef = inject(DestroyRef);
 

@@ -1,0 +1,34 @@
+<div class="filter-container">
+    <span class="filter-container__title">
+        Фильтры
+    </span>
+    <div class="filter-container__list-filters list-filters">
+        <div class="list-filters__row">
+            <div class="list-filters__input">
+                <input type="number" id="number_of_people" formControlName="number_of_people" placeholder="Сколько?">
+                <label for="number_of_people">Кол-во человек</label>
+            </div>
+            <div *ngIf="formFiltersConrols['number_of_people'].touched && (formFiltersConrols['number_of_people'].errors?.['min'] || formFiltersConrols['number_of_people'].errors?.['max'])"
+                class="list-filters__error">
+                Недопустимое значение</div>
+        </div>
+        <div class="list-filters__row">
+            <div class="list-filters__input">
+                <input type="number" id="number_of_bedrooms" formControlName="number_of_bedrooms" placeholder="Сколько?">
+                <label for="number_of_bedrooms">Кол-во спален</label>
+            </div>
+            <div *ngIf="formFiltersConrols['number_of_bedrooms'].touched && (formFiltersConrols['number_of_bedrooms'].errors?.['min'] || formFiltersConrols['number_of_bedrooms'].errors?.['max'])"
+                class="list-filters__error">
+                Недопустимое значение</div>
+        </div>
+        <div class="list-filters__row">
+            <div class="list-filters__input">
+                <input type="number" id="number_of_beds" formControlName="number_of_beds" placeholder="Сколько?">
+                <label for="number_of_beds">Кол-во спальных мест</label>
+            </div>
+            <div *ngIf="formFiltersConrols['number_of_beds'].touched && (formFiltersConrols['number_of_beds'].errors?.['min'] || formFiltersConrols['number_of_beds'].errors?.['max'])"
+                class="list-filters__error">
+                Недопустимое значение</div>
+        </div>
+    </div>
+</div>

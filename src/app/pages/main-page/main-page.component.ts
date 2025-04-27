@@ -8,10 +8,12 @@ import { getCloudStorageItem } from '@telegram-apps/sdk';
 import { DataStoreService } from '../../services/data-store.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
+import { SearchStartComponent } from "../../components/search-start/search-start.component";
+import { SearchContainerComponent } from "../../components/search-container/search-container.component";
 
 @Component({
   selector: 'app-main-page',
-  imports: [ScrollingModule, HeaderComponent, LoaderComponent, FormRequestComponent, AsyncPipe, RouterLink, NgIf],
+  imports: [ScrollingModule, HeaderComponent, LoaderComponent, FormRequestComponent, AsyncPipe, RouterLink, NgIf, SearchStartComponent, SearchContainerComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'
 })
@@ -19,6 +21,7 @@ export class MainPageComponent {
 
   isGeoSelected = false;
   isFormRequest = false;
+  isSearchContainer = false;
 
   constructor(
     private router: Router,

@@ -5,21 +5,8 @@
 <div class="catalog">
     <app-header></app-header>
     <div class="catalog__search-filter-block">
-        <div class="catalog__search-block search-block">
-            <span class="search-block__text">Начать поиск</span>
-            <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M24.5711 15.5788V19.912C24.5711 21.7558 23.08 23.2494 21.2391 23.2494H15.201C14.4463 23.2494 13.8572 22.6409 13.8572 21.9033C13.8572 21.1474 14.4647 20.5573 15.201 20.5573H20.5212C21.2759 20.5573 21.865 19.9488 21.865 19.2113V15.5051C21.865 15.081 21.6625 14.6753 21.3312 14.4172L17.6862 11.6698C17.0051 11.1535 16.0478 11.1535 15.3667 11.6698L11.777 14.3803C11.4088 14.6569 11.1879 15.0994 11.1879 15.5788V21.9218C11.1879 22.6778 10.5804 23.2678 9.84408 23.2678C9.08932 23.2678 8.50024 22.6593 8.50024 21.9218V15.7079C8.50024 14.3065 9.16296 12.9974 10.2675 12.1676L11.2063 11.467L14.299 9.14367L14.6304 8.90396C15.7717 8.05578 17.3365 8.05578 18.4778 8.90396L18.8092 9.14367L21.9018 11.4854L22.9143 12.2598C23.9452 13.0158 24.5711 14.2697 24.5711 15.5788Z"
-                    fill="#F4683F" />
-                <path
-                    d="M16.1009 19.6906C15.3461 19.6906 14.7202 19.0637 14.7202 18.3077V16.6482C14.7202 15.8922 15.3461 15.2653 16.1009 15.2653C16.8556 15.2653 17.4815 15.8922 17.4815 16.6482V18.3077C17.4815 19.0821 16.8556 19.6906 16.1009 19.6906Z"
-                    fill="white" />
-                <circle cx="16.0519" cy="16.5285" r="12.5" transform="rotate(-12.5764 16.0519 16.5285)"
-                    stroke="white" />
-                <path d="M27 24L37.4667 31.5156" stroke="white" stroke-width="3" stroke-linecap="round" />
-            </svg>
-        </div>
-        <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <app-search-start style="width: 100%;" (click)="isSearchContainer = true"></app-search-start>
+        <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="isFilterContainer = !isFilterContainer">
             <g filter="url(#filter0_d_161_147)">
                 <path d="M6.3335 8.77686H25.3335" stroke="#FF764D" stroke-width="2" stroke-linecap="round" />
             </g>
@@ -135,8 +122,13 @@
             </defs>
         </svg>
     </div>
-    <!-- <app-search-container></app-search-container> -->
     @if (houses$ | async) {
     <app-houses-list [houses$]="houses$"></app-houses-list>
     }
+</div>
+<div class = "search-container" *ngIf="isSearchContainer">
+    <app-search-container (closeSearchContainer)="isSearchContainer = false"></app-search-container>
+</div>
+<div class = "filter-container" *ngIf="isFilterContainer">
+    <app-filter-contrainer (closeFilterContainer)="isFilterContainer = false"></app-filter-contrainer>
 </div>
