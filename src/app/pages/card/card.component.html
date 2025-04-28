@@ -13,6 +13,24 @@
                         <img [src]="img" alt="">
                     </div>
                 </div>
+                <div class="embla__additional-info">
+                    <div class="embla__rating">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M4.32643 0.642951L3.17071 3.09123L0.584928 3.4851C0.121222 3.55536 -0.064614 4.15264 0.271661 4.49473L2.14241 6.39936L1.69995 9.08987C1.6203 9.5762 2.11056 9.94048 2.52117 9.71304L4.83439 8.44267L7.14761 9.71304C7.55822 9.93863 8.04847 9.5762 7.96883 9.08987L7.52636 6.39936L9.39711 4.49473C9.73339 4.15264 9.54755 3.55536 9.08385 3.4851L6.49807 3.09123L5.34234 0.642951C5.13527 0.206552 4.53528 0.201004 4.32643 0.642951Z"
+                                fill="#FFC738" />
+                        </svg>
+                        <span>{{house.rating ?? 5.0}}</span>
+                    </div>
+                    <div class="embla__people">
+                        <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.51926 0.547974C3.3728 0.547974 2.44421 1.55485 2.44421 2.79797C2.44421 4.0411 3.3728 5.04797 4.51926 5.04797C5.66572 5.04797 6.5943 4.0411 6.5943 2.79797C6.5943 1.55485 5.66572 0.547974 4.51926 0.547974Z" fill="black"/>
+                            <path d="M0.369019 8.42297C0.369019 6.92672 3.13401 6.17297 4.5191 6.17297C5.90419 6.17297 8.66919 6.92672 8.66919 8.42297V9.54797H0.369019V8.42297Z" fill="black"/>
+                            </svg>
+                            
+                        <span>{{house.number_of_people}}</span>
+                    </div>
+                </div>
             </div>
             <div class="embla-thumbs">
                 <div class="embla-thumbs__viewport">
@@ -121,9 +139,20 @@
             <span class="container__title">Важная информация</span>
             <p>{{house.important_information}}</p>
         </div>
+        <div class="container">
+            <span class="container__title">Время заезда и выезда</span>
+            <div class = "time-arrival-departure">
+                <div class = "time-arrival-departure__block" style="border-right: 1px solid #FFFFFF;">
+                    <span class = "time-arrival-departure__text">12:00</span>
+                </div>
+                <div class = "time-arrival-departure__block">
+                    <span class = "time-arrival-departure__text">14:00</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- <button (click)="routeBack()">back</button>
-    <button (click)="routeNext()">next</button> -->
+    <button (click)="routeBack()">back</button>
+    <button (click)="routeNext()">next</button>
 </div>
 <div class="form-request" *ngIf="isFormRequest">
     <app-form-request (closeForm)="isFormRequest = false"></app-form-request>

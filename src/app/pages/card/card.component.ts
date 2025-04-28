@@ -89,6 +89,7 @@ export class CardComponent implements OnInit, OnDestroy {
         const array = (data as Array<any>).map(element => {
           return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
         })
+        this.dataStoreService.setCurrentHouseImgs(array);
         this.imgs$.next(array);
       });
 

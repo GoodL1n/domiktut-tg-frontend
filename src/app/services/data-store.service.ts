@@ -20,6 +20,9 @@ export class DataStoreService {
   private _currentHouse = new BehaviorSubject<House>({});
   currentHouse$ = this._currentHouse.asObservable();
 
+  private _currentHouseImgs = new BehaviorSubject<string[]>([]);
+  currentHouseImgs$ = this._currentHouseImgs.asObservable();
+
   private _cityId = new BehaviorSubject<string>('');
   cityId$ = this._cityId.asObservable();
 
@@ -39,6 +42,10 @@ export class DataStoreService {
 
   setCurrentHouse(house: House){
     this._currentHouse.next(house);
+  }
+
+  setCurrentHouseImgs(img: string[]){
+    this._currentHouseImgs.next(img);
   }
 
   setCityId(cityId: string){
