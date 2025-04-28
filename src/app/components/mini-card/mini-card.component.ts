@@ -23,7 +23,6 @@ import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 })
 export class MiniCardComponent implements OnInit {
   @Input() house!: House;
-  @Input() isOpenInFormRequest: boolean = false;
 
   @ViewChild(EmblaCarouselDirective) emblaRef: EmblaCarouselDirective | undefined;
   private emblaApi?: EmblaCarouselType;
@@ -113,9 +112,7 @@ export class MiniCardComponent implements OnInit {
   }
 
   route() {
-    if (!this.isOpenInFormRequest) {
-      if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
-      this.router.navigate(['card']);
-    }
+    if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
+    this.router.navigate(['card']);
   }
 }

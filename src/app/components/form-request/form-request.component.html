@@ -6,10 +6,13 @@
                 fill="white" stroke="white" stroke-width="0.0854865" />
         </svg>
     </button>
-    <span class="page-request__title">Оставьте заявку на подбор и сократите свое время на поиск</span>
-    <div class="page-request__selected-house" *ngIf="house">
-        <span class="page-request__selected-house-title">Выбранный дом</span>
-        <app-mini-card [house]="house" [isOpenInFormRequest]="true"></app-mini-card>
+    <span class="page-request__title" *ngIf="!house">Оставьте заявку на подбор и сократите свое время на поиск</span>
+    <div class="page-request__selected-house selected-house" *ngIf="house">
+        <span class="selected-house__title">Выбранный дом</span>
+        <div class = "selected-house__body">
+            <img [src]="img" alt="">
+            <span class = "selected-house__name">{{house.house_name}}</span>
+        </div>
     </div>
     <form class="page-request__form form" [formGroup]="formRequest">
         <div class="form__block block">
@@ -80,13 +83,13 @@
                 </div>
             </div>
         </div>
-        <div class="block">
+        <div class="block" *ngIf="!house">
             <div class="block__body">
                 <div class="block__header">
                     <span class="block__title-medium">Ваши критерии к дому</span>
                     <span class="block__title-mini">чем конкретнее, тем лучше</span>
                 </div>
-                <textarea rows="6" type="text" id="name"
+                <textarea formControlName="description" rows="6" type="text" id="name"
                     placeholder="С басссеином,
                     гамаком"></textarea>
             </div>
