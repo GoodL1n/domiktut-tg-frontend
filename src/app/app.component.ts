@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmation, expandViewport, getCloudStorageItem, init, miniAppReady, mountClosingBehavior, mountMiniApp, mountSwipeBehavior, mountViewport, retrieveRawInitData, unmountClosingBehavior, unmountMiniApp, unmountSwipeBehavior, unmountViewport, viewport } from '@telegram-apps/sdk';
+import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmation, expandViewport, getCloudStorageItem, init, miniAppReady, mountClosingBehavior, mountMiniApp, mountSwipeBehavior, mountViewport, retrieveLaunchParams, retrieveRawInitData, unmountClosingBehavior, unmountMiniApp, unmountSwipeBehavior, unmountViewport, viewport } from '@telegram-apps/sdk';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       init();
 
-      const data = retrieveRawInitData();
+      const data = retrieveLaunchParams();
       console.log('start', data);
 
       mountViewport.ifAvailable();
