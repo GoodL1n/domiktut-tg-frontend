@@ -3,10 +3,11 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HousesListComponent } from '../../components/houses-list/houses-list.component';
-import { Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { House } from '../../interfaces/house.interface';
 import { HeaderComponent } from "../../components/header/header.component";
 import { mountBackButton, showBackButton, onBackButtonClick, unmountBackButton, hideBackButton } from '@telegram-apps/sdk';
+import { DataStoreService } from '../../services/data-store.service';
 
 @Component({
   selector: 'app-collection',
@@ -23,6 +24,7 @@ export class CollectionComponent {
   _destroy: DestroyRef = inject(DestroyRef);
 
   constructor(private activatedRoute: ActivatedRoute,
+    private dataStoreService: DataStoreService,
     private router: Router
   ) { }
 
@@ -34,7 +36,24 @@ export class CollectionComponent {
       .subscribe(params => {
         this.collectionType = params['collectionType'];
         this.titleCollection = this.setCollectionName(params['collectionType']);
-      })
+      });
+
+    this.houses$ = this.dataStoreService.houses$.pipe(
+      map(houses => {
+        switch (this.collectionType) {
+          // case 'family':
+          //   collectionName = 'семейные и уютные';
+          //   break;
+          case 'pool':
+            return houses.filter(house => house.waterpool_catalog);
+          case 'company':
+            return houses.filter(house => Number(house.number_of_people) > 25);
+          default:
+            return houses;
+        }
+      }),
+      takeUntilDestroyed(this._destroy)
+    );
 
     mountBackButton.ifAvailable();
     showBackButton();

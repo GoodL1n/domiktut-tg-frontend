@@ -31,25 +31,11 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     public loaderService: LoaderService,
-    private wordpressIntegrationService: WordpressIntegrationService,
     private dataStoreService: DataStoreService,
     private router: Router) { }
 
   ngOnInit() {
-    this.wordpressIntegrationService.getHouses().pipe(
-      takeUntilDestroyed(this._destroy)
-    ).subscribe(data => {
-      this.dataStoreService.setHouses(data);
-      this.dataStoreService.setAllHouses(data);
-    })
-
     this.houses$ = this.dataStoreService.houses$;
-
-    // this.wordpressIntegrationService.getHouseById(806).pipe().subscribe(data => {
-    //   console.log('request catalog')
-    //   this.dataStoreService.setHouses(data);
-    //   this.dataStoreService.setAllHouses(data);
-    // })
 
     mountBackButton.ifAvailable();
     showBackButton();
