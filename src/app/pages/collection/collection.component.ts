@@ -41,13 +41,12 @@ export class CollectionComponent {
     this.houses$ = this.dataStoreService.houses$.pipe(
       map(houses => {
         switch (this.collectionType) {
-          // case 'family':
-          //   collectionName = 'семейные и уютные';
-          //   break;
+          case 'family':
+            return houses.filter(house => Number(house.number_of_people) <= 12);
           case 'pool':
             return houses.filter(house => house.waterpool_catalog);
           case 'company':
-            return houses.filter(house => Number(house.number_of_people) > 25);
+            return houses.filter(house => Number(house.number_of_people) >= 25);
           default:
             return houses;
         }
