@@ -38,6 +38,16 @@ export class MainPageComponent {
   }
 
   async ngOnInit() {
+    if (getCloudStorageItem.isAvailable()) {
+      const geo = await getCloudStorageItem('geo');
+      console.log('geo', geo);
+      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
+        this.loaderService.setIsLoading(false);
+        return;
+      }
+      this.router.navigate(['select-geo']);
+    }
+    this.loaderService.setIsLoading(false);
 
     this.dataStoreService.allHouses$.pipe(
       filter(houses => houses.length === 0),
@@ -49,16 +59,7 @@ export class MainPageComponent {
         })
       ))
     ).subscribe();
-
-    if (getCloudStorageItem.isAvailable()) {
-      const geo = await getCloudStorageItem('geo');
-      console.log('geo', geo);
-      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
-        this.loaderService.setIsLoading(false);
-        return;
-      }
-      this.router.navigate(['select-geo']);
-    }
-    this.loaderService.setIsLoading(false);
   }
+
+
 }
