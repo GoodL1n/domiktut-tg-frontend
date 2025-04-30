@@ -37,7 +37,7 @@ export class MainPageComponent {
 
   async ngOnInit() {
     this.dataStoreService.cityId$.pipe(
-      // distinctUntilChanged(),
+      distinctUntilChanged(),
       tap(cityId => console.log('check city', cityId)),
       filter(cityId => !!cityId),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
