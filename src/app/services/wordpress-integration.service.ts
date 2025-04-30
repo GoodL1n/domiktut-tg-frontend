@@ -20,17 +20,13 @@ export class WordpressIntegrationService {
     private dataStoreService: DataStoreService
   ) {
     this.dataStoreService.cityId$.pipe(distinctUntilChanged()).subscribe(cityId => {
-      console.log('взяли из стора cityId', cityId);
+      console.log('service взяли из стора cityId', cityId);
       this.cityId = cityId;
     })
   }
 
   getHouses(): Observable<House[]> {
-    console.log('cityId', this.cityId);
-    if (this.cityId) {
-      return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
-    }
-    return of([]);
+    return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
   }
 
   getHousesByFilter(filterData: Partial<Filter>): Observable<House[]> {

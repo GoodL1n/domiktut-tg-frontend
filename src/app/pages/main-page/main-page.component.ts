@@ -48,10 +48,10 @@ export class MainPageComponent {
       this.router.navigate(['select-geo']);
     }
 
-    this.dataStoreService.allHouses$.pipe(
-      distinctUntilChanged((a, b) => a.length === b.length),
-      tap(data => console.log('chec houses', data)),
-      filter(houses => houses.length === 0),
+    this.dataStoreService.cityId$.pipe(
+      distinctUntilChanged(),
+      tap(data => console.log('check city', data)),
+      filter(cityId => !!cityId),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
         tap(houses => console.log('request houses', houses)),
         map(data => {
