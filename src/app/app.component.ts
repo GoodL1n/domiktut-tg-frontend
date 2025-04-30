@@ -24,6 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
       mountClosingBehavior.ifAvailable();
       mountSwipeBehavior.ifAvailable();
       mountMiniApp.ifAvailable();
+
+      deleteCloudStorageItem('geo');
     } catch (error) {
       console.error(error);
     }
@@ -32,17 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
     enableClosingConfirmation.ifAvailable();
     disableVerticalSwipes.ifAvailable();
     miniAppReady.ifAvailable();
-
-    deleteCloudStorageItem('geo');
-
-    if (getCloudStorageItem.isAvailable()) {
-      const geo = await getCloudStorageItem('geo');
-      console.log('geo', geo);
-      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
-        return;
-      }
-      this.router.navigate(['select-geo']);
-    }
   }
 
   ngOnDestroy(): void {
