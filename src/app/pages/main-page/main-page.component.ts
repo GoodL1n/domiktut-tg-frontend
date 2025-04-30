@@ -35,8 +35,19 @@ export class MainPageComponent {
     private wordpressIntegrationService: WordpressIntegrationService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+
+    if (getCloudStorageItem.isAvailable()) {
+      const geo = await getCloudStorageItem('geo');
+      console.log('geo', geo);
+      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
+        return;
+      }
+      this.router.navigate(['select-geo']);
+    }
+
     this.dataStoreService.allHouses$.pipe(
+      
       distinctUntilChanged(),
       tap(data => console.log('chec houses', data)),
       filter(houses => houses.length === 0),

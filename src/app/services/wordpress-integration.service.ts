@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { distinctUntilChanged, Observable, take } from 'rxjs';
+import { distinctUntilChanged, Observable, of, take } from 'rxjs';
 import { House } from '../interfaces/house.interface';
 import { environment } from '../../environments/environment';
 import { Filter } from '../interfaces/filter.interface';
@@ -27,7 +27,10 @@ export class WordpressIntegrationService {
 
   getHouses(): Observable<House[]> {
     console.log('cityId', this.cityId);
-    return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
+    if (this.cityId) {
+      return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
+    }
+    return of([]);
   }
 
   getHousesByFilter(filterData: Partial<Filter>): Observable<House[]> {
