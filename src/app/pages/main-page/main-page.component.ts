@@ -42,6 +42,7 @@ export class MainPageComponent {
       console.log('geo', geo);
       if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
         console.log('geo is not empty');
+        this.dataStoreService.setCityId(geo['geo']);
         return;
       }
       console.log('geo is empty');
