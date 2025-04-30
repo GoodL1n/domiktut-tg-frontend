@@ -93,25 +93,25 @@ export class CardComponent implements OnInit, OnDestroy {
         this.imgs$.next(array);
       });
 
-    // mountMainButton.ifAvailable();
-    // setMainButtonParams({
-    //   text: 'Оставить заявку',
-    //   hasShineEffect: true,
-    //   isEnabled: true,
-    //   isVisible: true,
-    //   backgroundColor: '#F4683F',
-    //   textColor: '#FFFFFF'
-    // });
-    // mainButtonBackgroundColor();
-    // onMainButtonClick(() => this.isFormRequest = true);
+    mountMainButton.ifAvailable();
+    setMainButtonParams({
+      text: 'Оставить заявку',
+      hasShineEffect: true,
+      isEnabled: true,
+      isVisible: true,
+      backgroundColor: '#F4683F',
+      textColor: '#FFFFFF'
+    });
+    mainButtonBackgroundColor();
+    onMainButtonClick(() => this.isFormRequest = true);
 
-    // mountBackButton.ifAvailable();
-    // showBackButton();
-    // onBackButtonClick(() => {
-    //   this.dataStoreService.setCurrentHouse({});
-    //   this.dataStoreService.setCurrentHouseId(0);
-    //   this.router.navigate(['../catalog']);
-    // });
+    mountBackButton.ifAvailable();
+    showBackButton();
+    onBackButtonClick(() => {
+      this.dataStoreService.setCurrentHouse({});
+      this.dataStoreService.setCurrentHouseId(0);
+      this.router.navigate(['../catalog']);
+    });
   }
 
   routeNext() {
@@ -123,15 +123,15 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // setMainButtonParams({
-    //   isEnabled: false,
-    //   isVisible: false,
-    // });
-    // unmountMainButton();
+    setMainButtonParams({
+      isEnabled: false,
+      isVisible: false,
+    });
+    unmountMainButton();
 
-    // hideBackButton();
+    hideBackButton();
 
-    // unmountBackButton();
+    unmountBackButton();
   }
 
 }

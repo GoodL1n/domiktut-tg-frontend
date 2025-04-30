@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmation, expandViewport, getCloudStorageItem, init, miniAppReady, mountClosingBehavior, mountMiniApp, mountSwipeBehavior, mountViewport, retrieveLaunchParams, retrieveRawInitData, unmountClosingBehavior, unmountMiniApp, unmountSwipeBehavior, unmountViewport, viewport } from '@telegram-apps/sdk';
+import { DataStoreService } from './services/data-store.service';
 
 
 @Component({
@@ -11,21 +12,21 @@ import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmatio
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router){}
+  constructor(private router: Router,
+    private dataStoreService: DataStoreService
+  ) { }
 
   async ngOnInit() {
     try {
       init();
 
-      const data = retrieveLaunchParams();
-      console.log('start', data);
+      // const data = retrieveLaunchParams();
+      // console.log('start', data);
 
       mountViewport.ifAvailable();
       mountClosingBehavior.ifAvailable();
       mountSwipeBehavior.ifAvailable();
       mountMiniApp.ifAvailable();
-
-      deleteCloudStorageItem('geo');
     } catch (error) {
       console.error(error);
     }
@@ -34,6 +35,21 @@ export class AppComponent implements OnInit, OnDestroy {
     enableClosingConfirmation.ifAvailable();
     disableVerticalSwipes.ifAvailable();
     miniAppReady.ifAvailable();
+
+    deleteCloudStorageItem('geo');
+
+    if (getCloudStorageItem.isAvailable()) {
+      const geo = await getCloudStorageItem('geo');
+      console.log('geo', geo);
+      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
+        console.log('geo is not empty', geo['geo']);
+        this.dataStoreService.setCityId(geo['geo']);
+        return;
+      } else {
+        console.log('geo is empty');
+        this.router.navigate(['select-geo']);
+      }
+    }
   }
 
   ngOnDestroy(): void {

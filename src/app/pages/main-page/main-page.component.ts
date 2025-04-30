@@ -36,20 +36,6 @@ export class MainPageComponent {
   ) { }
 
   async ngOnInit() {
-
-    if (getCloudStorageItem.isAvailable()) {
-      const geo = await getCloudStorageItem('geo');
-      console.log('geo', geo);
-      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
-        console.log('geo is not empty', geo['geo']);
-        this.dataStoreService.setCityId(geo['geo']);
-        return;
-      } else {
-        console.log('geo is empty');
-        this.router.navigate(['select-geo']);
-      }
-    }
-
     this.dataStoreService.cityId$.pipe(
       // distinctUntilChanged(),
       tap(cityId => console.log('check city', cityId)),
