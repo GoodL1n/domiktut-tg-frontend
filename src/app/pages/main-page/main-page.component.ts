@@ -10,7 +10,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
 import { SearchStartComponent } from "../../components/search-start/search-start.component";
 import { SearchContainerComponent } from "../../components/search-container/search-container.component";
-import { concatMap, filter, map, tap } from 'rxjs';
+import { concatMap, distinctUntilChanged, filter, map, tap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -37,6 +37,7 @@ export class MainPageComponent {
 
   ngOnInit() {
     this.dataStoreService.allHouses$.pipe(
+      distinctUntilChanged(),
       tap(data => console.log('houses main', data)),
       filter(houses => houses.length === 0),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
