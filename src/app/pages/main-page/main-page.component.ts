@@ -33,7 +33,7 @@ export class MainPageComponent {
     public loaderService: LoaderService,
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService
-  ) {}
+  ) { }
 
   async ngOnInit() {
 
@@ -41,14 +41,15 @@ export class MainPageComponent {
       const geo = await getCloudStorageItem('geo');
       console.log('geo', geo);
       if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
+        console.log('geo is not empty');
         return;
       }
+      console.log('geo is empty');
       this.router.navigate(['select-geo']);
     }
 
     this.dataStoreService.allHouses$.pipe(
-      
-      distinctUntilChanged(),
+      distinctUntilChanged((a, b) => a.length === b.length),
       tap(data => console.log('chec houses', data)),
       filter(houses => houses.length === 0),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
