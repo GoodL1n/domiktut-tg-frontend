@@ -10,7 +10,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
 import { SearchStartComponent } from "../../components/search-start/search-start.component";
 import { SearchContainerComponent } from "../../components/search-container/search-container.component";
-import { concatMap, filter, map } from 'rxjs';
+import { concatMap, filter, map, tap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -33,23 +33,11 @@ export class MainPageComponent {
     public loaderService: LoaderService,
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService
-  ) {
-    this.loaderService.setIsLoading(true);
-  }
+  ) {}
 
-  async ngOnInit() {
-    if (getCloudStorageItem.isAvailable()) {
-      const geo = await getCloudStorageItem('geo');
-      console.log('geo', geo);
-      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
-        this.loaderService.setIsLoading(false);
-        return;
-      }
-      this.router.navigate(['select-geo']);
-    }
-    this.loaderService.setIsLoading(false);
-
+  ngOnInit() {
     this.dataStoreService.allHouses$.pipe(
+      tap(data => console.log('houses main', data)),
       filter(houses => houses.length === 0),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
         takeUntilDestroyed(this._destroy),

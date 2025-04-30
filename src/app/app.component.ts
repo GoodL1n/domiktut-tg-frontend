@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmation, expandViewport, getCloudStorageItem, init, miniAppReady, mountClosingBehavior, mountMiniApp, mountSwipeBehavior, mountViewport, retrieveLaunchParams, retrieveRawInitData, unmountClosingBehavior, unmountMiniApp, unmountSwipeBehavior, unmountViewport, viewport } from '@telegram-apps/sdk';
 
 
@@ -10,6 +10,8 @@ import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmatio
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  constructor(private router: Router){}
 
   async ngOnInit() {
     try {
@@ -32,6 +34,15 @@ export class AppComponent implements OnInit, OnDestroy {
     miniAppReady.ifAvailable();
 
     deleteCloudStorageItem('geo');
+
+    if (getCloudStorageItem.isAvailable()) {
+      const geo = await getCloudStorageItem('geo');
+      console.log('geo', geo);
+      if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
+        return;
+      }
+      this.router.navigate(['select-geo']);
+    }
   }
 
   ngOnDestroy(): void {
