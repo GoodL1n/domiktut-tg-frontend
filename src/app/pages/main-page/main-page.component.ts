@@ -41,17 +41,18 @@ export class MainPageComponent {
       const geo = await getCloudStorageItem('geo');
       console.log('geo', geo);
       if (((typeof geo === 'object') && Object.keys(geo).length > 0 && geo['geo'] !== '')) {
-        console.log('geo is not empty');
+        console.log('geo is not empty', geo['geo']);
         this.dataStoreService.setCityId(geo['geo']);
         return;
+      } else {
+        console.log('geo is empty');
+        this.router.navigate(['select-geo']);
       }
-      console.log('geo is empty');
-      this.router.navigate(['select-geo']);
     }
 
     this.dataStoreService.cityId$.pipe(
       distinctUntilChanged(),
-      tap(data => console.log('check city', data)),
+      tap(cityId => console.log('check city', cityId)),
       filter(cityId => !!cityId),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
         tap(houses => console.log('request houses', houses)),
