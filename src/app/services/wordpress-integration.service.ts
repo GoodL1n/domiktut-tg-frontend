@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { distinctUntilChanged, Observable, take } from 'rxjs';
 import { House } from '../interfaces/house.interface';
 import { environment } from '../../environments/environment';
 import { Filter } from '../interfaces/filter.interface';
 import { DataStoreService } from './data-store.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const WORDPRESS_INTEGRATION_API = `${environment?.apiUrl}/wordpress-integration/`;
 
@@ -18,7 +19,7 @@ export class WordpressIntegrationService {
   constructor(private httpClient: HttpClient,
     private dataStoreService: DataStoreService
   ) {
-    this.dataStoreService.cityId$.pipe(take(1)).subscribe(cityId => {
+    this.dataStoreService.cityId$.pipe(distinctUntilChanged()).subscribe(cityId => {
       console.log('взяли из стора cityId', cityId);
       this.cityId = cityId;
     })

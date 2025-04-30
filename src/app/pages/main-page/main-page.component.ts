@@ -38,15 +38,16 @@ export class MainPageComponent {
   ngOnInit() {
     this.dataStoreService.allHouses$.pipe(
       distinctUntilChanged(),
-      tap(data => console.log('houses main', data)),
+      tap(data => console.log('chec houses', data)),
       filter(houses => houses.length === 0),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
-        takeUntilDestroyed(this._destroy),
+        tap(houses => console.log('request houses', houses)),
         map(data => {
           this.dataStoreService.setHouses(data);
           this.dataStoreService.setAllHouses(data);
         })
-      ))
+      )),
+      takeUntilDestroyed(this._destroy)
     ).subscribe();
   }
 
