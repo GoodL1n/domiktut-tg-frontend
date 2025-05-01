@@ -27,6 +27,8 @@ export class CatalogComponent implements OnInit {
   isSearchContainer = false;
   isFilterContainer = false;
 
+  minHeight = '0px';
+
   _destroy: DestroyRef = inject(DestroyRef);
 
   constructor(
@@ -44,10 +46,13 @@ export class CatalogComponent implements OnInit {
     });
   }
 
+  changeMinHeight(newHeight: number){
+    this.minHeight = newHeight + 'px';
+  }
+
   ngOnDestroy(): void {
     hideBackButton();
 
     unmountBackButton();
   }
-
 }

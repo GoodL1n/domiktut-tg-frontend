@@ -2,7 +2,7 @@
 <app-loader></app-loader>
 }
 
-<div class="catalog">
+<div class="catalog" [style.min-height]="minHeight">
     <app-header></app-header>
     <div class="catalog__search-filter-block">
         <app-search-start style="width: 100%;" (click)="isSearchContainer = true"></app-search-start>
@@ -123,7 +123,7 @@
         </svg>
     </div>
     @if (houses$ | async) {
-    <app-houses-list [houses$]="houses$"></app-houses-list>
+    <app-houses-list (changeSize)="changeMinHeight($event)" [houses$]="houses$"></app-houses-list>
     }
 </div>
 <div class = "search-container" *ngIf="isSearchContainer">
