@@ -10,7 +10,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
 import { SearchStartComponent } from "../../components/search-start/search-start.component";
 import { SearchContainerComponent } from "../../components/search-container/search-container.component";
-import { concatMap, distinctUntilChanged, filter, map, tap } from 'rxjs';
+import { concat, concatMap, distinctUntilChanged, filter, map, tap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -35,11 +35,16 @@ export class MainPageComponent {
     private wordpressIntegrationService: WordpressIntegrationService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.dataStoreService.cityId$.pipe(
       distinctUntilChanged(),
       tap(cityId => console.log('check city', cityId)),
       filter(cityId => !!cityId),
+      concatMap(() => this.dataStoreService.allHouses$.pipe(
+        distinctUntilChanged((a, b) => a.length === b.length),
+        tap(houses => console.log('check houses', houses)),
+        filter(houses => houses.length === 0)
+      )),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
         tap(houses => console.log('request houses', houses)),
         map(data => {
@@ -49,6 +54,20 @@ export class MainPageComponent {
       )),
       takeUntilDestroyed(this._destroy)
     ).subscribe();
+
+    // concat(this.dataStoreService.allHouses$, this.dataStoreService.cityId$).pipe(
+    //   distinctUntilChanged(),
+    //   tap(cityId => console.log('check city', cityId)),
+    //   filter(cityId => !!cityId),
+    //   concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
+    //     tap(houses => console.log('request houses', houses)),
+    //     map(data => {
+    //       this.dataStoreService.setHouses(data);
+    //       this.dataStoreService.setAllHouses(data);
+    //     })
+    //   )),
+    //   takeUntilDestroyed(this._destroy)
+    // ).subscribe();
   }
 
 
