@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, take } from 'rxjs';
 import { House } from '../interfaces/house.interface';
 import { C } from '@angular/cdk/keycodes';
 
@@ -24,7 +24,7 @@ export class DataStoreService {
   currentHouseImgs$ = this._currentHouseImgs.asObservable();
 
   private _cityId = new BehaviorSubject<string>('');
-  cityId$ = this._cityId.asObservable();
+  cityId$ = this._cityId.asObservable().pipe(distinctUntilChanged());
 
   constructor() { }
 
