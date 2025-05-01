@@ -45,7 +45,15 @@ body {
 }
 
 body {
-  background-image: url('assets/background-photo.png');
+  background: url(./media/background-photo-T4WD4CD6.png),
+    linear-gradient(
+      90deg,
+      #161623 -189.03%,
+      #161623e8 -149.37%,
+      #161623a1 -105.16%,
+      #16162342 -77.44%,
+      #161623 107.08%
+    );
   background-repeat: no-repeat;
   background-size: cover;
   font-family: Montserrat;
