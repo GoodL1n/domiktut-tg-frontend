@@ -36,7 +36,7 @@
     <form class="search-container__filters filters" [formGroup]="formFilters">
         <div class="filters__row">
             <div class="filters__input">
-                <input type="tel" id="dateOfArrival" formControlName="date_of_arrival" placeholder="01.03">
+                <input type="tel" id="dateOfArrival" formControlName="date_of_arrival" placeholder="Когда заезд?">
                 <label for="dateOfArrival">Указать дату</label>
             </div>
             <div *ngIf="formFiltersConrols['date_of_arrival'].touched && formFiltersConrols['date_of_arrival'].errors?.['pattern']"
@@ -45,7 +45,7 @@
         </div>
         <div class="filters__row">
             <div class="filters__input">
-                <input type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="02.03">
+                <input type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="Когда выезд?">
                 <label for="dateOfDeparture">Указать дату</label>
             </div>
             <div *ngIf="formFiltersConrols['date_of_departure'].touched && formFiltersConrols['date_of_departure'].errors?.['pattern']"
@@ -54,7 +54,7 @@
         </div>
         <div class="filters__row">
             <div class="filters__input">
-                <input type="number" id="number_of_people" formControlName="number_of_people" placeholder="0">
+                <input type="number" id="number_of_people" formControlName="number_of_people" placeholder="Сколько?">
                 <label for="number_of_people">Кол-во человек</label>
             </div>
             <div *ngIf="formFiltersConrols['number_of_people'].touched && (formFiltersConrols['number_of_people'].errors?.['min'] || formFiltersConrols['number_of_people'].errors?.['max'])"

@@ -8,6 +8,7 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
 import { SelectGeoComponent } from './pages/select-geo/select-geo.component';
 import { FavouritesComponent } from './pages/favourites/favourites.component';
 import { CollectionComponent } from './pages/collection/collection.component';
+import { PartnershipPageComponent } from './pages/partnership-page/partnership-page.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,10 @@ export const routes: Routes = [
     {
         path: 'request-success',
         component: RequestSuccessComponent
+    },
+    {
+        path: 'partnership',
+        component: PartnershipPageComponent
     },
     {
         path: 'error',
