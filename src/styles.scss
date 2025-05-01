@@ -45,15 +45,15 @@ body {
 }
 
 body {
-  background: url(./assets/background-photo.png),
-    linear-gradient(
+  background: linear-gradient(
       90deg,
       #161623 -189.03%,
       #161623e8 -149.37%,
       #161623a1 -105.16%,
       #16162342 -77.44%,
       #161623 107.08%
-    );
+    ),
+    url(./assets/background-photo.png);
   background-repeat: no-repeat;
   background-size: cover;
   font-family: Montserrat;
