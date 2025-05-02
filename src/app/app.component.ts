@@ -20,8 +20,9 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       init();
 
-      // const data = retrieveLaunchParams();
-      // console.log('start', data);
+      const { initDataRaw, initData } = retrieveLaunchParams();
+      console.log('start', initDataRaw);
+      console.log('start', initData);
 
       mountViewport.ifAvailable();
       mountClosingBehavior.ifAvailable();
