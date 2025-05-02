@@ -127,7 +127,7 @@ textarea {
     border: none;
     border-radius: 20px;
     padding: 10px;
-    background: #616A8D6B;
+    background: #616a8d6b;
   }
 
   &__name {
@@ -215,6 +215,7 @@ textarea {
   }
 
   &__error {
+    font-family: Montserrat;
     font-weight: 600;
     font-size: 14px;
     line-height: 100%;
