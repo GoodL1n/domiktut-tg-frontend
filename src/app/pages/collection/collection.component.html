@@ -1,4 +1,4 @@
-<div class="collection">
+<div class="collection" [style.min-height]="minHeight">
     <app-header></app-header>
     <div class="collection__header">
         <div class="collection__img" [ngClass]="{'card1': collectionType === 'family',
@@ -9,6 +9,6 @@
         </span>
     </div>
     @if (houses$ | async) {
-    <app-houses-list [houses$]="houses$"></app-houses-list>
+    <app-houses-list [houses$]="houses$" (changeSize)="changeMinHeight($event)"></app-houses-list>
     }
 </div>

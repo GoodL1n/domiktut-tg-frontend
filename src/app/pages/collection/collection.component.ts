@@ -21,6 +21,8 @@ export class CollectionComponent {
   collectionType = '';
   titleCollection = '';
 
+  minHeight = '0px';
+
   _destroy: DestroyRef = inject(DestroyRef);
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -75,6 +77,10 @@ export class CollectionComponent {
         break;
     }
     return collectionName;
+  }
+
+  changeMinHeight(newHeight: number){
+    this.minHeight = newHeight + 'px';
   }
 
   ngOnDestroy(): void {
