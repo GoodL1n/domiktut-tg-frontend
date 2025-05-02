@@ -9,6 +9,7 @@ import { SelectGeoComponent } from './pages/select-geo/select-geo.component';
 import { FavouritesComponent } from './pages/favourites/favourites.component';
 import { CollectionComponent } from './pages/collection/collection.component';
 import { PartnershipPageComponent } from './pages/partnership-page/partnership-page.component';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,10 @@ export const routes: Routes = [
     {
         path: 'partnership',
         component: PartnershipPageComponent
+    },
+    {
+        path: 'about',
+        component: AboutPageComponent
     },
     {
         path: 'error',
