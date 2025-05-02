@@ -33,10 +33,9 @@ export class AppComponent implements OnInit, OnDestroy {
     disableVerticalSwipes.ifAvailable();
     miniAppReady.ifAvailable();
 
-    const { initDataRaw, initData } = retrieveLaunchParams();
-    console.log('start', initDataRaw);
-    console.log('start', initData);
-
+    const data = retrieveLaunchParams();
+    console.log('start', data);
+    
     deleteCloudStorageItem('geo');
 
     if (getCloudStorageItem.isAvailable()) {
