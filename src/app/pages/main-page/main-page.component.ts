@@ -44,11 +44,11 @@ export class MainPageComponent {
       filter(cityId => !!cityId),
       concatMap(() => this.dataStoreService.allHouses$.pipe(
         distinctUntilChanged((a, b) => a.length === b.length),
-        tap(houses => console.log('check houses', houses)),
+        tap(houses => console.log('check houses', houses.length)),
         filter(houses => houses.length === 0)
       )),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
-        tap(houses => console.log('request houses', houses)),
+        tap(houses => console.log('request houses', houses.length)),
         map((data) => {
           this.dataStoreService.setHouses(data);
           this.dataStoreService.setAllHouses(data);

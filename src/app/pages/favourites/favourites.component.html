@@ -1,4 +1,4 @@
-<div class="favourites">
+<div class="favourites" [style.min-height]="minHeight">
     <app-header></app-header>
     <div class="favourites__header">
         <svg width="47" height="42" viewBox="0 0 47 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,6 +25,6 @@
         <span class = "favourites__text">Мое избранное</span>
     </div>
     @if (favouritesHouses$ | async) {
-    <app-houses-list [houses$]="favouritesHouses$"></app-houses-list>
+    <app-houses-list [houses$]="favouritesHouses$" (changeSize)="changeMinHeight($event)"></app-houses-list>
     }
 </div>

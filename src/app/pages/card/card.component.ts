@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 import { House } from '../../interfaces/house.interface';
@@ -7,12 +7,14 @@ import { LoaderService } from '../../services/loader.service';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { DataStoreService } from '../../services/data-store.service';
-import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, concatMap, filter, map, switchMap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { EmblaCarouselDirective, EmblaCarouselType, EmblaEventType } from 'embla-carousel-angular';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FormatTextToNumberPipe } from '../../pipes/format-text-to-number.pipe';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
+import { FavouritesService } from '../../services/favourites.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-card',
@@ -29,55 +31,41 @@ export class CardComponent implements OnInit, OnDestroy {
     loop: true
   }
 
-  isFav = false;
-
   isFormRequest = false;
 
   house!: House;
 
   imgs$ = new BehaviorSubject<string[]>([]);
 
+  _destroy: DestroyRef = inject(DestroyRef);
+
   constructor(
     private router: Router,
-    private commonService: CommonService,
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService,
+    private favouritesService: FavouritesService,
     public loaderService: LoaderService
   ) { }
-
-  track(index: number, item: string) {
-    return item;
-  }
-
-  onEmblaChanged(event: EmblaEventType): void {
-    this.emblaApi = this.emblaRef?.emblaApi;
-
-    if (!this.emblaApi) {
-      return;
-    }
-
-    if (event === 'init' || event === 'reInit') {
-
-    }
-
-    if (event === 'scroll') {
-      // this.currendDot = this.emblaApi.selectedScrollSnap();
-    }
-  }
-
-  handleScrollTo(index: number) {
-    this.emblaApi?.scrollTo(index);
-  }
 
   ngOnInit(): void {
     this.dataStoreService.currentHouseId$.pipe(
       filter((id) => !!id),
-      switchMap((id) => this.wordpressIntegrationService.getHouseById(id))
+      concatMap((id) =>
+        combineLatest(this.wordpressIntegrationService.getHouseById(id), this.favouritesService.userFavourites$)
+          .pipe(
+            map(data => {
+              let house = data[0][0];
+              const user = data[1];
+
+              house.isFav = !!user.post_id_array?.find(id => Number(id) === house);
+              return house;
+            })
+          )
+      ),
+      takeUntilDestroyed(this._destroy)
     ).subscribe(data => {
-      if (data && data.length > 0) {
-        this.house = data[0];
-        this.dataStoreService.setCurrentHouse(data[0]);
-      }
+      this.house = data;
+      this.dataStoreService.setCurrentHouse(data);
     });
 
     this.dataStoreService.currentHouse$.pipe(
@@ -114,12 +102,55 @@ export class CardComponent implements OnInit, OnDestroy {
     });
   }
 
+  track(index: number, item: string) {
+    return item;
+  }
+
+  onEmblaChanged(event: EmblaEventType): void {
+    this.emblaApi = this.emblaRef?.emblaApi;
+
+    if (!this.emblaApi) {
+      return;
+    }
+
+    if (event === 'init' || event === 'reInit') {
+
+    }
+
+    if (event === 'scroll') {
+      // this.currendDot = this.emblaApi.selectedScrollSnap();
+    }
+  }
+
+  handleScrollTo(index: number) {
+    this.emblaApi?.scrollTo(index);
+  }
+
   routeNext() {
     this.isFormRequest = true;
   }
 
   routeBack() {
     this.router.navigate(['../catalog']);
+  }
+
+  changeFavourite() {
+    this.house.isFav = !this.house.isFav;
+    if (this.house.isFav) {
+      this.favouritesService.addNewPostIdUser(this.house.post_id!)
+        .pipe(
+          takeUntilDestroyed(this._destroy)
+        ).subscribe(
+          data => this.favouritesService.setUserFavourites(data)
+        );
+    } else {
+      this.favouritesService.deletePostIdUser(this.house.post_id!)
+        .pipe(
+          takeUntilDestroyed(this._destroy)
+        ).subscribe(
+          data => this.favouritesService.setUserFavourites(data)
+        );
+    }
   }
 
   ngOnDestroy(): void {

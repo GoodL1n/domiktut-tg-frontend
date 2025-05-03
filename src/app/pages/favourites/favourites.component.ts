@@ -18,6 +18,8 @@ import { DataStoreService } from '../../services/data-store.service';
 export class FavouritesComponent {
   favouritesHouses$!: Observable<House[]>;
 
+  minHeight = '0px';
+
   constructor(private router: Router,
     private favouritesService: FavouritesService,
     private dataStoreService: DataStoreService
@@ -36,6 +38,10 @@ export class FavouritesComponent {
     onBackButtonClick(() => {
       this.router.navigate(['']);
     });
+  }
+
+  changeMinHeight(newHeight: number){
+    this.minHeight = newHeight + 'px';
   }
 
   ngOnDestroy(): void {

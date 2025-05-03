@@ -67,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
     )
       .pipe(
         distinctUntilChanged((a, b) => a[1].post_id_array?.length === b[1].post_id_array?.length),
-        tap(data => console.log('обнова', data)),
+        tap(data => console.log('обнова', data[0].length, data[1])),
         map((data) => {
           let houses = data[0];
           let userFavourites = data[1];
