@@ -53,7 +53,9 @@ export class FilterContrainerComponent {
       }
       ),
       takeUntilDestroyed(this._destroy)
-    ).subscribe()
+    ).subscribe(data =>
+      this.dataStoreService.setHouses(data)
+    );
   }
 
   clearForm() {
