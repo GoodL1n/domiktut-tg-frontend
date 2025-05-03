@@ -33,4 +33,5 @@ export interface House {
 	house_photo?: string;
 	video?: string;
 	rating?: string;
+	isFav?: boolean;
 }

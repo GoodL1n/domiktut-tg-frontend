@@ -40,11 +40,10 @@
             <!-- <div class="mini-card__address">{{house.adress}}</div> -->
         </div>
         <div class="mini-card__actions">
-            <button class="mini-card__favourite" [style.background]="isFav ? '#FFFFFF' : '#FE680A'"
-                (click)="isFav = !isFav; $event.stopPropagation()">
-
+            <button class="mini-card__favourite" [style.background]="house.isFav ? '#FFFFFF' : '#FE680A'"
+                (click)="changeFavourite(); $event.stopPropagation()">
                 <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    *ngIf="!isFav">
+                    *ngIf="!house.isFav">
                     <mask id="path-1-inside-1_89_551" fill="white">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M2.51658 12.003L13.176 22.6624L13.1761 22.6623L13.1761 22.6624L23.8355 12.003C26.5115 9.32704 26.5115 4.98851 23.8355 2.31259C21.1596 -0.363339 16.8211 -0.363339 14.1451 2.31259L13.1761 3.28168L12.207 2.31258C9.53103 -0.363341 5.1925 -0.363339 2.51658 2.31259C-0.159347 4.98851 -0.159346 9.32704 2.51658 12.003Z" />
@@ -58,7 +57,7 @@
                 </svg>
 
                 <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    *ngIf="isFav">
+                    *ngIf="house.isFav">
                     <mask id="path-1-inside-1_89_433" fill="white">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M2.51658 11.907L13.176 22.5664L13.1761 22.5664L13.1761 22.5664L23.8355 11.907C26.5115 9.23106 26.5115 4.89253 23.8355 2.21661C21.1596 -0.459317 16.8211 -0.459317 14.1451 2.21661L13.1761 3.1857L12.207 2.2166C9.53103 -0.459319 5.1925 -0.459317 2.51658 2.21661C-0.159347 4.89253 -0.159346 9.23107 2.51658 11.907Z" />

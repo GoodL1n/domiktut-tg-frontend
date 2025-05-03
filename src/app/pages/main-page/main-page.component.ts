@@ -10,9 +10,10 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
 import { SearchStartComponent } from "../../components/search-start/search-start.component";
 import { SearchContainerComponent } from "../../components/search-container/search-container.component";
-import { concat, concatMap, distinctUntilChanged, filter, map, tap } from 'rxjs';
+import { concat, concatMap, distinctUntilChanged, filter, forkJoin, map, tap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FavouritesService } from '../../services/favourites.service';
 
 @Component({
   selector: 'app-main-page',
@@ -32,7 +33,8 @@ export class MainPageComponent {
     private router: Router,
     public loaderService: LoaderService,
     private dataStoreService: DataStoreService,
-    private wordpressIntegrationService: WordpressIntegrationService
+    private wordpressIntegrationService: WordpressIntegrationService,
+    private favouritesService: FavouritesService
   ) { }
 
   ngOnInit() {
@@ -47,28 +49,12 @@ export class MainPageComponent {
       )),
       concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
         tap(houses => console.log('request houses', houses)),
-        map(data => {
+        map((data) => {
           this.dataStoreService.setHouses(data);
           this.dataStoreService.setAllHouses(data);
         })
       )),
       takeUntilDestroyed(this._destroy)
     ).subscribe();
-
-    // concat(this.dataStoreService.allHouses$, this.dataStoreService.cityId$).pipe(
-    //   distinctUntilChanged(),
-    //   tap(cityId => console.log('check city', cityId)),
-    //   filter(cityId => !!cityId),
-    //   concatMap(() => this.wordpressIntegrationService.getHouses().pipe(
-    //     tap(houses => console.log('request houses', houses)),
-    //     map(data => {
-    //       this.dataStoreService.setHouses(data);
-    //       this.dataStoreService.setAllHouses(data);
-    //     })
-    //   )),
-    //   takeUntilDestroyed(this._destroy)
-    // ).subscribe();
   }
-
-
 }

@@ -1,7 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmation, expandViewport, getCloudStorageItem, init, miniAppReady, mountClosingBehavior, mountMiniApp, mountSwipeBehavior, mountViewport, retrieveLaunchParams, retrieveRawInitData, unmountClosingBehavior, unmountMiniApp, unmountSwipeBehavior, unmountViewport, viewport } from '@telegram-apps/sdk';
 import { DataStoreService } from './services/data-store.service';
+import { FavouritesService } from './services/favourites.service';
+import { combineLatest, filter, map, take, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -12,8 +15,11 @@ import { DataStoreService } from './services/data-store.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+  _destroy: DestroyRef = inject(DestroyRef);
+
   constructor(private router: Router,
-    private dataStoreService: DataStoreService
+    private dataStoreService: DataStoreService,
+    private favouritesService: FavouritesService
   ) { }
 
   async ngOnInit() {
@@ -34,8 +40,48 @@ export class AppComponent implements OnInit, OnDestroy {
     miniAppReady.ifAvailable();
 
     const data = retrieveLaunchParams();
-    console.log('start', data);
-    
+    if (data) {
+      const user = data.tgWebAppData?.user;
+      if (user?.username) {
+        this.favouritesService.setUsername(user?.username);
+        this.favouritesService.getUserFavourites(user?.username)
+          .pipe(
+            take(1)
+          )
+          .subscribe(data => {
+            console.log('данные пользователя', data)
+            this.favouritesService.setUserFavourites(data)
+          });
+      }
+    }
+
+    combineLatest(
+      this.dataStoreService.allHouses$
+        .pipe(
+          filter(houses => houses.length !== 0)
+        ),
+      this.favouritesService.userFavourites$
+        .pipe(
+          filter(userFav => userFav && Object.keys(userFav).length > 0)
+        )
+    )
+      .pipe(
+        tap(data => console.log('обнова', data)),
+        map((data) => {
+          let houses = data[0];
+          let userFavourites = data[1];
+
+          houses.map(house => {
+            house.isFav = !!userFavourites.post_id_array?.find(id => Number(id) === house.post_id);
+            return house;
+          })
+
+          this.dataStoreService.setHouses(houses);
+          this.dataStoreService.setAllHouses(houses);
+        }),
+        takeUntilDestroyed(this._destroy)
+      )
+
     deleteCloudStorageItem('geo');
 
     if (getCloudStorageItem.isAvailable()) {

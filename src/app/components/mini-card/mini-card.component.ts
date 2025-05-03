@@ -12,6 +12,7 @@ import {
   EmblaEventType
 } from 'embla-carousel-angular'
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { FavouritesService } from '../../services/favourites.service';
 
 @Component({
   selector: 'app-mini-card',
@@ -30,8 +31,6 @@ export class MiniCardComponent implements OnInit {
     loop: true
   }
 
-  isFav = false;
-
   public acountDotSignal = signal<number[]>([]);
   currendDot = 0;
 
@@ -44,7 +43,30 @@ export class MiniCardComponent implements OnInit {
   constructor(private router: Router,
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService,
+    private favouritesService: FavouritesService
   ) { }
+
+  ngOnInit() {
+    if (this.house.house_photo) {
+      this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 3).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
+        console.log('current house imgs', this.house.post_id)
+        console.log(data)
+        const array = (data as Array<any>).map(element => {
+          return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
+        })
+        this.imgs.next(array);
+      })
+    }
+
+    // this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 1).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
+    //   console.log(data);
+    //   this.img = 'https://domiktut.ru/wp-content/uploads/' + (data as Array<any>)[0].img_value;
+    // })
+  }
+
+  ngAfterViewInit() {
+    this.emblaApi = this.emblaRef?.emblaApi;
+  }
 
   track(index: number, item: string) {
     return item;
@@ -76,28 +98,6 @@ export class MiniCardComponent implements OnInit {
     this.emblaApi?.scrollTo(index);
   }
 
-  ngOnInit() {
-    if (this.house.house_photo) {
-      this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 3).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
-        console.log('current house imgs', this.house.post_id)
-        console.log(data)
-        const array = (data as Array<any>).map(element => {
-          return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
-        })
-        this.imgs.next(array);
-      })
-    }
-
-    // this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 1).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
-    //   console.log(data);
-    //   this.img = 'https://domiktut.ru/wp-content/uploads/' + (data as Array<any>)[0].img_value;
-    // })
-  }
-
-  ngAfterViewInit() {
-    this.emblaApi = this.emblaRef?.emblaApi;
-  }
-
   calcMinPrice(house: House) {
     let priceArray: number[] = [];
 
@@ -114,5 +114,24 @@ export class MiniCardComponent implements OnInit {
   route() {
     if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
     this.router.navigate(['card']);
+  }
+
+  changeFavourite() {
+    this.house.isFav = !this.house.isFav;
+    if (this.house.isFav) {
+      this.favouritesService.addNewPostIdUser(this.house.post_id!)
+        .pipe(
+          takeUntilDestroyed(this._destroy)
+        ).subscribe(
+          data => this.favouritesService.setUserFavourites(data)
+        );
+    } else {
+      this.favouritesService.deletePostIdUser(this.house.post_id!)
+        .pipe(
+          takeUntilDestroyed(this._destroy)
+        ).subscribe(
+          data => this.favouritesService.setUserFavourites(data)
+        );
+    }
   }
 }
