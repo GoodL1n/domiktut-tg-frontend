@@ -57,7 +57,7 @@ export class CardComponent implements OnInit, OnDestroy {
               let house = data[0][0];
               const user = data[1];
 
-              house.isFav = !!user.post_id_array?.find(id => Number(id) === house);
+              house.isFav = !!user.post_id_array?.find(id => Number(id) === house.post_id);
               return house;
             })
           )
