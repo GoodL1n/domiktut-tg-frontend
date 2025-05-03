@@ -1,19 +1,17 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { AsyncPipe, NgIf, NgStyle } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { RouterLink} from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { LoaderService } from '../../services/loader.service';
-import { getCloudStorageItem } from '@telegram-apps/sdk';
 import { DataStoreService } from '../../services/data-store.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
 import { SearchStartComponent } from "../../components/search-start/search-start.component";
 import { SearchContainerComponent } from "../../components/search-container/search-container.component";
-import { concat, concatMap, distinctUntilChanged, filter, forkJoin, map, tap } from 'rxjs';
+import { concatMap, distinctUntilChanged, filter, map, tap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FavouritesService } from '../../services/favourites.service';
 
 @Component({
   selector: 'app-main-page',
@@ -30,12 +28,9 @@ export class MainPageComponent {
   _destroy: DestroyRef = inject(DestroyRef);
 
   constructor(
-    private router: Router,
     public loaderService: LoaderService,
     private dataStoreService: DataStoreService,
-    private wordpressIntegrationService: WordpressIntegrationService,
-    private favouritesService: FavouritesService
-  ) { }
+    private wordpressIntegrationService: WordpressIntegrationService) { }
 
   ngOnInit() {
     this.dataStoreService.cityId$.pipe(

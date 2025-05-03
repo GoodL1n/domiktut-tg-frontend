@@ -29,6 +29,15 @@ export class WordpressIntegrationService {
     return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
   }
 
+  getHousesIdByDate(date_of_arrival: string, date_of_departure: string): Observable<string[]> {
+    let httpParams = new HttpParams();
+
+    httpParams = httpParams.set('date_of_arrival', date_of_arrival);
+    httpParams = httpParams.set('date_of_departure', date_of_departure);
+
+    return this.httpClient.get<string[]>(WORDPRESS_INTEGRATION_API + 'filter-date', { params: httpParams });
+  }
+
   getHousesByFilter(filterData: Partial<Filter>): Observable<House[]> {
     let httpParams = new HttpParams()
       .set('cityId', this.cityId);

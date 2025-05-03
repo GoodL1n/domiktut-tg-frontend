@@ -117,5 +117,5 @@
     <app-form-request (closeForm)="isFormRequest = false"></app-form-request>
 </div>
 <div class = "search-container" *ngIf="isSearchContainer">
-    <app-search-container (closeSearchContainer)="isSearchContainer = false"></app-search-container>
+    <app-search-container [isOpenFromMainPage]="true" (closeSearchContainer)="isSearchContainer = false"></app-search-container>
 </div>
