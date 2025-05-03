@@ -2,7 +2,7 @@
 <app-loader></app-loader>
 }
 
-<div class="catalog" [style.min-height]="minHeight">
+<div class="catalog" [style.min-height]="minHeight" [ngClass]="{'catalog-none': isSearchContainer}">
     <app-header></app-header>
     <div class="catalog__search-filter-block">
         <app-search-start style="width: 100%;" (click)="isSearchContainer = true"></app-search-start>

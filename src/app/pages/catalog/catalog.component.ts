@@ -17,7 +17,7 @@ import { FilterContrainerComponent } from "../../components/filter-contrainer/fi
 
 @Component({
   selector: 'app-catalog',
-  imports: [LoaderComponent, SearchContainerComponent, AsyncPipe, HeaderComponent, HousesListComponent, SearchStartComponent, NgIf, FilterContrainerComponent],
+  imports: [LoaderComponent, SearchContainerComponent, AsyncPipe, HeaderComponent, HousesListComponent, SearchStartComponent, NgIf, NgClass, FilterContrainerComponent],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss',
 })
