@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { deleteCloudStorageItem, disableVerticalSwipes, enableClosingConfirmation, expandViewport, getCloudStorageItem, init, miniAppReady, mountClosingBehavior, mountMiniApp, mountSwipeBehavior, mountViewport, retrieveLaunchParams, retrieveRawInitData, unmountClosingBehavior, unmountMiniApp, unmountSwipeBehavior, unmountViewport, viewport } from '@telegram-apps/sdk';
 import { DataStoreService } from './services/data-store.service';
 import { FavouritesService } from './services/favourites.service';
-import { combineLatest, filter, map, take, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, filter, map, take, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
@@ -62,7 +62,8 @@ export class AppComponent implements OnInit, OnDestroy {
         ),
       this.favouritesService.userFavourites$
         .pipe(
-          filter(userFav => userFav && Object.keys(userFav).length > 0)
+          filter(userFav => userFav && Object.keys(userFav).length > 0),
+          distinctUntilChanged((a, b) => a.post_id_array?.length === b.post_id_array?.length)
         )
     )
       .pipe(
