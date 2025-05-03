@@ -62,11 +62,11 @@ export class AppComponent implements OnInit, OnDestroy {
         ),
       this.favouritesService.userFavourites$
         .pipe(
-          filter(userFav => userFav && Object.keys(userFav).length > 0),
-          distinctUntilChanged((a, b) => a.post_id_array?.length === b.post_id_array?.length)
+          filter(userFav => userFav && Object.keys(userFav).length > 0)
         )
     )
       .pipe(
+        distinctUntilChanged((a, b) => a[1].post_id_array?.length === b[1].post_id_array?.length),
         tap(data => console.log('обнова', data)),
         map((data) => {
           let houses = data[0];
