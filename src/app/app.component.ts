@@ -80,7 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.dataStoreService.setAllHouses(houses);
         }),
         takeUntilDestroyed(this._destroy)
-      )
+      ).subscribe()
 
     deleteCloudStorageItem('geo');
 
