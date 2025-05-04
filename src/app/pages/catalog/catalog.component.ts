@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { House } from '../../interfaces/house.interface';
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap, combineLatest } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap, combineLatest, distinctUntilChanged } from 'rxjs';
 import { DataStoreService } from '../../services/data-store.service';
 import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -38,7 +38,15 @@ export class CatalogComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.houses$ = combineLatest(this.dataStoreService.allHouses$, this.dataStoreService.filter$)
+    this.houses$ = combineLatest(
+      this.dataStoreService.allHouses$
+        .pipe(
+          distinctUntilChanged((a, b) => a.length === b.length)
+        ),
+      this.dataStoreService.filter$
+        .pipe(
+          distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length)
+        ))
       .pipe(
         tap(t => console.log('catalog houses')),
         map((data) => {
