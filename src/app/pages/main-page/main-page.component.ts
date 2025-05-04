@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { RouterLink} from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LoaderComponent } from '../../components/loader/loader.component';
@@ -15,7 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main-page',
-  imports: [ScrollingModule, HeaderComponent, LoaderComponent, FormRequestComponent, AsyncPipe, RouterLink, NgIf, SearchStartComponent, SearchContainerComponent],
+  imports: [ScrollingModule, HeaderComponent, LoaderComponent, FormRequestComponent, AsyncPipe, RouterLink, NgIf, SearchStartComponent, SearchContainerComponent, NgClass],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'
 })

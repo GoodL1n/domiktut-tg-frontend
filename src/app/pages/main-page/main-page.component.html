@@ -2,7 +2,7 @@
 <app-loader></app-loader>
 }
 
-<div class="main-container">
+<div class="main-container" [ngClass]="{'main-container-enlarged': isFormRequest}">
     <app-header></app-header>
     <app-search-start style="width: 100%;" (click)="isSearchContainer = true"></app-search-start>
     <div class="main-container__collection-block collection-block">
