@@ -87,7 +87,7 @@ export class SearchContainerComponent implements OnInit {
                 return { ...filter, post_id: ids };
               })
             )),
-          takeUntilDestroyed(this._destroy),
+          take(1)
         )
         .subscribe(data => {
           this.dataStoreService.setFilter(data);
@@ -99,7 +99,7 @@ export class SearchContainerComponent implements OnInit {
 
     } else if (this.formFilters.value.number_of_people) {
       this.dataStoreService.filter$.pipe(
-        takeUntilDestroyed(this._destroy)
+        take(1)
       ).subscribe(currentFilters => {
         this.dataStoreService.setFilter({ ...currentFilters, number_of_people: this.formFilters.value.number_of_people });
 
@@ -112,7 +112,7 @@ export class SearchContainerComponent implements OnInit {
 
   clearForm() {
     this.dataStoreService.filter$.pipe(
-      takeUntilDestroyed(this._destroy)
+      take(1)
     ).subscribe(currentFilters => {
       let filters = currentFilters;
 

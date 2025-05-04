@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
-import { map, takeWhile } from 'rxjs';
+import { map, take, takeWhile } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { House } from '../../interfaces/house.interface';
 
@@ -36,9 +36,8 @@ export class FilterContrainerComponent {
     console.log('filters', this.formFilters.value);
 
     this.dataStoreService.filter$.pipe(
-      takeUntilDestroyed(this._destroy)
+      take(1)
     ).subscribe(currentFilters => {
-      console.log('123');
       this.dataStoreService.setFilter({ ...currentFilters, ...this.formFilters.value });
     })
   }
@@ -46,7 +45,7 @@ export class FilterContrainerComponent {
   clearForm() {
 
     this.dataStoreService.filter$.pipe(
-      takeUntilDestroyed(this._destroy)
+      take(1)
     ).subscribe(currentFilters => {
       let filters = currentFilters;
 
