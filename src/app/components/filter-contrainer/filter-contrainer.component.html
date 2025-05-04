@@ -30,6 +30,12 @@
                 class="list-filters__error">
                 Недопустимое значение</div>
         </div>
+        <div class="list-filters__row">
+            <div class="list-filters__input">
+                <input class="list-filters__input-checkbox" type="checkbox" id="pool" formControlName="pool">
+                <label class="list-filters__input-label" for="pool">Бассейн</label>
+            </div>
+        </div>
     </form>
     <div class="filter-container__btns btns">
         <div class="btns__clear" (click)="clearForm()">Очистить фильтры</div>

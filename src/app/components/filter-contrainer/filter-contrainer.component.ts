@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DataStoreService } from '../../services/data-store.service';
 import { map, takeWhile } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { House } from '../../interfaces/house.interface';
 
 @Component({
   selector: 'app-filter-contrainer',
@@ -25,40 +26,36 @@ export class FilterContrainerComponent {
   constructor(private builder: FormBuilder,
     private dataStoreService: DataStoreService) {
     this.formFilters = this.builder.group({
-      // number_of_people: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
+      pool: [false]
     });
   }
 
   submitForm() {
     console.log('filters', this.formFilters.value);
 
-    this.dataStoreService.houses$.pipe(
-      map(houses => {
-        let filteredHouses = houses;
-        if (this.formFilters.value.number_of_bedrooms && this.formFilters.value.number_of_beds) {
-          filteredHouses = houses.filter(house =>
-            (house.number_of_bedrooms && (house.number_of_bedrooms >= this.formFilters.value.number_of_bedrooms))
-            && (house.number_of_beds && (house.number_of_beds >= this.formFilters.value.number_of_beds))
-          )
-        } else if (this.formFilters.value.number_of_bedrooms) {
-          filteredHouses = houses.filter(house =>
-            house.number_of_bedrooms && (house.number_of_bedrooms >= this.formFilters.value.number_of_bedrooms))
-        } else if (this.formFilters.value.number_of_beds) {
-          filteredHouses = houses.filter(house =>
-            house.number_of_beds && (house.number_of_beds >= this.formFilters.value.number_of_beds))
-        }
-        return filteredHouses;
-      }
-      ),
+    this.dataStoreService.filter$.pipe(
       takeUntilDestroyed(this._destroy)
-    ).subscribe(data =>
-      this.dataStoreService.setHouses(data)
-    );
+    ).subscribe(currentFilters => {
+      this.dataStoreService.setFilter({ ...currentFilters, ...this.formFilters.value });
+    })
   }
 
   clearForm() {
+
+    this.dataStoreService.filter$.pipe(
+      takeUntilDestroyed(this._destroy)
+    ).subscribe(currentFilters => {
+      let filters = currentFilters;
+
+      delete filters.number_of_bedrooms;
+      delete filters.number_of_beds;
+      delete filters.pool;
+
+      this.dataStoreService.setFilter(filters);
+    })
+
     this.formFilters.reset();
   }
 }

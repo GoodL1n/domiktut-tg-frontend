@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, distinctUntilChanged, take } from 'rxjs';
 import { House } from '../interfaces/house.interface';
 import { C } from '@angular/cdk/keycodes';
+import { Filter } from '../interfaces/filter.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ export class DataStoreService {
 
   private _allHouses = new BehaviorSubject<House[]>([]);
   allHouses$ = this._allHouses.asObservable();
+
+  private _filter = new BehaviorSubject<Filter>({});
+  filter$ = this._filter.asObservable();
 
   private _currentHouseId = new BehaviorSubject<number>(0);
   currentHouseId$ = this._currentHouseId.asObservable();
@@ -34,6 +38,10 @@ export class DataStoreService {
 
   setAllHouses(houses: House[]) {
     this._allHouses.next(houses);
+  }
+
+  setFilter(filter: Filter){
+    this._filter.next(filter);
   }
 
   setCurrentHouseId(id: number){

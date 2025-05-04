@@ -46,8 +46,6 @@ label {
 .list-filters {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   gap: 10px;
 
@@ -66,6 +64,17 @@ label {
     display: flex;
     flex-direction: row;
     align-items: center;
+    align-items: center;
+    width: 100%;
+
+    &-checkbox {
+      width: 30px;
+      height: 30px;
+    }
+
+    &-label{
+      text-align: center;
+    }
   }
 
   &__error {

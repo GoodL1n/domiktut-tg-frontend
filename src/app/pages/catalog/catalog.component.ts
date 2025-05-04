@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { House } from '../../interfaces/house.interface';
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap, combineLatest } from 'rxjs';
 import { DataStoreService } from '../../services/data-store.service';
 import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,6 +14,7 @@ import { LoaderComponent } from '../../components/loader/loader.component';
 import { HousesListComponent } from "../../components/houses-list/houses-list.component";
 import { SearchStartComponent } from "../../components/search-start/search-start.component";
 import { FilterContrainerComponent } from "../../components/filter-contrainer/filter-contrainer.component";
+import { Filter } from '../../interfaces/filter.interface';
 
 @Component({
   selector: 'app-catalog',
@@ -37,7 +38,21 @@ export class CatalogComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.houses$ = this.dataStoreService.houses$;
+    this.houses$ = combineLatest(this.dataStoreService.allHouses$, this.dataStoreService.filter$)
+      .pipe(
+        tap(t => console.log('catalog houses')),
+        map((data) => {
+          const houses = data[0];
+          const filters = data[1];
+
+          if (houses.length === 0 || Object.keys(filters).length === 0) {
+            return houses;
+          }
+
+          return this.filterArrayHouse(houses, filters);
+        }),
+        takeUntilDestroyed(this._destroy)
+      );
 
     mountBackButton.ifAvailable();
     showBackButton();
@@ -46,7 +61,37 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  changeMinHeight(newHeight: number){
+  filterArrayHouse(houses: House[], filters: Filter) {
+    let filteredArray = [];
+
+    for (let i = 0; i < houses.length; i++) {
+      if (filters.post_id && !filters.post_id.find(id => houses[i].post_id === id)) {
+        continue;
+      }
+
+      if (filters.number_of_people && houses[i].number_of_people && parseInt(houses[i].number_of_people!) <= filters.number_of_people) {
+        continue;
+      }
+
+      if (filters.number_of_bedrooms && houses[i].number_of_bedrooms && parseInt(houses[i].number_of_bedrooms!.replace(/[^0-9]/g, "")) <= filters.number_of_bedrooms) {
+        continue;
+      }
+
+      if (filters.number_of_beds && houses[i].number_of_beds && parseInt(houses[i].number_of_beds!.replace(/[^0-9]/g, ""))! <= filters.number_of_beds) {
+        continue;
+      }
+
+      if (filters.pool && !houses[i].waterpool_catalog) {
+        continue;
+      }
+
+      filteredArray.push(houses[i]);
+    }
+
+    return filteredArray;
+  }
+
+  changeMinHeight(newHeight: number) {
     this.minHeight = newHeight + 'px';
   }
 

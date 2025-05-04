@@ -74,38 +74,49 @@ export class SearchContainerComponent implements OnInit {
 
   sumbitForm() {
     console.log('search container', this.formFilters.value);
+
     if (this.formFilters.value.date_of_arrival && this.formFilters.value.date_of_departure) {
       this.wordpressIntegrationService.getHousesIdByDate(this.formFilters.value.date_of_arrival, this.formFilters.value.date_of_departure)
         .pipe(
-          tap(data => console.log('id после фильтрации', data)),
-          concatMap((data) => this.dataStoreService.houses$
+          concatMap((ids) => this.dataStoreService.filter$
             .pipe(
-              map(houses => {
-                return houses.filter(house => !!data.find(id => Number(id) === house.post_id));
+              map(filter => {
+                if (this.formFilters.value.number_of_people) {
+                  return { ...filter, post_id: ids, number_of_people: this.formFilters.value.number_of_people };
+                }
+                return { ...filter, post_id: ids };
               })
             )),
-          takeUntilDestroyed(this._destroy)
+          takeUntilDestroyed(this._destroy),
         )
-        .subscribe(data => this.dataStoreService.setHouses(data));
+        .subscribe(data => {
+          this.dataStoreService.setFilter(data);
+        });
+    } else if (this.formFilters.value.number_of_people) {
+      this.dataStoreService.filter$.pipe(
+        takeUntilDestroyed(this._destroy)
+      ).subscribe(currentFilters => {
+        this.dataStoreService.setFilter({ ...currentFilters, number_of_people: this.formFilters.value.number_of_people });
+      })
     }
-    if (this.formFilters.value.number_of_people) {
-      this.dataStoreService.houses$
-        .pipe(
-          map(houses => {
-            return houses.filter(house => Number(house.number_of_people) >= this.formFilters.value.number_of_people);
-          })
-          ,
-          takeUntilDestroyed(this._destroy)
-        )
-        .subscribe(data => this.dataStoreService.setHouses(data));
-    }
+
     if (this.isOpenFromMainPage) {
       this.router.navigate(['/catalog']);
     }
   }
 
   clearForm() {
-    this.dataStoreService.updatedMainStore();
+    this.dataStoreService.filter$.pipe(
+      takeUntilDestroyed(this._destroy)
+    ).subscribe(currentFilters => {
+      let filters = currentFilters;
+
+      delete filters.post_id;
+      delete filters.number_of_people;
+
+      this.dataStoreService.setFilter(filters);
+    })
+
     this.formFilters.reset();
   }
 
