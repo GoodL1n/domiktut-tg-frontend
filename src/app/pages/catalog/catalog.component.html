@@ -5,8 +5,8 @@
 <div class="catalog" [style.min-height]="minHeight" [ngClass]="{'catalog-none': isSearchContainer}">
     <app-header></app-header>
     <div class="catalog__search-filter-block">
-        <app-search-start style="width: 100%;" (click)="isSearchContainer = true"></app-search-start>
-        <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="isFilterContainer = !isFilterContainer">
+        <app-search-start style="width: 100%;" (click)="isSearchContainer = true; isFilterContainer = false"></app-search-start>
+        <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="isFilterContainer = !isFilterContainer; isSearchContainer = false">
             <g filter="url(#filter0_d_161_147)">
                 <path d="M6.3335 8.77686H25.3335" stroke="#FF764D" stroke-width="2" stroke-linecap="round" />
             </g>
