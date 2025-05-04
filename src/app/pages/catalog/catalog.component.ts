@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { House } from '../../interfaces/house.interface';
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap, combineLatest, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap, combineLatest, distinctUntilChanged, concatMap } from 'rxjs';
 import { DataStoreService } from '../../services/data-store.service';
 import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -38,29 +38,21 @@ export class CatalogComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.houses$ = combineLatest(
-      this.dataStoreService.allHouses$
-        .pipe(
-          distinctUntilChanged((a, b) => a.length === b.length)
-        ),
-      this.dataStoreService.filter$
-        .pipe(
-          distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length)
-        ))
+    this.houses$ = this.dataStoreService.filter$
       .pipe(
-        tap(t => console.log('catalog houses')),
-        map((data) => {
-          const houses = data[0];
-          const filters = data[1];
+        distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length),
+        concatMap((filter) => this.dataStoreService.allHouses$.pipe(
+          distinctUntilChanged((a, b) => a.length === b.length),
+          map(houses => {
+            if (houses.length === 0 || Object.keys(filter).length === 0) {
+              return houses;
+            }
 
-          if (houses.length === 0 || Object.keys(filters).length === 0) {
-            return houses;
-          }
-
-          return this.filterArrayHouse(houses, filters);
-        }),
+            return this.filterArrayHouse(houses, filter);
+          })
+        )),
         takeUntilDestroyed(this._destroy)
-      );
+      )
 
     mountBackButton.ifAvailable();
     showBackButton();
