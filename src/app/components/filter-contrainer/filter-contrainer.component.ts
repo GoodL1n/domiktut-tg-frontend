@@ -38,6 +38,7 @@ export class FilterContrainerComponent {
     this.dataStoreService.filter$.pipe(
       takeUntilDestroyed(this._destroy)
     ).subscribe(currentFilters => {
+      console.log('123');
       this.dataStoreService.setFilter({ ...currentFilters, ...this.formFilters.value });
     })
   }
