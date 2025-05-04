@@ -46,7 +46,7 @@ export class MiniCardComponent implements OnInit {
     private favouritesService: FavouritesService
   ) { }
 
-  ngOnInit() {
+  ngOnChanges(): void {
     if (this.house.house_photo) {
       this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 3).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
         console.log('current house imgs', this.house.post_id)
@@ -57,6 +57,19 @@ export class MiniCardComponent implements OnInit {
         this.imgs.next(array);
       })
     }
+  }
+
+  ngOnInit() {
+    // if (this.house.house_photo) {
+    //   this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 3).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
+    //     console.log('current house imgs', this.house.post_id)
+    //     console.log(data)
+    //     const array = (data as Array<any>).map(element => {
+    //       return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
+    //     })
+    //     this.imgs.next(array);
+    //   })
+    // }
 
     // this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 1).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
     //   console.log(data);

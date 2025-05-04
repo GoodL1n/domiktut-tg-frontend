@@ -91,17 +91,22 @@ export class SearchContainerComponent implements OnInit {
         )
         .subscribe(data => {
           this.dataStoreService.setFilter(data);
+
+          if (this.isOpenFromMainPage) {
+            this.router.navigate(['/catalog']);
+          }
         });
+
     } else if (this.formFilters.value.number_of_people) {
       this.dataStoreService.filter$.pipe(
         takeUntilDestroyed(this._destroy)
       ).subscribe(currentFilters => {
         this.dataStoreService.setFilter({ ...currentFilters, number_of_people: this.formFilters.value.number_of_people });
-      })
-    }
 
-    if (this.isOpenFromMainPage) {
-      this.router.navigate(['/catalog']);
+        if (this.isOpenFromMainPage) {
+          this.router.navigate(['/catalog']);
+        }
+      })
     }
   }
 
