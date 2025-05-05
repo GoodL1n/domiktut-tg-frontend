@@ -68,8 +68,7 @@ export class SearchContainerComponent implements OnInit {
   }
 
   applySearchInput() {
-    console.log(123)
-    // this.filteredHouses$.pipe(take(1)).subscribe(data => { console.log(data); this.dataStoreService.setHouses(data) });
+    this.filteredHouses$.pipe(take(1)).subscribe(data => { console.log(data); });
   }
 
   sumbitForm() {

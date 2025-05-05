@@ -40,6 +40,7 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.houses$ = this.dataStoreService.filter$
       .pipe(
+        distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length),
         tap(filters => console.log('catalog filters', filters)),
         concatMap((filter) => this.dataStoreService.allHouses$.pipe(
           map(houses => {
