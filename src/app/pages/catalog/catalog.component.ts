@@ -40,8 +40,7 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.houses$ = this.dataStoreService.filter$
       .pipe(
-        distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length),
-        tap(log => console.log('catalog filters')),
+        tap(filters => console.log('catalog filters', filters)),
         concatMap((filter) => this.dataStoreService.allHouses$.pipe(
           map(houses => {
             if (houses.length === 0 || Object.keys(filter).length === 0) {
@@ -49,7 +48,8 @@ export class CatalogComponent implements OnInit {
             }
 
             return this.filterArrayHouse(houses, filter);
-          })
+          }),
+          tap(houses => console.log('catalog filtered houses', houses))
         )),
         takeUntilDestroyed(this._destroy)
       )
