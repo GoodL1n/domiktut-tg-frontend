@@ -43,7 +43,6 @@ export class CatalogComponent implements OnInit {
         distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length),
         tap(log => console.log('catalog filters')),
         concatMap((filter) => this.dataStoreService.allHouses$.pipe(
-          distinctUntilChanged((a, b) => a.length === b.length),
           map(houses => {
             if (houses.length === 0 || Object.keys(filter).length === 0) {
               return houses;
