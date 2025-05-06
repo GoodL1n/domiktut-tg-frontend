@@ -12,7 +12,7 @@ export class TelegramService {
   constructor(private httpClient: HttpClient) { }
 
   sendMessage(message: string) {
-    return this.httpClient.post<string>(TELEGRAM_API + 'send', message, {
+    return this.httpClient.post<string>(TELEGRAM_API, message, {
       headers: {
         'Content-Type': 'application/json'
       }

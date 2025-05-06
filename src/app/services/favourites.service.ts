@@ -27,14 +27,14 @@ export class FavouritesService {
   addNewPostIdUser(post_id: number): Observable<TelegramUser> {
     return this.username$.pipe(
       filter(username => !!username),
-      concatMap((username) => this.httpClient.post<TelegramUser>(TGUSER_API + 'new-post', { username, post_id }))
+      concatMap((username) => this.httpClient.post<TelegramUser>(TGUSER_API + 'new', { username, post_id }))
     )
   }
 
   deletePostIdUser(post_id: number): Observable<TelegramUser> {
     return this.username$.pipe(
       filter(username => !!username),
-      concatMap((username) => this.httpClient.post<TelegramUser>(TGUSER_API + 'delete-post', { username, post_id }))
+      concatMap((username) => this.httpClient.post<TelegramUser>(TGUSER_API + 'delete', { username, post_id }))
     )
   }
 

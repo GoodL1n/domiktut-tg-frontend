@@ -26,7 +26,7 @@ export class WordpressIntegrationService {
   }
 
   getHouses(): Observable<House[]> {
-    return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API, { params: { 'cityId': this.cityId } });
+    return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API + 'houses', { params: { 'cityId': this.cityId } });
   }
 
   getHousesIdByDate(date_of_arrival: string, date_of_departure: string): Observable<number[]> {
@@ -35,7 +35,7 @@ export class WordpressIntegrationService {
     httpParams = httpParams.set('date_of_arrival', date_of_arrival);
     httpParams = httpParams.set('date_of_departure', date_of_departure);
 
-    return this.httpClient.get<number[]>(WORDPRESS_INTEGRATION_API + 'filter-date', { params: httpParams });
+    return this.httpClient.get<number[]>(WORDPRESS_INTEGRATION_API + 'houses/filter', { params: httpParams });
   }
 
   // getHousesByFilter(filterData: Partial<Filter>): Observable<House[]> {
@@ -57,7 +57,7 @@ export class WordpressIntegrationService {
   // }
 
   getHouseById(id: number) {
-    return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API + `house/${id}`);
+    return this.httpClient.get<House[]>(WORDPRESS_INTEGRATION_API + `houses/${id}`);
   }
 
   getImagesUrl(postsId: string, limit?: number) {
@@ -66,6 +66,6 @@ export class WordpressIntegrationService {
 
     if (limit) httpParams = httpParams.set('limit', limit);
 
-    return this.httpClient.get(WORDPRESS_INTEGRATION_API + 'imgs', { params: httpParams })
+    return this.httpClient.get(WORDPRESS_INTEGRATION_API + 'houses/imgs', { params: httpParams })
   }
 }
