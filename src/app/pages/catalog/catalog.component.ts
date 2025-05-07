@@ -38,23 +38,21 @@ export class CatalogComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.houses$ = this.dataStoreService.filter$
-      .pipe(
-        distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length),
-        tap(filters => console.log('catalog filters', filters)),
-        map(filters => filters),
-        concatMap((filter) => this.dataStoreService.allHouses$.pipe(
-          map(houses => {
-            console.log('зашли')
-            if (houses.length === 0 || Object.keys(filter).length === 0) {
-              return houses;
-            }
+    this.houses$ = combineLatest(
+      this.dataStoreService.filter$,
+      this.dataStoreService.allHouses$
+    ).pipe(
+      distinctUntilChanged((a, b) => Object.keys(a[0]).length === Object.keys(b[0]).length),
+      map(([filter, houses]) => {
+        console.log('зашли');
+        if (houses.length === 0 || Object.keys(filter).length === 0) {
+          return houses;
+        }
 
-            return this.filterArrayHouse(houses, filter);
-          }),
-          tap(houses => console.log('catalog filtered houses', houses))
-        )),
-      )
+        return this.filterArrayHouse(houses, filter);
+      }),
+      tap(houses => console.log('catalog filtered houses', houses))
+    );
 
     mountBackButton.ifAvailable();
     showBackButton();
