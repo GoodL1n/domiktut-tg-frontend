@@ -68,6 +68,7 @@ export class CardComponent implements OnInit, OnDestroy {
       this.dataStoreService.setCurrentHouse(data);
     });
 
+    // поднять этот тунель выше, сделав одним последовательным и вызываемым единоразово после загрузки данных о доме
     this.dataStoreService.currentHouse$.pipe(
       filter((house) => (Object.keys(house).length > 0 && !!house.house_photo)),
       switchMap((house) => this.wordpressIntegrationService.getImagesUrl(house.house_photo!, 4)))

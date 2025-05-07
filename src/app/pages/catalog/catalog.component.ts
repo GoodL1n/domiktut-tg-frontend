@@ -42,8 +42,10 @@ export class CatalogComponent implements OnInit {
       .pipe(
         distinctUntilChanged((a, b) => Object.keys(a).length === Object.keys(b).length),
         tap(filters => console.log('catalog filters', filters)),
+        map(filters => filters),
         concatMap((filter) => this.dataStoreService.allHouses$.pipe(
           map(houses => {
+            console.log('зашли')
             if (houses.length === 0 || Object.keys(filter).length === 0) {
               return houses;
             }
@@ -52,7 +54,6 @@ export class CatalogComponent implements OnInit {
           }),
           tap(houses => console.log('catalog filtered houses', houses))
         )),
-        takeUntilDestroyed(this._destroy)
       )
 
     mountBackButton.ifAvailable();

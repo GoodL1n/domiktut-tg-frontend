@@ -28,7 +28,7 @@ export class FilterContrainerComponent {
     this.formFilters = this.builder.group({
       number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
       number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
-      pool: [false]
+      pool: [null]
     });
   }
 
