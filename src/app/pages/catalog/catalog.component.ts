@@ -42,16 +42,16 @@ export class CatalogComponent implements OnInit {
       this.dataStoreService.filter$,
       this.dataStoreService.allHouses$
     ).pipe(
-      distinctUntilChanged((a, b) => Object.keys(a[0]).length === Object.keys(b[0]).length),
+      tap(([filter, houses]) => console.log('current filters', filter)),
+      // distinctUntilChanged((a, b) => Object.keys(a[0]).length === Object.keys(b[0]).length),
       map(([filter, houses]) => {
-        console.log('зашли');
         if (houses.length === 0 || Object.keys(filter).length === 0) {
           return houses;
         }
 
         return this.filterArrayHouse(houses, filter);
       }),
-      tap(houses => console.log('catalog filtered houses', houses))
+      tap(houses => console.log('catalog filtered houses', houses.length))
     );
 
     mountBackButton.ifAvailable();
