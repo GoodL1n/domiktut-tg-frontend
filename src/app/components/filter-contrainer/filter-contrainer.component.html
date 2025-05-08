@@ -14,26 +14,26 @@
         </div> -->
         <div class="list-filters__row">
             <div class="list-filters__input">
-                <input type="number" id="number_of_bedrooms" formControlName="number_of_bedrooms" placeholder="Сколько?">
-                <label for="number_of_bedrooms">Кол-во спален</label>
+                <input type="number" id="numberOfBedrooms" formControlName="numberOfBedrooms" placeholder="Сколько?">
+                <label for="numberOfBedrooms">Кол-во спален</label>
             </div>
-            <div *ngIf="formFiltersConrols['number_of_bedrooms'].touched && (formFiltersConrols['number_of_bedrooms'].errors?.['min'] || formFiltersConrols['number_of_bedrooms'].errors?.['max'])"
+            <div *ngIf="formFiltersConrols['numberOfBedrooms'].touched && (formFiltersConrols['numberOfBedrooms'].errors?.['min'] || formFiltersConrols['numberOfBedrooms'].errors?.['max'])"
                 class="list-filters__error">
                 Недопустимое значение</div>
         </div>
         <div class="list-filters__row">
             <div class="list-filters__input">
-                <input type="number" id="number_of_beds" formControlName="number_of_beds" placeholder="Сколько?">
-                <label for="number_of_beds">Кол-во спальных мест</label>
+                <input type="number" id="numberOfBeds" formControlName="numberOfBeds" placeholder="Сколько?">
+                <label for="numberOfBeds">Кол-во спальных мест</label>
             </div>
-            <div *ngIf="formFiltersConrols['number_of_beds'].touched && (formFiltersConrols['number_of_beds'].errors?.['min'] || formFiltersConrols['number_of_beds'].errors?.['max'])"
+            <div *ngIf="formFiltersConrols['numberOfBeds'].touched && (formFiltersConrols['numberOfBeds'].errors?.['min'] || formFiltersConrols['numberOfBeds'].errors?.['max'])"
                 class="list-filters__error">
                 Недопустимое значение</div>
         </div>
         <div class="list-filters__row">
             <div class="list-filters__input">
-                <input class="list-filters__input-checkbox" type="checkbox" id="pool" formControlName="pool">
-                <label class="list-filters__input-label" for="pool">Бассейн</label>
+                <input class="list-filters__input-checkbox" type="checkbox" id="isPool" formControlName="isPool">
+                <label class="list-filters__input-label" for="isPool">Бассейн</label>
             </div>
         </div>
     </form>

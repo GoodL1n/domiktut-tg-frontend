@@ -1,7 +1,8 @@
 export interface Filter {
-	post_id?: number[];
-	pool?: boolean;
-	number_of_people?: number;
-	number_of_beds?: number;
-	number_of_bedrooms?: number;
+	postIdFilteredByDate?: number[];
+	postIdFilteredByName?: number[];
+	isPool?: boolean;
+	numberOfPeople?: number;
+	numberOfBeds?: number;
+	numberOfBedrooms?: number;
 }

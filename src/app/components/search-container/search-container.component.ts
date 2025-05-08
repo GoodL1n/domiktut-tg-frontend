@@ -25,7 +25,7 @@ export class SearchContainerComponent implements OnInit {
 
   searchInputControl = new FormControl('');
 
-  houses$!: Observable<House[]>;
+  filteredHouses: House[] = [];
   filteredHouses$!: Observable<House[]>;
 
   _destroy: DestroyRef = inject(DestroyRef);
@@ -54,7 +54,11 @@ export class SearchContainerComponent implements OnInit {
       switchMap((value) => {
         const filterValue = this.normalizeValue(value || '');
         return this.dataStoreService.allHouses$.pipe(
-          map(val => val.filter(v => this.normalizeValue(v.house_name || '').includes(filterValue))),
+          map(val => {
+            const houses = val.filter(v => this.normalizeValue(v.house_name || '').includes(filterValue));
+            this.filteredHouses = houses;
+            return houses;
+          }),
           takeUntilDestroyed(this._destroy)
         )
       }),
@@ -67,23 +71,17 @@ export class SearchContainerComponent implements OnInit {
     return value.toLowerCase().replace(/\s/g, '');
   }
 
-  applySearchInput() {
-    // this.filteredHouses$.pipe(take(1)).subscribe(data => { console.log(data); });
-  }
-
   sumbitForm() {
     console.log('search container', this.formFilters.value);
 
     if (this.formFilters.value.date_of_arrival && this.formFilters.value.date_of_departure) {
       this.wordpressIntegrationService.getHousesIdByDate(this.formFilters.value.date_of_arrival, this.formFilters.value.date_of_departure)
         .pipe(
-          concatMap((ids) => this.dataStoreService.filter$
+          concatMap((arrayId) => this.dataStoreService.filter$
             .pipe(
               map(filter => {
-                if (this.formFilters.value.number_of_people) {
-                  return { ...filter, post_id: ids, number_of_people: this.formFilters.value.number_of_people };
-                }
-                return { ...filter, post_id: ids };
+                let postIdFilteredByName = this.filteredHouses.map(el => el.post_id!);
+                return { ...filter, postIdFilteredByDate: arrayId, postIdFilteredByName: postIdFilteredByName, numberOfPeople: this.formFilters.value.number_of_people };
               })
             )),
           take(1)
@@ -96,11 +94,13 @@ export class SearchContainerComponent implements OnInit {
           }
         });
 
-    } else if (this.formFilters.value.number_of_people) {
+    } else {
       this.dataStoreService.filter$.pipe(
         take(1)
       ).subscribe(currentFilters => {
-        this.dataStoreService.setFilter({ ...currentFilters, number_of_people: this.formFilters.value.number_of_people });
+        let postIdFilteredByName = this.filteredHouses.map(el => el.post_id!);
+
+        this.dataStoreService.setFilter({ ...currentFilters, postIdFilteredByName: postIdFilteredByName, numberOfPeople: this.formFilters.value.number_of_people });
 
         if (this.isOpenFromMainPage) {
           this.router.navigate(['/catalog']);
@@ -115,8 +115,9 @@ export class SearchContainerComponent implements OnInit {
     ).subscribe(currentFilters => {
       let filters = currentFilters;
 
-      delete filters.post_id;
-      delete filters.number_of_people;
+      delete filters.postIdFilteredByDate;
+      delete filters.postIdFilteredByName;
+      delete filters.numberOfPeople;
 
       this.dataStoreService.setFilter(filters);
     })

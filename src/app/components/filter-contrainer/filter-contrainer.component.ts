@@ -26,9 +26,9 @@ export class FilterContrainerComponent {
   constructor(private builder: FormBuilder,
     private dataStoreService: DataStoreService) {
     this.formFilters = this.builder.group({
-      number_of_bedrooms: [null, [Validators.min(0), Validators.max(1000)]],
-      number_of_beds: [null, [Validators.min(0), Validators.max(1000)]],
-      pool: [null]
+      numberOfBedrooms: [null, [Validators.min(0), Validators.max(1000)]],
+      numberOfBeds: [null, [Validators.min(0), Validators.max(1000)]],
+      isPool: [null]
     });
   }
 
@@ -49,9 +49,9 @@ export class FilterContrainerComponent {
     ).subscribe(currentFilters => {
       let filters = currentFilters;
 
-      delete filters.number_of_bedrooms;
-      delete filters.number_of_beds;
-      delete filters.pool;
+      delete filters.numberOfBedrooms;
+      delete filters.numberOfBeds;
+      delete filters.isPool;
 
       this.dataStoreService.setFilter(filters);
     })

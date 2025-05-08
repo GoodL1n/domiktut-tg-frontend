@@ -58,6 +58,7 @@ export class CatalogComponent implements OnInit {
     showBackButton();
     onBackButtonClick(() => {
       this.router.navigate(['']);
+      this.dataStoreService.setFilter({});
     });
   }
 
@@ -65,23 +66,27 @@ export class CatalogComponent implements OnInit {
     let filteredArray = [];
 
     for (let i = 0; i < houses.length; i++) {
-      if (filters.post_id && !filters.post_id.find(id => houses[i].post_id === id)) {
+      if (filters.postIdFilteredByDate && !filters.postIdFilteredByDate.find(id => houses[i].post_id === id)) {
         continue;
       }
 
-      if (filters.number_of_people && houses[i].number_of_people && parseInt(houses[i].number_of_people!) <= filters.number_of_people) {
+      if (filters.postIdFilteredByName && !filters.postIdFilteredByName.find(id => houses[i].post_id === id)) {
         continue;
       }
 
-      if (filters.number_of_bedrooms && houses[i].number_of_bedrooms && parseInt(houses[i].number_of_bedrooms!.replace(/[^0-9]/g, "")) <= filters.number_of_bedrooms) {
+      if (filters.numberOfPeople && houses[i].number_of_people && parseInt(houses[i].number_of_people!) <= filters.numberOfPeople) {
         continue;
       }
 
-      if (filters.number_of_beds && houses[i].number_of_beds && parseInt(houses[i].number_of_beds!.replace(/[^0-9]/g, ""))! <= filters.number_of_beds) {
+      if (filters.numberOfBedrooms && houses[i].number_of_bedrooms && parseInt(houses[i].number_of_bedrooms!.replace(/[^0-9]/g, "")) <= filters.numberOfBedrooms) {
         continue;
       }
 
-      if (filters.pool && !houses[i].waterpool_catalog) {
+      if (filters.numberOfBeds && houses[i].number_of_beds && parseInt(houses[i].number_of_beds!.replace(/[^0-9]/g, ""))! <= filters.numberOfBeds) {
+        continue;
+      }
+
+      if (filters.isPool && !houses[i].waterpool_catalog) {
         continue;
       }
 

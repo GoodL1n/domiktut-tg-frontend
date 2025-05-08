@@ -4,7 +4,7 @@
     <div class="search-container__search-collections search-collections">
         <div class="search-collections__search">
             <input class="search-collections__input" type="text" placeholder="Поиск по названию"
-                [formControl]="searchInputControl" [matAutocomplete]="auto" (keyup.enter)="applySearchInput()">
+                [formControl]="searchInputControl" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
                 @for (house of filteredHouses$ | async; track house) {
                 <mat-option [value]="house.house_name">{{house.house_name}}</mat-option>
