@@ -88,7 +88,7 @@ export class CardComponent implements OnInit, OnDestroy {
       hasShineEffect: true,
       isEnabled: true,
       isVisible: true,
-      backgroundColor: '#F4683F',
+      backgroundColor: '#000000',
       textColor: '#FFFFFF'
     });
     mainButtonBackgroundColor();
