@@ -1,4 +1,4 @@
-<div class="mini-card">
+<div class="mini-card" (click)="route()">
     <div class="embla" emblaCarousel [options]="options" [subscribeToEvents]="['init', 'reInit', 'scroll']"
         (emblaChange)="onEmblaChanged($event)">
         <div class="embla__container">
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="mini-card__container" (click)="route()">
+    <div class="mini-card__container">
         <div class="mini-card__text">
             <div class="mini-card__title">{{house.house_name}}</div>
             <div class="mini-card__price">

@@ -5,4 +5,6 @@ export interface Filter {
 	numberOfPeople?: number;
 	numberOfBeds?: number;
 	numberOfBedrooms?: number;
+	dateOfArrival?: string;
+	dateOfDeparture?: string;
 }

@@ -16,6 +16,10 @@
   color: #ffffff;
 }
 
+button:disabled {
+  opacity: 0.5;
+}
+
 input {
   outline: none;
   font-family: Montserrat Alternates;
@@ -218,6 +222,10 @@ label {
     border-radius: 11px;
     background: #000;
     color: #fff;
+
+    &-disabled {
+      background: #393939;
+    }
   }
 
   &__text {

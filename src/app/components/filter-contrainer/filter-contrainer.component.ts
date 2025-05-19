@@ -1,10 +1,11 @@
 import { NgIf } from '@angular/common';
-import { Component, DestroyRef, EventEmitter, inject, Output } from '@angular/core';
+import { Component, DestroyRef, ElementRef, EventEmitter, HostListener, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
 import { map, take, takeWhile } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { House } from '../../interfaces/house.interface';
+import { P } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-filter-contrainer',
@@ -15,7 +16,7 @@ import { House } from '../../interfaces/house.interface';
 export class FilterContrainerComponent {
   @Output() closeFilterContainer = new EventEmitter<void>;
 
-  formFilters: FormGroup;
+  formFilters!: FormGroup;
 
   _destroy: DestroyRef = inject(DestroyRef);
 
@@ -23,13 +24,27 @@ export class FilterContrainerComponent {
     return this.formFilters.controls;
   }
 
+  @HostListener('document:click', ['$event'])
+  clickOutComponent(event: Event){
+    if(!this.elementRef.nativeElement.contains(event.target)){
+      this.closeFilterContainer.emit();
+    }
+  }
+
   constructor(private builder: FormBuilder,
-    private dataStoreService: DataStoreService) {
-    this.formFilters = this.builder.group({
-      numberOfBedrooms: [null, [Validators.min(0), Validators.max(1000)]],
-      numberOfBeds: [null, [Validators.min(0), Validators.max(1000)]],
-      isPool: [null]
-    });
+    private dataStoreService: DataStoreService,
+    private elementRef: ElementRef) { }
+
+  ngOnInit(): void {
+    this.dataStoreService.filter$.pipe(
+      take(1)
+    ).subscribe(currentFilters => {
+      this.formFilters = this.builder.group({
+        numberOfBedrooms: [currentFilters.numberOfBedrooms ?? null, [Validators.min(0), Validators.max(1000)]],
+        numberOfBeds: [currentFilters.numberOfBeds ?? null, [Validators.min(0), Validators.max(1000)]],
+        isPool: [currentFilters.isPool ?? null]
+      });
+    })
   }
 
   submitForm() {
@@ -39,6 +54,7 @@ export class FilterContrainerComponent {
       take(1)
     ).subscribe(currentFilters => {
       this.dataStoreService.setFilter({ ...currentFilters, ...this.formFilters.value });
+      this.closeFilterContainer.emit();
     })
   }
 
