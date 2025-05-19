@@ -15,10 +15,11 @@ import { FormatTextToNumberPipe } from '../../pipes/format-text-to-number.pipe';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
 import { FavouritesService } from '../../services/favourites.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TimeFormatPipe } from '../../pipes/time-format.pipe';
 
 @Component({
   selector: 'app-card',
-  imports: [LoaderComponent, HeaderComponent, FormRequestComponent, AsyncPipe, FormatTextToNumberPipe, EmblaCarouselDirective, NgFor, NgIf],
+  imports: [LoaderComponent, HeaderComponent, FormRequestComponent, AsyncPipe, TimeFormatPipe, FormatTextToNumberPipe, EmblaCarouselDirective, NgFor, NgIf],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   providers: [CommonService]

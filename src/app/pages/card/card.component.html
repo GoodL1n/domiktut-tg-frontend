@@ -91,7 +91,7 @@
                 </div>
                 <div class = "bedroom-info__bedrooms">
                     <span class="bedroom-info__value">{{house.number_of_beds  | formatTextToNumber}}</span>
-                    <span class="bedroom-info__title" style="text-align: right;">Кол-во спальных мест</span>
+                    <span class="bedroom-info__title">Кол-во спальных мест</span>
                 </div>
             </div>
             <div class="house-area">
@@ -143,10 +143,10 @@
             <span class="container__title">Время заезда и выезда</span>
             <div class = "time-arrival-departure">
                 <div class = "time-arrival-departure__block" style="border-right: 1px solid #FFFFFF;">
-                    <span class = "time-arrival-departure__text">{{house.check_in_time}}</span>
+                    <span class = "time-arrival-departure__text">{{house.check_in_time | timeFormat}}</span>
                 </div>
                 <div class = "time-arrival-departure__block">
-                    <span class = "time-arrival-departure__text">{{house.check_out_time}}</span>
+                    <span class = "time-arrival-departure__text">{{house.check_out_time | timeFormat}}</span>
                 </div>
             </div>
         </div>

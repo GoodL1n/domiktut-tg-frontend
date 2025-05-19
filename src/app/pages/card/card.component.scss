@@ -150,7 +150,7 @@ img {
 
   &__title {
     font-weight: 900;
-    font-size: 16px;
+    font-size: 20px;
     text-transform: capitalize;
   }
 
@@ -184,7 +184,7 @@ img {
     font-size: 11px;
     text-transform: uppercase;
     text-align: left;
-    width: 40%;
+    width: 100%;
   }
 
   &__value {
@@ -192,7 +192,7 @@ img {
     font-size: 40px;
     text-transform: uppercase;
     text-align: center;
-    width: 40%;
+    width: 100%;
   }
 }
 
@@ -306,6 +306,6 @@ img {
 .form-request {
   position: absolute;
   top: 5%;
-  opacity: 89%;
+  opacity: 95%;
   padding: 30px 30px 0;
 }

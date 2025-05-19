@@ -20,7 +20,7 @@
             <div class="block__body">
                 <div class="block__row">
                     <div class="block__input">
-                        <input type="tel" id="dateOfArrival" formControlName="dateOfArrival" placeholder="01.03">
+                        <input type="tel" id="dateOfArrival" formControlName="dateOfArrival" placeholder="01.01.2025">
                         <label for="dateOfArrival">Дата заезда</label>
                     </div>
                     <div *ngIf="formRequestControl['dateOfArrival'].touched && formRequestControl['dateOfArrival'].errors?.['pattern']"
@@ -29,7 +29,7 @@
                 </div>
                 <div class="block__row">
                     <div class="block__input">
-                        <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture" placeholder="02.03">
+                        <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture" placeholder="01.01.2025">
                         <label for="dateOfDeparture">Дата выезда</label>
                     </div>
                     <div *ngIf="formRequestControl['dateOfDeparture'].touched && formRequestControl['dateOfDeparture'].errors?.['pattern']"
@@ -38,7 +38,7 @@
                 </div>
                 <div class="block__row">
                     <div class="block__input">
-                        <input type="tel" id="quanitityOfPeople" formControlName="quanitityOfPeople" placeholder="0">
+                        <input type="tel" id="quanitityOfPeople" formControlName="quanitityOfPeople" placeholder="10">
                         <label for="quanitityOfPeople">Кол-во человек</label>
                     </div>
                     <div *ngIf="formRequestControl['quanitityOfPeople'].touched && (formRequestControl['quanitityOfPeople'].errors?.['min'] || formRequestControl['quanitityOfPeople'].errors?.['max'])"
@@ -74,7 +74,7 @@
                 </div>
                 <div class="block__row">
                     <div class="block__input">
-                        <input type="tel" id="telegram" formControlName="telegram" placeholder="@username">
+                        <input type="text" id="telegram" formControlName="telegram" placeholder="@username">
                         <label for="telegram">Телеграм</label>
                     </div>
                     <div *ngIf="formRequestControl['telegram'].touched && formRequestControl['telegram'].errors?.['pattern']"
