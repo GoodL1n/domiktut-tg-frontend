@@ -1,9 +1,9 @@
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { Component, DestroyRef, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
 import { DataStoreService } from '../../services/data-store.service';
-import { concatMap, debounceTime, distinctUntilChanged, filter, fromEvent, map, Observable, startWith, switchMap, take, tap } from 'rxjs';
+import { concatMap, debounceTime, distinctUntilChanged, map, Observable, startWith, switchMap, take } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { House } from '../../interfaces/house.interface';
 import { Router, RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-search-container',
-  imports: [NgIf, NgClass, ReactiveFormsModule, RouterLink, MatAutocompleteModule, AsyncPipe, HeaderComponent, SearchStartComponent],
+  imports: [NgIf, ReactiveFormsModule, RouterLink, MatAutocompleteModule, AsyncPipe, HeaderComponent, SearchStartComponent],
   templateUrl: './search-container.component.html',
   styleUrl: './search-container.component.scss'
 })
