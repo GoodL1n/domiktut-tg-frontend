@@ -5,24 +5,16 @@ span {
 }
 
 .embla {
-  max-width: 48rem;
-  margin: auto;
-  // --slide-height: 19rem;
-  // --slide-spacing: 1rem;
-  --slide-size: 100%;
-
-  &__viewport {
-    overflow: hidden;
-  }
+  position: relative;
+  overflow: hidden;
 
   &__container {
     display: flex;
-    touch-action: pan-y pinch-zoom;
   }
 
   &__slide {
     transform: translate3d(0, 0, 0);
-    flex: 0 0 100%;
+    flex: 1 0 100%;
   }
 
   &__additional-info {
@@ -51,19 +43,12 @@ span {
   }
 }
 
-.embla-thumbs {
-  --thumbs-slide-spacing: 0.8rem;
-  --thumbs-slide-height: 6rem;
+.thumbs {
   margin-top: 0.8rem;
-
-  &__viewport {
-    overflow: hidden;
-  }
+  overflow: hidden;
 
   &__container {
     display: flex;
-    flex-direction: row;
-    margin-left: calc(0.8rem * -1);
   }
 
   &__slide {
@@ -307,5 +292,5 @@ img {
   position: fixed;
   top: 0;
   opacity: 95%;
-  padding: 10px 30px 0;
+  padding: 5px 30px 0;
 }

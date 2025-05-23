@@ -2,7 +2,7 @@
     <div class="embla" emblaCarousel [options]="options" [subscribeToEvents]="['init', 'reInit', 'scroll']"
         (emblaChange)="onEmblaChanged($event)">
         <div class="embla__container">
-            <div class="embla__slide" *ngFor="let img of imgs | async; trackBy: track ">
+            <div class="embla__slide" *ngFor="let img of imgs$ | async; trackBy: track ">
                 <img [src]="img" alt="">
             </div>
         </div>

@@ -22,7 +22,7 @@ import { FavouritesService } from '../../services/favourites.service';
   providers: [CommonService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MiniCardComponent implements OnInit {
+export class MiniCardComponent {
   @Input() house!: House;
 
   @ViewChild(EmblaCarouselDirective) emblaRef: EmblaCarouselDirective | undefined;
@@ -38,7 +38,7 @@ export class MiniCardComponent implements OnInit {
 
   img: string = 'https://domiktut.ru/wp-content/uploads/2022/04/background_head-6.png';
 
-  imgs = new BehaviorSubject<string[]>([]);
+  imgs$ = new BehaviorSubject<string[]>([]);
 
   constructor(private router: Router,
     private dataStoreService: DataStoreService,
@@ -54,27 +54,9 @@ export class MiniCardComponent implements OnInit {
         const array = (data as Array<any>).map(element => {
           return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
         })
-        this.imgs.next(array);
+        this.imgs$.next(array);
       })
     }
-  }
-
-  ngOnInit() {
-    // if (this.house.house_photo) {
-    //   this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 3).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
-    //     console.log('current house imgs', this.house.post_id)
-    //     console.log(data)
-    //     const array = (data as Array<any>).map(element => {
-    //       return 'https://domiktut.ru/wp-content/uploads/' + element.img_value;
-    //     })
-    //     this.imgs.next(array);
-    //   })
-    // }
-
-    // this.wordpressIntegrationService.getImagesUrl(this.house.house_photo, 1).pipe(takeUntilDestroyed(this._destroy)).subscribe(data => {
-    //   console.log(data);
-    //   this.img = 'https://domiktut.ru/wp-content/uploads/' + (data as Array<any>)[0].img_value;
-    // })
   }
 
   ngAfterViewInit() {

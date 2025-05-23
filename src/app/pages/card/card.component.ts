@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 import { House } from '../../interfaces/house.interface';
@@ -16,18 +16,28 @@ import { FormRequestComponent } from '../../components/form-request/form-request
 import { FavouritesService } from '../../services/favourites.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TimeFormatPipe } from '../../pipes/time-format.pipe';
+import { ThumbDirective } from './thumb.directive';
 
 @Component({
   selector: 'app-card',
-  imports: [LoaderComponent, HeaderComponent, FormRequestComponent, AsyncPipe, TimeFormatPipe, FormatTextToNumberPipe, EmblaCarouselDirective, NgFor, NgIf],
+  imports: [LoaderComponent, HeaderComponent, FormRequestComponent, AsyncPipe, TimeFormatPipe, FormatTextToNumberPipe, EmblaCarouselDirective, ThumbDirective, NgFor, NgIf],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   providers: [CommonService]
 })
 export class CardComponent implements OnInit, OnDestroy {
 
-  @ViewChild(EmblaCarouselDirective) emblaRef: EmblaCarouselDirective | undefined;
-  private emblaApi?: EmblaCarouselType;
+  @ViewChild(EmblaCarouselDirective) emblaRef!: EmblaCarouselDirective;
+  @ViewChild(ThumbDirective) thumbRef!: ThumbDirective;
+
+  get emblaApi(){
+    return this.emblaRef.emblaApi;
+  }
+
+  get thumbApi(){
+    return this.thumbRef.emplaApi;
+  }
+
   options = {
     loop: true
   }
@@ -72,7 +82,7 @@ export class CardComponent implements OnInit, OnDestroy {
     // поднять этот тунель выше, сделав одним последовательным и вызываемым единоразово после загрузки данных о доме
     this.dataStoreService.currentHouse$.pipe(
       filter((house) => (Object.keys(house).length > 0 && !!house.house_photo)),
-      switchMap((house) => this.wordpressIntegrationService.getImagesUrl(house.house_photo!, 4)))
+      switchMap((house) => this.wordpressIntegrationService.getImagesUrl(house.house_photo!, 8)))
       .subscribe(data => {
         console.log('current house imgs', this.house.post_id)
         console.log(data)
@@ -109,7 +119,6 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   onEmblaChanged(event: EmblaEventType): void {
-    this.emblaApi = this.emblaRef?.emblaApi;
 
     if (!this.emblaApi) {
       return;
@@ -125,6 +134,7 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   handleScrollTo(index: number) {
+    console.log(index)
     this.emblaApi?.scrollTo(index);
   }
 
