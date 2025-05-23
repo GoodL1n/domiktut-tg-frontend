@@ -49,12 +49,16 @@ span {
 
   &__container {
     display: flex;
+    gap: 5%;
+  }
+
+  &-active {
+    border: 1px solid black;
   }
 
   &__slide {
     flex: 0 0 30%;
     min-width: 0;
-    padding-left: 0.8rem;
   }
 }
 

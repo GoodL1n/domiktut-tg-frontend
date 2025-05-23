@@ -39,7 +39,7 @@
         <div class="thumbs" thumbEmblaCarousel>
             <div class="thumbs__container">
                 <div class="thumbs__slide" *ngFor="let img of imgs$ | async; trackBy: track; let i = index">
-                    <img [src]="img" alt="" (click)="handleScrollTo(i)">
+                    <img [src]="img" alt="" (click)="handleScrollTo(i)" [class]="currentThumb === i ? 'thumbs-active' : ''">
                 </div>
             </div>
         </div>
@@ -152,8 +152,8 @@
             </div>
         </div>
     </div>
-    <button (click)="routeBack()">back</button>
-    <button (click)="routeNext()">next</button>
+    <!-- <button (click)="routeBack()">back</button>
+    <button (click)="routeNext()">next</button> -->
 </div>
 <div class="form-request" *ngIf="isFormRequest">
     <app-form-request (closeForm)="isFormRequest = false"></app-form-request>

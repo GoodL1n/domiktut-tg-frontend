@@ -30,11 +30,11 @@ export class CardComponent implements OnInit, OnDestroy {
   @ViewChild(EmblaCarouselDirective) emblaRef!: EmblaCarouselDirective;
   @ViewChild(ThumbDirective) thumbRef!: ThumbDirective;
 
-  get emblaApi(){
+  get emblaApi() {
     return this.emblaRef.emblaApi;
   }
 
-  get thumbApi(){
+  get thumbApi() {
     return this.thumbRef.emplaApi;
   }
 
@@ -47,6 +47,7 @@ export class CardComponent implements OnInit, OnDestroy {
   house!: House;
 
   imgs$ = new BehaviorSubject<string[]>([]);
+  currentThumb = 0;
 
   _destroy: DestroyRef = inject(DestroyRef);
 
@@ -129,7 +130,9 @@ export class CardComponent implements OnInit, OnDestroy {
     }
 
     if (event === 'scroll') {
-      // this.currendDot = this.emblaApi.selectedScrollSnap();
+      const currentIndex = this.emblaApi.selectedScrollSnap();
+      this.currentThumb = currentIndex;
+      this.thumbApi.scrollTo(currentIndex);
     }
   }
 
