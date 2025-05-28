@@ -12,6 +12,10 @@ input {
   font-family: Montserrat Alternates;
   line-height: 100%;
   letter-spacing: 0px;
+
+  &:focus::placeholder {
+    color: transparent;
+  }
 }
 
 label {
@@ -108,7 +112,7 @@ label {
   &__clear {
     font-family: Montserrat;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 100%;
     letter-spacing: 0px;
     text-align: center;

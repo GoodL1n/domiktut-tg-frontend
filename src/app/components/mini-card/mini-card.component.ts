@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, Input, OnInit, Renderer2, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Input, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { House } from '../../interfaces/house.interface';
 import { CommonService } from '../../services/common.service';
@@ -11,7 +11,7 @@ import {
   EmblaCarouselType,
   EmblaEventType
 } from 'embla-carousel-angular'
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { FavouritesService } from '../../services/favourites.service';
 
 @Component({
@@ -24,6 +24,7 @@ import { FavouritesService } from '../../services/favourites.service';
 })
 export class MiniCardComponent {
   @Input() house!: House;
+  @Input() collectionType: string = '';
 
   @ViewChild(EmblaCarouselDirective) emblaRef: EmblaCarouselDirective | undefined;
   private emblaApi?: EmblaCarouselType;
@@ -108,7 +109,14 @@ export class MiniCardComponent {
 
   route() {
     if (this.house.post_id) this.dataStoreService.setCurrentHouseId(this.house.post_id);
-    this.router.navigate(['card']);
+    this.router.navigate(
+      ['card'],
+      {
+        queryParams: {
+          "collectionType": this.collectionType
+        }
+      }
+    );
   }
 
   changeFavourite() {

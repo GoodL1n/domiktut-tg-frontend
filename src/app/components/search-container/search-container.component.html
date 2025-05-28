@@ -45,7 +45,7 @@
         </div>
         <div class="filters__row">
             <div class="filters__input">
-                <input type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="Когда выезд?">
+                <input class = "test" type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="Когда выезд?">
                 <label for="dateOfDeparture">Указать дату</label>
             </div>
             <div *ngIf="formFiltersConrols['date_of_departure'].touched && formFiltersConrols['date_of_departure'].errors?.['pattern']"

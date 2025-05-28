@@ -5,8 +5,6 @@ import { DataStoreService } from './services/data-store.service';
 import { FavouritesService } from './services/favourites.service';
 import { combineLatest, distinctUntilChanged, filter, map, take, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],

@@ -12,8 +12,10 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './houses-list.component.scss'
 })
 export class HousesListComponent {
-  @Output() changeSize = new EventEmitter<number>;
   @Input() houses$!: Observable<House[]>;
+  @Input() collectionType: string = '';
+
+  @Output() changeSize = new EventEmitter<number>;
 
   @ViewChild(CdkVirtualScrollViewport) virtualScrollViewport?: CdkVirtualScrollViewport;
 

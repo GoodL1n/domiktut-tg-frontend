@@ -1,5 +1,5 @@
-import { Component, DestroyRef, ElementRef, HostListener, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, DestroyRef, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { hideBackButton, mainButtonBackgroundColor, mountBackButton, mountMainButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton, unmountMainButton } from '@telegram-apps/sdk';
 import { House } from '../../interfaces/house.interface';
 import { CommonService } from '../../services/common.service';
@@ -9,7 +9,7 @@ import { LoaderComponent } from '../../components/loader/loader.component';
 import { DataStoreService } from '../../services/data-store.service';
 import { BehaviorSubject, combineLatest, concatMap, filter, map, switchMap } from 'rxjs';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
-import { EmblaCarouselDirective, EmblaCarouselType, EmblaEventType } from 'embla-carousel-angular';
+import { EmblaCarouselDirective, EmblaEventType } from 'embla-carousel-angular';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FormatTextToNumberPipe } from '../../pipes/format-text-to-number.pipe';
 import { FormRequestComponent } from '../../components/form-request/form-request.component';
@@ -26,7 +26,6 @@ import { ThumbDirective } from './thumb.directive';
   providers: [CommonService]
 })
 export class CardComponent implements OnInit, OnDestroy {
-
   @ViewChild(EmblaCarouselDirective) emblaRef!: EmblaCarouselDirective;
   @ViewChild(ThumbDirective) thumbRef!: ThumbDirective;
 
@@ -46,6 +45,8 @@ export class CardComponent implements OnInit, OnDestroy {
 
   house!: House;
 
+  collectionType: string = '';
+
   imgs$ = new BehaviorSubject<string[]>([]);
   currentThumb = 0;
 
@@ -53,6 +54,7 @@ export class CardComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private dataStoreService: DataStoreService,
     private wordpressIntegrationService: WordpressIntegrationService,
     private favouritesService: FavouritesService,
@@ -60,6 +62,14 @@ export class CardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams
+      .pipe(
+        takeUntilDestroyed(this._destroy)
+      )
+      .subscribe(params => {
+        this.collectionType = params['collectionType'];
+      });
+
     this.dataStoreService.currentHouseId$.pipe(
       filter((id) => !!id),
       concatMap((id) =>
@@ -111,7 +121,18 @@ export class CardComponent implements OnInit, OnDestroy {
     onBackButtonClick(() => {
       this.dataStoreService.setCurrentHouse({});
       this.dataStoreService.setCurrentHouseId(0);
-      this.router.navigate(['../catalog']);
+      if (this.collectionType.length > 0) {
+        this.router.navigate(
+          ['../collection'],
+          {
+            queryParams: {
+              "collectionType": this.collectionType
+            }
+          }
+        );
+      } else {
+        this.router.navigate(['../catalog']);
+      }
     });
   }
 
@@ -125,9 +146,9 @@ export class CardComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (event === 'init' || event === 'reInit') {
+    // if (event === 'init' || event === 'reInit') {
 
-    }
+    // }
 
     if (event === 'scroll') {
       const currentIndex = this.emblaApi.selectedScrollSnap();

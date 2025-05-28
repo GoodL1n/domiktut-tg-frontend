@@ -1,11 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { hideBackButton, mountBackButton, onBackButtonClick, onMainButtonClick, setMainButtonParams, showBackButton, unmountBackButton } from '@telegram-apps/sdk';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
-import { BehaviorSubject, concatMap, filter, map, Observable, switchMap, take, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, concatMap, filter, map, Observable } from 'rxjs';
 import { House } from '../../interfaces/house.interface';
-import { MiniCardComponent } from "../mini-card/mini-card.component";
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { TelegramService } from '../../services/telegram.service';
 import { Router } from '@angular/router';
 import { WordpressIntegrationService } from '../../services/wordpress-integration.service';

@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HousesListComponent } from '../../components/houses-list/houses-list.component';
-import { filter, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { House } from '../../interfaces/house.interface';
 import { HeaderComponent } from "../../components/header/header.component";
 import { mountBackButton, showBackButton, onBackButtonClick, unmountBackButton, hideBackButton } from '@telegram-apps/sdk';

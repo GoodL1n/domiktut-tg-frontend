@@ -2,10 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, DestroyRef, ElementRef, EventEmitter, HostListener, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '../../services/data-store.service';
-import { map, take, takeWhile } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { House } from '../../interfaces/house.interface';
-import { P } from '@angular/cdk/keycodes';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-filter-contrainer',

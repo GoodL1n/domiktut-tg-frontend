@@ -9,6 +9,6 @@
         </span>
     </div>
     @if (houses$ | async) {
-    <app-houses-list [houses$]="houses$" (changeSize)="changeMinHeight($event)"></app-houses-list>
+    <app-houses-list [houses$]="houses$" [collectionType]="collectionType" (changeSize)="changeMinHeight($event)"></app-houses-list>
     }
 </div>

@@ -17,6 +17,10 @@ input {
   line-height: 100%;
   letter-spacing: 0px;
   text-align: center;
+
+  &:focus::placeholder {
+    color: transparent;
+  }
 }
 
 ::placeholder {
@@ -43,7 +47,6 @@ textarea {
   border: none;
   border-radius: 4px;
   padding: 10px;
-  font-size: 17px;
   outline: none;
   background: #ff7949;
   box-shadow: 0px 2.5px 4px 0px #00000040;
@@ -54,6 +57,10 @@ textarea {
   line-height: 100%;
   letter-spacing: 0px;
   text-align: center;
+
+  &::placeholder{
+    text-align: left;
+  }
 }
 
 .page-request {

@@ -1,10 +1,8 @@
-import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
-import { WordpressIntegrationService } from '../../services/wordpress-integration.service';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { House } from '../../interfaces/house.interface';
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap, take, takeUntil, tap, combineLatest, distinctUntilChanged, concatMap } from 'rxjs';
+import { map, Observable, tap, combineLatest} from 'rxjs';
 import { DataStoreService } from '../../services/data-store.service';
-import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { SearchContainerComponent } from "../../components/search-container/search-container.component";
 import { mountBackButton, showBackButton, onBackButtonClick, hideBackButton, unmountBackButton } from '@telegram-apps/sdk';
 import { Router } from '@angular/router';

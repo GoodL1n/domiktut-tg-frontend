@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { distinctUntilChanged, Observable, of, take } from 'rxjs';
 import { House } from '../interfaces/house.interface';
 import { environment } from '../../environments/environment';
-import { Filter } from '../interfaces/filter.interface';
 import { DataStoreService } from './data-store.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const WORDPRESS_INTEGRATION_API = `${environment?.apiUrl}/wordpress-integration/`;
 
