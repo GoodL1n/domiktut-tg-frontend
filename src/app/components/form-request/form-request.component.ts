@@ -37,7 +37,7 @@ export class FormRequestComponent implements OnInit, OnDestroy {
       dateOfDeparture: [null, [Validators.pattern('^[0-9]{2}\.{1}[0-9]{2}\.{1}[0-9]{4}$')]],
       quanitityOfPeople: [null, [Validators.min(0), Validators.max(1000)]],
       name: [null, [Validators.required, Validators.pattern('[А-Яа-я]+')]],
-      phone: [7, [Validators.pattern('[0-9]{1}[0-9]{3}[0-9]{3}[0-9]{4}')]],
+      phone: ['+7', [Validators.pattern('^[+][0-9]{1}[0-9]{3}[0-9]{3}[0-9]{4}')]],
       telegram: ['@', [Validators.pattern('@.+')]],
       description: [null]
     })
