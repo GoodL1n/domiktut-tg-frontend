@@ -61,6 +61,10 @@ textarea {
   &::placeholder {
     text-align: left;
   }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
 }
 
 .page-request {

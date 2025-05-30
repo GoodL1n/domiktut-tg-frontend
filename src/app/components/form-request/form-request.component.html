@@ -9,9 +9,9 @@
     <span class="page-request__title" *ngIf="!house">Оставьте заявку на подбор и сократите свое время на поиск</span>
     <div class="page-request__selected-house selected-house" *ngIf="house">
         <span class="selected-house__title">Выбранный дом</span>
-        <div class = "selected-house__body">
+        <div class="selected-house__body">
             <img [src]="img" alt="">
-            <span class = "selected-house__name">{{house.house_name}}</span>
+            <span class="selected-house__name">{{house.house_name}}</span>
         </div>
     </div>
     <form class="page-request__form form" [formGroup]="formRequest">
@@ -29,7 +29,8 @@
                 </div>
                 <div class="block__row">
                     <div class="block__input">
-                        <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture" placeholder="дд.мм.гггг">
+                        <input type="tel" id="dateOfDeparture" formControlName="dateOfDeparture"
+                            placeholder="дд.мм.гггг">
                         <label for="dateOfDeparture">Дата выезда</label>
                     </div>
                     <div *ngIf="formRequestControl['dateOfDeparture'].touched && formRequestControl['dateOfDeparture'].errors?.['pattern']"
@@ -89,8 +90,7 @@
                     <span class="block__title-mini">чем конкретнее, тем лучше</span>
                 </div>
                 <textarea formControlName="description" rows="6" type="text" id="name"
-                    placeholder="С басссеином,
-                    гамаком"></textarea>
+                    placeholder="Опишите простыми словами, что Вам важно при выборе дома"></textarea>
             </div>
         </div>
         <div class="form-btns">
