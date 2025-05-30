@@ -32,6 +32,7 @@ export class WordpressIntegrationService {
 
     httpParams = httpParams.set('date_of_arrival', date_of_arrival);
     httpParams = httpParams.set('date_of_departure', date_of_departure);
+    httpParams = httpParams.set('cityId', this.cityId);
 
     return this.httpClient.get<number[]>(WORDPRESS_INTEGRATION_API + 'houses/filter', { params: httpParams });
   }
