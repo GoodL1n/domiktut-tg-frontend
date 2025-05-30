@@ -45,7 +45,8 @@
         </div>
         <div class="filters__row">
             <div class="filters__input">
-                <input class = "test" type="tel" id="dateOfDeparture" formControlName="date_of_departure" placeholder="Когда выезд?">
+                <input class="test" type="tel" id="dateOfDeparture" formControlName="date_of_departure"
+                    placeholder="Когда выезд?">
                 <label for="dateOfDeparture">Указать дату</label>
             </div>
             <div *ngIf="formFiltersConrols['date_of_departure'].touched && formFiltersConrols['date_of_departure'].errors?.['pattern']"
@@ -64,7 +65,8 @@
     </form>
     <div class="search-container__btns btns">
         <div class="btns__clear" (click)="clearForm()">Очистить фильтры</div>
-        <button class="btns__submit" (click)="sumbitForm()" [disabled]="formFilters.invalid">
+        <button class="btns__submit" (click)="sumbitForm()"
+            [disabled]="formFilters.invalid && !searchInputControl.value">
             <svg width="39" height="37" viewBox="0 0 39 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M38.8972 18.1621V28.5089C38.8972 32.9117 35.3367 36.4781 30.941 36.4781H16.5231C14.7208 36.4781 13.3142 35.0251 13.3142 33.264C13.3142 31.4588 14.7648 30.0499 16.5231 30.0499H29.2267C31.0289 30.0499 32.4355 28.5969 32.4355 26.8357V17.9859C32.4355 16.9733 31.952 16.0046 31.1608 15.3882L22.4573 8.82792C20.8309 7.59511 18.5451 7.59511 16.9187 8.82792L8.34706 15.3002C7.46792 15.9606 6.94044 17.0173 6.94044 18.1621V33.308C6.94044 35.1132 5.48985 36.5221 3.73157 36.5221C1.92933 36.5221 0.522705 35.0692 0.522705 33.308V18.4703C0.522705 15.1241 2.10516 11.998 4.74258 10.0167L6.98439 8.3436L14.3692 2.79597L15.1604 2.22359C17.8858 0.198257 21.6221 0.198257 24.3474 2.22359L25.1387 2.79597L32.5235 8.38763L34.9411 10.2369C37.4027 12.042 38.8972 15.036 38.8972 18.1621Z"

@@ -27,7 +27,7 @@ export class DataStoreService {
   private _currentHouseImgs = new BehaviorSubject<string[]>([]);
   currentHouseImgs$ = this._currentHouseImgs.asObservable();
 
-  private _cityId = new BehaviorSubject<string>('6');
+  private _cityId = new BehaviorSubject<string>('');
   cityId$ = this._cityId.asObservable();
 
   constructor() { }
