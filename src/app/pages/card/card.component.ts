@@ -93,7 +93,8 @@ export class CardComponent implements OnInit, OnDestroy {
     // поднять этот тунель выше, сделав одним последовательным и вызываемым единоразово после загрузки данных о доме
     this.dataStoreService.currentHouse$.pipe(
       filter((house) => (Object.keys(house).length > 0 && !!house.house_photo)),
-      switchMap((house) => this.wordpressIntegrationService.getImagesUrl(house.house_photo!, 8)))
+      switchMap((house) => this.wordpressIntegrationService.getImagesUrl(house.house_photo!,
+        house.house_photo ? house.house_photo.split(',').length : 0)))
       .subscribe(data => {
         console.log('current house imgs', this.house.post_id)
         console.log(data)
