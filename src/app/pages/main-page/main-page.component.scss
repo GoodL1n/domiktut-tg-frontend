@@ -84,6 +84,7 @@ button {
     font-size: 14px;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
 
     &-images {
       display: flex;
@@ -188,6 +189,7 @@ button {
     font-size: 12px;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
 
     &-svg-background {
       position: absolute;
@@ -212,6 +214,7 @@ button {
     flex-direction: row !important;
     padding-top: 25% !important;
     position: relative;
+    overflow: hidden;
 
     &-svg-background {
       position: absolute;
@@ -231,6 +234,7 @@ button {
     font-weight: 600;
     font-size: 18px;
     position: relative;
+    overflow: hidden;
 
     &-images {
       display: flex;
@@ -272,6 +276,7 @@ button {
     font-weight: 600;
     font-size: 14px;
     position: relative;
+    overflow: hidden;
 
     &-svg-background {
       position: absolute;
@@ -286,6 +291,7 @@ button {
     font-size: 14px;
     flex-direction: row !important;
     padding: 15px 1px 1px 15px !important;
+    overflow: hidden;
 
     &-text {
       display: flex;
