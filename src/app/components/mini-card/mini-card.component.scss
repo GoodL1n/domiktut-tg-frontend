@@ -79,6 +79,7 @@
   flex-direction: column;
   border-radius: 14px;
   background: #000000;
+  position: relative;
 
   img {
     width: 100%;
@@ -134,5 +135,11 @@
     padding: 10px;
     border-radius: 10px;
     border: none;
+  }
+
+  &__svg-background{
+    position: absolute;
+    right: 1%;
+    bottom: 0;
   }
 }

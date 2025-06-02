@@ -95,6 +95,7 @@ img {
   flex-direction: column;
   padding: 15px 0 0 0;
   gap: 10px;
+  position: relative;
 
   &__title {
     font-weight: 700;
@@ -125,6 +126,23 @@ img {
     font-size: 14px;
     text-align: justify;
     white-space: pre-line;
+  }
+
+  &__price-svg-background {
+    position: absolute;
+    opacity: 50%;
+    top: 25%;
+  }
+
+  &__add-price-svg-background {
+    top: -15%;
+    position: absolute;
+    opacity: 50%;
+  }
+
+  &__info-svg-background {
+    position: absolute;
+    opacity: 50%;
   }
 }
 

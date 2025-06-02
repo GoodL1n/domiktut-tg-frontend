@@ -67,6 +67,12 @@ button {
   width: 100%;
   gap: 10px;
 
+  &__svg-backgroung {
+    position: absolute;
+    bottom: 5%;
+    left: 6%;
+  }
+
   span {
     width: 100%;
   }
@@ -77,6 +83,7 @@ button {
     font-weight: 600;
     font-size: 14px;
     flex-direction: column;
+    position: relative;
 
     &-images {
       display: flex;
@@ -129,6 +136,7 @@ button {
     linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     url(../../../assets/collection-img1.jpg);
 }
+
 .card2 {
   background-image: linear-gradient(
       0deg,
@@ -139,6 +147,7 @@ button {
     linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     url(../../../assets/collection-img2.jpg);
 }
+
 .card3 {
   background-image: linear-gradient(
       0deg,
@@ -178,6 +187,13 @@ button {
     font-weight: 700;
     font-size: 12px;
     flex-direction: column;
+    position: relative;
+
+    &-svg-background {
+      position: absolute;
+      top: 45%;
+      right: 1%;
+    }
 
     &-images {
       display: flex;
@@ -195,6 +211,13 @@ button {
     font-size: 12px;
     flex-direction: row !important;
     padding-top: 25% !important;
+    position: relative;
+
+    &-svg-background {
+      position: absolute;
+      top: 15%;
+      right: 1%;
+    }
 
     &-images {
       display: flex;
@@ -207,12 +230,18 @@ button {
     border-radius: 25px;
     font-weight: 600;
     font-size: 18px;
+    position: relative;
 
     &-images {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
+    }
+
+    &-svg-background {
+      position: absolute;
+      bottom: 1%;
     }
 
     &-image {
@@ -242,6 +271,12 @@ button {
     border-radius: 15px;
     font-weight: 600;
     font-size: 14px;
+    position: relative;
+
+    &-svg-background {
+      position: absolute;
+      bottom: 2%;
+    }
   }
 
   &__btn-catalog {

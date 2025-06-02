@@ -204,6 +204,7 @@ label {
   justify-content: space-evenly;
   padding: 10px 0;
   gap: 10px;
+  position: relative;
 
   &__clear {
     font-family: Montserrat;
@@ -238,5 +239,12 @@ label {
     font-size: 24px;
     line-height: 100%;
     letter-spacing: 0px;
+  }
+
+  &__svg-background {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    opacity: 0.26;
   }
 }
