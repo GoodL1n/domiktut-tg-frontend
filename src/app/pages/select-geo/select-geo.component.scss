@@ -33,8 +33,12 @@
 
   &__svg-background {
     position: absolute;
-    left: 15%;
+    display: flex;
+    width: 100%;
+    left: 0;
     bottom: 0;
+    align-items: center;
+    justify-content: center;
   }
 
   button {
