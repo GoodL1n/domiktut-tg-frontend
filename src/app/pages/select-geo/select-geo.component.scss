@@ -31,6 +31,12 @@
     color: #ffffff;
   }
 
+  &__svg-background {
+    position: absolute;
+    right: 15%;
+    bottom: 0;
+  }
+
   button {
     display: flex;
     width: 100%;
@@ -48,5 +54,7 @@
     text-align: left;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    overflow: hidden;
   }
 }
